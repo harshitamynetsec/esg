@@ -1,0 +1,144 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.aiFeatures {
+  @include section-pad;
+  position: relative;
+  background: $gradient-ink;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(50% 60% at 15% 0%, rgba(47, 111, 237, 0.16), transparent 60%),
+      radial-gradient(40% 50% at 90% 100%, rgba(108, 92, 231, 0.14), transparent 60%);
+    pointer-events: none;
+  }
+}
+
+.inner {
+  @include container;
+  position: relative;
+}
+
+.header {
+  max-width: 620px;
+  margin: 0 auto $space-7;
+  text-align: center;
+}
+
+.eyebrow {
+  @include eyebrow($signal-blue);
+  justify-content: center;
+  margin-bottom: $space-3;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: $fs-h2;
+  font-weight: 500;
+  color: $text-on-dark;
+  line-height: $lh-tight;
+  margin: 0 0 $space-3;
+}
+
+.description {
+  font-family: $font-body;
+  font-size: $fs-body-lg;
+  color: $text-on-dark-dim;
+  line-height: $lh-normal;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-4;
+
+  @media (max-width: $bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  @include glass-dark;
+  border-radius: $radius-lg;
+  padding: $space-5;
+  transition: transform $dur-md $ease-out, border-color $dur-md $ease-out;
+
+  &:hover {
+    transform: translateY(-4px);
+
+    .cardBorderGlow {
+      opacity: 1;
+    }
+  }
+}
+
+.cardBorderGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from 0deg, $signal-blue, $signal-violet, $forest-400, $signal-blue);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity $dur-md $ease-out;
+  animation: spin 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  from { filter: hue-rotate(0deg); }
+  to { filter: hue-rotate(360deg); }
+}
+
+.cardIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-sm;
+  background: rgba(47, 111, 237, 0.16);
+  color: #7FA6FF;
+  font-size: 17px;
+  margin-bottom: $space-4;
+}
+
+.cardTitle {
+  font-family: $font-body;
+  font-size: $fs-h4;
+  font-weight: 700;
+  color: $text-on-dark;
+  margin: 0 0 $space-2;
+}
+
+.cardDescription {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-on-dark-dim;
+  line-height: $lh-normal;
+  margin: 0 0 $space-3;
+  min-height: 60px;
+}
+
+.cardMetric {
+  display: inline-block;
+  font-family: $font-mono;
+  font-size: 11px;
+  color: #8FE6CE;
+  background: rgba(47, 163, 143, 0.14);
+  border: 1px solid rgba(47, 163, 143, 0.28);
+  padding: 5px 10px;
+  border-radius: $radius-full;
+}

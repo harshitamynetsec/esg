@@ -1,0 +1,110 @@
+// ============================================================
+// ESG Compass — Design Tokens
+// Enterprise compliance platform: quiet authority over hype.
+// ============================================================
+
+// ---- Color: Ink (dark / depth) ----
+$ink-950: #0A1420;
+$ink-900: #0E1D2B;
+$ink-800: #16283A;
+$ink-700: #22384C;
+$ink-line: rgba(255, 255, 255, 0.08);
+
+// ---- Color: Surface (light) ----
+$surface-0:   #FFFFFF;
+$surface-50:  #F6F8F9;
+$surface-100: #EEF2F3;
+$surface-200: #E2E8EA;
+$border-100:  #E1E7EA;
+$border-200:  #CBD5D9;
+
+// ---- Color: Text ----
+$text-900: #0E1A22;
+$text-700: #33454F;
+$text-500: #5C6C75;
+$text-400: #8494A0;
+$text-on-dark:      #EAF1F1;
+$text-on-dark-dim:  #93A6AC;
+
+// ---- Color: Brand (sustainability / trust) ----
+$forest-700: #0E4F44;
+$forest-600: #146356;
+$forest-500: #1C8271;
+$forest-400: #2FA38F;
+$forest-100: #E1F1EC;
+$forest-50:  #F1F8F5;
+
+// ---- Color: Signal (AI / analytics / risk) ----
+$signal-blue:   #2F6FED;
+$signal-blue-100: #E7EFFD;
+$signal-violet: #6C5CE7;
+$signal-amber:  #C9821A;
+$signal-amber-100: #FBF0DE;
+$signal-red:    #C4432E;
+$signal-red-100: #F9E7E3;
+
+// ---- Gradients ----
+$gradient-ai: linear-gradient(135deg, $signal-blue 0%, $signal-violet 100%);
+$gradient-ink: linear-gradient(180deg, $ink-900 0%, $ink-950 100%);
+$gradient-forest: linear-gradient(135deg, $forest-600 0%, $forest-500 100%);
+$gradient-cta: linear-gradient(120deg, $ink-950 0%, $forest-700 55%, $forest-500 100%);
+
+// ---- Typography ----
+$font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+$font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-mono:    'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+$fs-hero:    clamp(2.4rem, 3.4vw + 1rem, 3.75rem);
+$fs-h2:      clamp(1.9rem, 1.6vw + 1.2rem, 2.75rem);
+$fs-h3:      clamp(1.35rem, 0.6vw + 1.1rem, 1.75rem);
+$fs-h4:      1.25rem;
+$fs-body-lg: 1.125rem;
+$fs-body:    1rem;
+$fs-sm:      0.875rem;
+$fs-xs:      0.75rem;
+
+$lh-tight: 1.15;
+$lh-snug:  1.35;
+$lh-normal: 1.6;
+
+// ---- Spacing (8px system) ----
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 16px;
+$space-4: 24px;
+$space-5: 32px;
+$space-6: 48px;
+$space-7: 64px;
+$space-8: 96px;
+$space-9: 128px;
+
+// ---- Radius ----
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-full: 999px;
+
+// ---- Shadow ----
+$shadow-sm: 0 1px 2px rgba(14, 26, 34, 0.06), 0 1px 1px rgba(14, 26, 34, 0.04);
+$shadow-md: 0 8px 24px rgba(14, 26, 34, 0.08), 0 2px 8px rgba(14, 26, 34, 0.04);
+$shadow-lg: 0 24px 64px rgba(10, 20, 32, 0.14), 0 4px 16px rgba(10, 20, 32, 0.06);
+$shadow-glow-forest: 0 0 0 1px rgba(28, 130, 113, 0.16), 0 12px 32px rgba(28, 130, 113, 0.14);
+$shadow-glow-ai: 0 0 0 1px rgba(47, 111, 237, 0.18), 0 12px 40px rgba(108, 92, 231, 0.18);
+
+// ---- Layout ----
+$container-max: 1280px;
+$container-pad: clamp(20px, 4vw, 64px);
+
+// ---- Breakpoints (desktop-first: max-width) ----
+$bp-xl: 1440px;
+$bp-lg: 1200px;
+$bp-md: 960px;
+$bp-sm: 680px;
+$bp-xs: 420px;
+
+// ---- Motion ----
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+$ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+$dur-fast: 0.18s;
+$dur-md: 0.4s;
+$dur-slow: 0.8s;

@@ -1,0 +1,93 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.trustedBy {
+  background: $surface-0;
+  border-block: 1px solid $border-100;
+  padding-block: $space-6;
+}
+
+.inner {
+  @include container;
+}
+
+.label {
+  display: block;
+  text-align: center;
+  font-family: $font-body;
+  font-size: $fs-xs;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $text-400;
+  margin-bottom: $space-5;
+}
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.marqueeTrack {
+  display: flex;
+  align-items: center;
+  gap: $space-8;
+  width: max-content;
+  animation: scroll 32s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.logoItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition: opacity $dur-md $ease-out, filter $dur-md $ease-out;
+
+  &:hover {
+    opacity: 1;
+    filter: grayscale(0.2);
+  }
+}
+
+.logoMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: $surface-100;
+  color: $text-700;
+  font-family: $font-display;
+  font-weight: 600;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.logoName {
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: $fs-sm;
+  color: $text-700;
+}
+
+.logoSector {
+  font-size: 11px;
+  color: $text-400;
+}

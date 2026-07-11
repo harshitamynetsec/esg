@@ -1,0 +1,209 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.footer {
+  background: $ink-950;
+  padding-top: $space-8;
+}
+
+.inner {
+  @include container;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr 1.3fr;
+  gap: $space-6;
+  padding-bottom: $space-7;
+  border-bottom: 1px solid $ink-line;
+
+  @media (max-width: $bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.brandCol {
+  grid-column: span 1;
+
+  @media (max-width: $bp-lg) {
+    grid-column: 1 / -1;
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  text-decoration: none;
+  margin-bottom: $space-3;
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: $gradient-forest;
+  color: $surface-0;
+  font-size: 14px;
+}
+
+.brandName {
+  font-family: $font-display;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: $text-on-dark;
+}
+
+.brandTagline {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-on-dark-dim;
+  line-height: $lh-normal;
+  max-width: 34ch;
+  margin: 0 0 $space-4;
+}
+
+.social {
+  display: flex;
+  gap: $space-2;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: $text-on-dark-dim;
+  transition: background-color $dur-fast $ease-out, color $dur-fast $ease-out;
+  @include focus-ring;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: $text-on-dark;
+  }
+}
+
+.linkColTitle {
+  font-family: $font-body;
+  font-size: $fs-xs;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $text-on-dark-dim;
+  margin: 0 0 $space-3;
+}
+
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.link {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-on-dark;
+  opacity: 0.82;
+  text-decoration: none;
+  @include focus-ring;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.newsletterCol {
+  grid-column: span 1;
+
+  @media (max-width: $bp-lg) {
+    grid-column: 1 / -1;
+  }
+}
+
+.newsletterCopy {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-on-dark-dim;
+  margin: 0 0 $space-3;
+  line-height: $lh-normal;
+}
+
+.newsletterForm {
+  display: flex;
+  gap: 8px;
+}
+
+.newsletterInput {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: $radius-sm;
+  padding: 10px 12px;
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-on-dark;
+
+  &::placeholder {
+    color: $text-on-dark-dim;
+  }
+
+  @include focus-ring;
+}
+
+.newsletterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: $radius-sm;
+  background: $forest-500;
+  color: $surface-0;
+  border: none;
+  cursor: pointer;
+  transition: background-color $dur-fast $ease-out;
+  @include focus-ring;
+
+  &:hover {
+    background: $forest-400;
+  }
+}
+
+.newsletterConfirm {
+  display: block;
+  margin-top: $space-2;
+  font-family: $font-body;
+  font-size: $fs-xs;
+  color: $forest-400;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: $space-4;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.copyright,
+.compliance {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $text-on-dark-dim;
+  letter-spacing: 0.02em;
+}

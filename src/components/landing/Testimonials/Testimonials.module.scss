@@ -1,0 +1,145 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.testimonials {
+  @include section-pad;
+  background: $surface-0;
+}
+
+.inner {
+  @include container;
+  max-width: 780px;
+  text-align: center;
+}
+
+.eyebrow {
+  @include eyebrow($forest-600);
+  justify-content: center;
+  margin-bottom: $space-6;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $surface-0;
+  border: 1px solid $border-100;
+  color: $text-700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color $dur-fast $ease-out, border-color $dur-fast $ease-out;
+  @include focus-ring;
+
+  &:hover {
+    background: $surface-100;
+    border-color: $border-200;
+  }
+
+  @media (max-width: $bp-sm) {
+    display: none;
+  }
+}
+
+.cardWrap {
+  flex: 1;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.card {
+  width: 100%;
+  background: $surface-50;
+  border: 1px solid $border-100;
+  border-radius: $radius-lg;
+  padding: $space-6 $space-5;
+}
+
+.quoteIcon {
+  font-size: 22px;
+  color: $forest-500;
+  opacity: 0.4;
+  margin-bottom: $space-3;
+}
+
+.quote {
+  font-family: $font-display;
+  font-size: $fs-h3;
+  font-weight: 400;
+  color: $text-900;
+  line-height: $lh-snug;
+  margin: 0 0 $space-5;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-3;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: $gradient-forest;
+  color: $surface-0;
+  font-family: $font-body;
+  font-weight: 700;
+  font-size: $fs-sm;
+}
+
+.name {
+  display: block;
+  font-family: $font-body;
+  font-weight: 700;
+  font-size: $fs-sm;
+  color: $text-900;
+  text-align: left;
+}
+
+.role {
+  display: block;
+  font-family: $font-body;
+  font-size: $fs-xs;
+  color: $text-500;
+  text-align: left;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: $space-5;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $border-200;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color $dur-fast $ease-out, width $dur-fast $ease-out;
+  @include focus-ring;
+}
+
+.dotActive {
+  background: $forest-600;
+  width: 22px;
+  border-radius: $radius-full;
+}

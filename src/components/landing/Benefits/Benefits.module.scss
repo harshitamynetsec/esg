@@ -1,0 +1,78 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.benefits {
+  @include section-pad;
+  background: $surface-50;
+  border-block: 1px solid $border-100;
+}
+
+.inner {
+  @include container;
+}
+
+.header {
+  max-width: 560px;
+  margin: 0 auto $space-7;
+  text-align: center;
+}
+
+.eyebrow {
+  @include eyebrow($forest-600);
+  justify-content: center;
+  margin-bottom: $space-3;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: $fs-h2;
+  font-weight: 500;
+  color: $text-900;
+  line-height: $lh-tight;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-4;
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  text-align: center;
+  padding: $space-5 $space-3;
+  background: $surface-0;
+  border: 1px solid $border-100;
+  border-radius: $radius-lg;
+}
+
+.statValue {
+  display: block;
+  font-family: $font-mono;
+  font-size: clamp(2.25rem, 2vw + 1.5rem, 3rem);
+  font-weight: 600;
+  color: $forest-600;
+  line-height: 1;
+  margin-bottom: $space-3;
+}
+
+.statLabel {
+  display: block;
+  font-family: $font-body;
+  font-size: $fs-body;
+  font-weight: 700;
+  color: $text-900;
+  margin-bottom: $space-2;
+}
+
+.statCaption {
+  display: block;
+  font-family: $font-body;
+  font-size: $fs-xs;
+  color: $text-500;
+  line-height: $lh-normal;
+}

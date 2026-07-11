@@ -1,0 +1,82 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.cta {
+  position: relative;
+  background: $gradient-cta;
+  padding-block: $space-9;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(50% 80% at 100% 0%, rgba(255, 255, 255, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  @media (max-width: $bp-md) {
+    padding-block: $space-7;
+  }
+}
+
+.inner {
+  @include container;
+  position: relative;
+  max-width: 720px;
+  text-align: center;
+}
+
+.eyebrow {
+  @include eyebrow(rgba(255, 255, 255, 0.85));
+  justify-content: center;
+  margin-bottom: $space-3;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: $fs-h2;
+  font-weight: 500;
+  color: $surface-0;
+  line-height: $lh-tight;
+  margin: 0 0 $space-3;
+}
+
+.subtitle {
+  font-family: $font-body;
+  font-size: $fs-body-lg;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: $lh-normal;
+  margin: 0 0 $space-6;
+}
+
+.ctaRow {
+  display: flex;
+  justify-content: center;
+  gap: $space-3;
+
+  @media (max-width: $bp-xs) {
+    flex-direction: column;
+  }
+}
+
+.primaryButton {
+  @include btn-base;
+  background: $surface-0;
+  color: $ink-950;
+  padding: 14px 26px;
+  font-size: $fs-body;
+  text-decoration: none;
+
+  &:hover {
+    background: $surface-100;
+  }
+}
+
+.secondaryButton {
+  @include btn-ghost-dark;
+  padding: 14px 26px;
+  font-size: $fs-body;
+  text-decoration: none;
+}

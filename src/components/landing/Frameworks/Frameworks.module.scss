@@ -1,0 +1,129 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.frameworks {
+  @include section-pad;
+  background: $surface-50;
+}
+
+.inner {
+  @include container;
+}
+
+.header {
+  max-width: 620px;
+  margin: 0 auto $space-7;
+  text-align: center;
+}
+
+.eyebrow {
+  @include eyebrow($forest-600);
+  justify-content: center;
+  margin-bottom: $space-3;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: $fs-h2;
+  font-weight: 500;
+  color: $text-900;
+  line-height: $lh-tight;
+  margin: 0 0 $space-3;
+}
+
+.description {
+  font-family: $font-body;
+  font-size: $fs-body-lg;
+  color: $text-500;
+  line-height: $lh-normal;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-3;
+
+  @media (max-width: $bp-lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $bp-xs) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  @include card-surface;
+  @include card-hover;
+  padding: $space-4;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-3;
+}
+
+.cardLogo {
+  font-family: $font-mono;
+  font-weight: 700;
+  font-size: $fs-body;
+  color: $forest-700;
+  background: $forest-100;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.statusBadge {
+  font-family: $font-body;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: $radius-full;
+
+  &.supported {
+    background: $forest-100;
+    color: $forest-700;
+  }
+
+  &.in-progress {
+    background: $signal-amber-100;
+    color: $signal-amber;
+  }
+
+  &.roadmap {
+    background: $surface-100;
+    color: $text-500;
+  }
+}
+
+.cardName {
+  font-family: $font-body;
+  font-size: $fs-body;
+  font-weight: 700;
+  color: $text-900;
+  line-height: $lh-snug;
+  margin: 0 0 $space-2;
+}
+
+.cardDescription {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-500;
+  line-height: $lh-normal;
+  margin: 0 0 $space-3;
+  min-height: 54px;
+}
+
+.cardRegion {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $text-400;
+  letter-spacing: 0.03em;
+}

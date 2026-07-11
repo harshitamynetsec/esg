@@ -1,0 +1,202 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.enterprise {
+  @include section-pad;
+  background: $surface-0;
+}
+
+.inner {
+  @include container;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-8;
+  align-items: center;
+
+  @media (max-width: $bp-lg) {
+    grid-template-columns: 1fr;
+    gap: $space-6;
+  }
+}
+
+.eyebrow {
+  @include eyebrow($forest-600);
+  margin-bottom: $space-3;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: $fs-h2;
+  font-weight: 500;
+  color: $text-900;
+  line-height: $lh-tight;
+  margin: 0 0 $space-3;
+}
+
+.description {
+  font-family: $font-body;
+  font-size: $fs-body-lg;
+  color: $text-500;
+  line-height: $lh-normal;
+  margin: 0 0 $space-6;
+  max-width: 46ch;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.listItem {
+  display: flex;
+  gap: $space-3;
+}
+
+.listIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: $radius-sm;
+  background: $forest-100;
+  color: $forest-600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.listTitle {
+  font-family: $font-body;
+  font-size: $fs-body;
+  font-weight: 700;
+  color: $text-900;
+  margin: 0 0 2px;
+}
+
+.listDescription {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-500;
+  line-height: $lh-normal;
+  margin: 0;
+}
+
+.right {
+  display: flex;
+  justify-content: center;
+}
+
+.adminPanel {
+  width: 100%;
+  max-width: 440px;
+  background: $ink-950;
+  border-radius: $radius-lg;
+  padding: $space-5;
+  box-shadow: $shadow-lg;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.adminHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-4;
+  padding-bottom: $space-3;
+  border-bottom: 1px solid $ink-line;
+}
+
+.adminTitle {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  font-weight: 700;
+  color: $text-on-dark;
+}
+
+.adminBadge {
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $signal-blue;
+  background: rgba(47, 111, 237, 0.16);
+  padding: 4px 9px;
+  border-radius: $radius-full;
+}
+
+.adminRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-2 0;
+}
+
+.adminLabel {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-on-dark-dim;
+}
+
+.adminValue {
+  font-family: $font-mono;
+  font-size: $fs-sm;
+  color: $text-on-dark;
+}
+
+.toggleOn {
+  width: 34px;
+  height: 18px;
+  border-radius: $radius-full;
+  background: $forest-500;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: $surface-0;
+  }
+}
+
+.roleTable {
+  margin-top: $space-4;
+  border-top: 1px solid $ink-line;
+  padding-top: $space-3;
+}
+
+.roleTableHeader {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.8fr;
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $text-on-dark-dim;
+  padding-bottom: $space-2;
+}
+
+.roleRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.8fr;
+  align-items: center;
+  padding: $space-2 0;
+  border-top: 1px solid $ink-line;
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-on-dark;
+}
+
+.roleAccessBadge {
+  justify-self: start;
+  font-family: $font-mono;
+  font-size: 10.5px;
+  color: $forest-400;
+  background: rgba(47, 163, 143, 0.14);
+  padding: 3px 8px;
+  border-radius: $radius-full;
+  width: fit-content;
+}

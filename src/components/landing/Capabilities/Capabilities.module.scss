@@ -1,0 +1,140 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.capabilities {
+  @include section-pad;
+  background: $surface-50;
+}
+
+.inner {
+  @include container;
+}
+
+.header {
+  max-width: 600px;
+  margin: 0 auto $space-7;
+  text-align: center;
+}
+
+.eyebrow {
+  @include eyebrow($forest-600);
+  justify-content: center;
+  margin-bottom: $space-3;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: $fs-h2;
+  font-weight: 500;
+  color: $text-900;
+  line-height: $lh-tight;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-4;
+
+  @media (max-width: $bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  background: $surface-0;
+  border-radius: $radius-lg;
+  border: 1px solid $border-100;
+  padding: $space-5;
+  box-shadow: $shadow-sm;
+  transition: box-shadow $dur-md $ease-out, transform $dur-md $ease-out, border-color $dur-md $ease-out;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(120deg, transparent 30%, rgba(28, 130, 113, 0.5), transparent 70%);
+    background-size: 220% 220%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity $dur-md $ease-out;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: $shadow-md;
+    border-color: transparent;
+
+    &::before {
+      opacity: 1;
+      animation: sheen 2.4s linear infinite;
+    }
+  }
+}
+
+@keyframes sheen {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.cardIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: $radius-sm;
+  background: $forest-100;
+  color: $forest-600;
+  font-size: 18px;
+  margin-bottom: $space-4;
+}
+
+.cardTitle {
+  font-family: $font-body;
+  font-size: $fs-h4;
+  font-weight: 700;
+  color: $text-900;
+  margin: 0 0 $space-2;
+}
+
+.cardDescription {
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-500;
+  line-height: $lh-normal;
+  margin: 0 0 $space-4;
+  min-height: 66px;
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: $font-body;
+  font-size: $fs-sm;
+  font-weight: 600;
+  color: $forest-600;
+  text-decoration: none;
+  @include focus-ring;
+
+  svg {
+    font-size: 12px;
+    transition: transform $dur-fast $ease-out;
+  }
+
+  &:hover svg {
+    transform: translateX(3px);
+  }
+}
