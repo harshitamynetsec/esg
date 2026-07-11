@@ -1,5 +1,5 @@
-@import '../../../styles/variables';
-@import '../../../styles/mixins';
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
 
 .timeline {
   @include section-pad;
@@ -131,3 +131,4 @@
     color: $forest-700;
   }
 }
+

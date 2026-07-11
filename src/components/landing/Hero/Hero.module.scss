@@ -1,5 +1,5 @@
-@import '../../../styles/variables';
-@import '../../../styles/mixins';
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
 
 .hero {
   position: relative;
@@ -376,3 +376,4 @@
   border-radius: 50%;
   background: $forest-500;
 }
+

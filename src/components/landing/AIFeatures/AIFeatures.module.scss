@@ -1,5 +1,5 @@
-@import '../../../styles/variables';
-@import '../../../styles/mixins';
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
 
 .aiFeatures {
   @include section-pad;
@@ -142,3 +142,4 @@
   padding: 5px 10px;
   border-radius: $radius-full;
 }
+

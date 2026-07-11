@@ -1,5 +1,5 @@
-@import '../../../styles/variables';
-@import '../../../styles/mixins';
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
 
 .platform {
   @include section-pad;
@@ -236,3 +236,4 @@
   line-height: 1.4;
   margin: 0;
 }
+

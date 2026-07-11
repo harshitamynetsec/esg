@@ -1,5 +1,5 @@
-@import '../../../styles/variables';
-@import '../../../styles/mixins';
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
 
 .cta {
   position: relative;
@@ -80,3 +80,4 @@
   font-size: $fs-body;
   text-decoration: none;
 }
+

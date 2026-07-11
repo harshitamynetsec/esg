@@ -1,5 +1,5 @@
-@import '../../../styles/variables';
-@import '../../../styles/mixins';
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
 
 .benefits {
   @include section-pad;
@@ -76,3 +76,4 @@
   color: $text-500;
   line-height: $lh-normal;
 }
+

@@ -1,5 +1,5 @@
-@import '../../../styles/variables';
-@import '../../../styles/mixins';
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
 
 .frameworks {
   @include section-pad;
@@ -127,3 +127,4 @@
   color: $text-400;
   letter-spacing: 0.03em;
 }
+
