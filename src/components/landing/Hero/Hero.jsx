@@ -64,7 +64,7 @@ export default function Hero() {
               Request Demo
               <FontAwesomeIcon icon={faArrowRight} />
             </Link>
-            <Link to="/try" className={styles.ctaSecondary}>
+            <Link to="/sign-up" className={styles.ctaSecondary}>
               <FontAwesomeIcon icon={faPlay} />
               Try ESG Compass
             </Link>

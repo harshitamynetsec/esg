@@ -26,7 +26,7 @@ export default function CTA() {
               <FontAwesomeIcon icon={faCalendarCheck} />
               Book Demo
             </Link>
-            <Link to="/try" className={styles.secondaryButton}>
+            <Link to="/sign-up" className={styles.secondaryButton}>
               Start Free Assessment
               <FontAwesomeIcon icon={faArrowRight} />
             </Link>

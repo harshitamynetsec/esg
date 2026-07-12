@@ -1,0 +1,81 @@
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.label {
+  font-family: $font-body;
+  font-size: $fs-xs;
+  font-weight: 600;
+  color: $text-500;
+  letter-spacing: 0.01em;
+}
+
+.control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-400;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px 0 42px;
+  border-radius: $radius-sm;
+  border: 1px solid $border-100;
+  background: $surface-0;
+  font-family: $font-body;
+  font-size: $fs-sm;
+  color: $text-900;
+  transition: border-color $dur-fast $ease-out, box-shadow $dur-fast $ease-out;
+
+  &::placeholder {
+    color: $text-400;
+  }
+
+  &:hover {
+    border-color: $border-200;
+  }
+
+  &:focus-visible,
+  &:focus {
+    outline: none;
+    border-color: $forest-500;
+    box-shadow: 0 0 0 3px $forest-100;
+  }
+}
+
+.toggle {
+  position: absolute;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: $text-400;
+  cursor: pointer;
+  padding: 4px;
+  @include focus-ring;
+
+  &:hover {
+    color: $text-700;
+  }
+}
+

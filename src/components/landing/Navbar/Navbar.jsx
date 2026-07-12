@@ -47,8 +47,8 @@ export default function Navbar() {
         </nav>
 
         <div className={styles.actions}>
-          <Link to="/sign-in" className={styles.signIn}>Sign In</Link>
-          <Link to="/try" className={styles.ctaSecondary}>Try ESG Compass</Link>
+          <Link to="/login" className={styles.signIn}>Sign In</Link>
+          <Link to="/sign-up" className={styles.ctaSecondary}>Try ESG Compass</Link>
           <Link to="/request-demo" className={styles.ctaPrimary}>Request Demo</Link>
         </div>
 
@@ -71,8 +71,8 @@ export default function Navbar() {
             </Link>
           ))}
           <div className={styles.mobileActions}>
-            <Link to="/sign-in" className={styles.signIn}>Sign In</Link>
-            <Link to="/try" className={styles.ctaSecondary}>Try ESG Compass</Link>
+            <Link to="/login" className={styles.signIn}>Sign In</Link>
+            <Link to="/sign-up" className={styles.ctaSecondary}>Try ESG Compass</Link>
             <Link to="/request-demo" className={styles.ctaPrimary}>Request Demo</Link>
           </div>
         </div>
