@@ -1,19 +1,23 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import AuthLayout from '../../components/auth/AuthLayout/AuthLayout';
 import FormField from '../../components/auth/FormField/FormField';
+import { useAuth } from '../../hooks/useAuth';
 import styles from './Login.module.scss';
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
+  const { login, loading, error } = useAuth();
+  const navigate = useNavigate();
 
-  const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
+  const update = (key) => (e) => setForm((current) => ({ ...current, [key]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Wire up to your login API / auth provider here.
+    await login(form);
+    navigate('/app/dashboard');
   };
 
   return (
@@ -56,10 +60,12 @@ export default function Login() {
             </Link>
           </div>
 
-          <button type="submit" className={styles.submit}>
-            Login
+          <button type="submit" className={styles.submit} disabled={loading}>
+            {loading ? 'Logging in' : 'Login'}
             <FontAwesomeIcon icon={faArrowRight} />
           </button>
+
+          {error ? <p className="error-line">{error}</p> : null}
 
           <p className={styles.footerText}>
             Don't have an account? <Link to="/sign-up" className={styles.footerLink}>Sign Up</Link>
