@@ -1,89 +1,120 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { fileURLToPath } from 'url';
+import { PDFDocument } from 'pdf-lib';
 import { AppError } from '../utils/AppError.js';
 
-const templatePath = './templates/ESG_Report_Base.pdf';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const TEMPLATE_PDF_PATH = path.resolve(__dirname, '../../REPORT FORMAT April 2026 with SDGs.pdf');
 
-const drawLine = (page, text, x, y, font, size = 10) => {
-  page.drawText(String(text), {
-    x,
-    y,
-    size,
-    font,
-    color: rgb(0.05, 0.09, 0.16),
-  });
+const SDG_PAGE_INDEX = {
+  '1': 11,
+  '2': 12,
+  '3': 13,
+  '4': 14,
+  '5': 15,
+  '6': 16,
+  '7': 17,
+  '8': 18,
+  '9': 19,
+  '10': 20,
+  '11': 21,
+  '12': 22,
+  '13': 23,
+  '14': 24,
+  '15': 25,
+  '16': 26,
+  '17': 27,
 };
 
-const drawList = (page, items, { x, y, font, maxItems = 8, lineHeight = 16, formatter }) => {
-  items.slice(0, maxItems).forEach((item, index) => {
-    drawLine(page, formatter(item, index), x, y - index * lineHeight, font, 9);
-  });
+const KPI_PAGE_CONFIG = [
+  { pageIndex: 29, sdgs: ['3', '4', '5', '8', '10'] }, // Page 30
+  { pageIndex: 30, sdgs: ['4', '5', '8'] }, // Page 31
+  { pageIndex: 31, sdgs: ['12', '13'] }, // Page 32
+  { pageIndex: 32, sdgs: ['8', '16', '17'] }, // Page 33
+  { pageIndex: 33, sdgs: ['12', '17'] }, // Page 34
+];
+
+const ALWAYS_INCLUDED_PAGE_INDICES = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, // Pages 1-11
+  28, // Page 29
+  34, // Page 35
+  35, // Page 36
+];
+
+const parseSdgNumber = (value) => {
+  if (value == null) return null;
+  const raw = String(value).trim();
+  const match = raw.match(/(?:SDG\s*[-:]*\s*)?(\d{1,2})$/i);
+  if (!match) return null;
+  const num = Number(match[1]);
+  if (!Number.isInteger(num) || num < 1 || num > 17) return null;
+  return String(num);
 };
 
-export const generateAssessmentPdf = async (assessmentResult) => {
-  let templateBytes;
+const normalizeSdgValues = (values) =>
+  [...new Set((values || []).map(parseSdgNumber).filter(Boolean))];
 
-  try {
-    templateBytes = await fs.readFile(path.resolve(templatePath));
-  } catch {
-    throw new AppError(`PDF template not found at ${templatePath}`, 500, 'PDF_TEMPLATE_MISSING');
+const buildSdgPageIndices = (assessmentResult) => {
+  const gapSdgs = normalizeSdgValues(
+    (assessmentResult.complianceGaps || []).flatMap((item) => item.sdgs || []),
+  );
+  const strengthSdgs = normalizeSdgValues(
+    (assessmentResult.strengths || []).flatMap((item) => item.sdgs || []),
+  );
+  const selectedTopicSdgs = normalizeSdgValues(
+    (assessmentResult.selectedMaterialTopics || []).flatMap((topic) => topic.sdgs || []),
+  );
+
+  const keepSdgs = [
+    ...gapSdgs,
+    ...selectedTopicSdgs.filter((sdg) => !strengthSdgs.includes(sdg)),
+  ];
+
+  return [...new Set(keepSdgs)]
+    .map((sdg) => SDG_PAGE_INDEX[sdg])
+    .filter((index) => typeof index === 'number')
+    .sort((a, b) => a - b);
+};
+
+const buildKpiPageIndices = (assessmentResult) => {
+  const relevantSdgs = normalizeSdgValues([
+    ...(assessmentResult.complianceGaps || []).flatMap((item) => item.sdgs || []),
+    ...(assessmentResult.selectedMaterialTopics || []).flatMap((topic) => topic.sdgs || []),
+  ]);
+
+  return KPI_PAGE_CONFIG.filter((config) =>
+    config.sdgs.some((sdg) => relevantSdgs.includes(sdg)),
+  ).map((config) => config.pageIndex);
+};
+
+export const generateAssessmentPdf = async (assessmentResult) =>
+ { if (!assessmentResult || !assessmentResult._id) {
+    throw new AppError('Assessment result is required to generate the PDF report', 400, 'INVALID_ASSESSMENT_RESULT');
   }
 
-  const pdfDoc = await PDFDocument.load(templateBytes);
-  const pages = pdfDoc.getPages();
-  const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-  const firstPage = pages[0];
+  const templateBytes = await fs.readFile(TEMPLATE_PDF_PATH).catch((err) => {
+    throw new AppError(`Unable to load report template PDF: ${err.message}`, 500, 'PDF_TEMPLATE_MISSING');
+  });
 
-  if (!firstPage) {
-    throw new AppError('PDF template does not contain any pages', 500, 'PDF_TEMPLATE_INVALID');
+  const templatePdf = await PDFDocument.load(templateBytes);
+  const newPdf = await PDFDocument.create();
+
+  const sdgPageIndices = buildSdgPageIndices(assessmentResult);
+  const kpiPageIndices = buildKpiPageIndices(assessmentResult);
+  const pageIndices = [...ALWAYS_INCLUDED_PAGE_INDICES, ...sdgPageIndices, ...kpiPageIndices]
+    .sort((a, b) => a - b)
+    .filter((value, index, self) => self.indexOf(value) === index);
+
+  if (!pageIndices.length) {
+    throw new AppError('No pages were selected for the PDF report', 500, 'PDF_NO_PAGES_SELECTED');
   }
 
-  const { width, height } = firstPage.getSize();
+  const pages = await newPdf.copyPages(templatePdf, pageIndices);
+  pages.forEach((page) => newPdf.addPage(page));
 
-  firstPage.drawText('ESG Assessment Result', {
-    x: 48,
-    y: height - 72,
-    size: 18,
-    font: boldFont,
-    color: rgb(0.06, 0.46, 0.43),
-  });
-
-  drawLine(firstPage, `Assessment ID: ${assessmentResult._id}`, 48, height - 98, regularFont, 9);
-  drawLine(firstPage, `Completed: ${new Date(assessmentResult.completedAt).toLocaleDateString('en-IN')}`, 48, height - 114, regularFont, 9);
-
-  drawLine(firstPage, `Environmental: ${assessmentResult.pillarScores.environmental}%`, 48, height - 150, boldFont, 12);
-  drawLine(firstPage, `Social: ${assessmentResult.pillarScores.social}%`, 48, height - 170, boldFont, 12);
-  drawLine(firstPage, `Governance: ${assessmentResult.pillarScores.governance}%`, 48, height - 190, boldFont, 12);
-  drawLine(firstPage, `Overall: ${assessmentResult.pillarScores.overall}%`, 48, height - 210, boldFont, 12);
-
-  drawLine(firstPage, 'Selected / Prioritized Material Topics', 48, height - 250, boldFont, 12);
-  drawList(firstPage, assessmentResult.prioritizedMaterialTopics || [], {
-    x: 58,
-    y: height - 272,
-    font: regularFont,
-    formatter: (topic) => `- ${topic.title} (${topic.pillar})`,
-  });
-
-  const secondPage = pages[1] || pdfDoc.addPage([width, height]);
-  drawLine(secondPage, 'Compliance Gaps', 48, height - 72, boldFont, 14);
-  drawList(secondPage, assessmentResult.complianceGaps || [], {
-    x: 58,
-    y: height - 96,
-    font: regularFont,
-    maxItems: 12,
-    formatter: (gap) => `- ${gap.questionText.slice(0, 90)} | Score: ${gap.selectedValue}`,
-  });
-
-  drawLine(secondPage, 'KPIs To Track', 48, height - 310, boldFont, 14);
-  drawList(secondPage, assessmentResult.recommendedKpis || [], {
-    x: 58,
-    y: height - 334,
-    font: regularFont,
-    maxItems: 14,
-    formatter: (kpi) => `- ${kpi.name}${kpi.unit ? ` (${kpi.unit})` : ''}${kpi.sdg ? ` | SDG ${kpi.sdg}` : ''}`,
-  });
-
-  return Buffer.from(await pdfDoc.save());
+  return Buffer.from(await newPdf.save());
 };
+
+

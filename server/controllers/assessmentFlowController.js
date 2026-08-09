@@ -9,7 +9,7 @@ import { generateAssessmentPdf } from '../services/pdfReportService.js';
 import { ok, created } from '../utils/apiResponse.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
-const getUserId = (req) => req.params.userId || req.body.userId || req.user?._id;
+const getUserId = (req) => req?.params?.userId || req?.body?.userId || req?.user?._id;
 
 export const listMaterialTopics = asyncHandler(async (req, res) => {
   const topics = await fetchAllMaterialTopics(req.organizationId);

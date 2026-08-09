@@ -1,4 +1,4 @@
-import { AssessmentResult, KPI, MaterialTopic, Question, User } from '../models/index.js';
+import { AssessmentResult, KPI, MaterialTopic, Question, Questionnaire, User, SDG } from '../models/index.js';
 import { AppError } from '../utils/AppError.js';
 
 const PILLARS = ['environmental', 'social', 'governance'];
@@ -26,6 +26,20 @@ const validateSelectedValue = (value) => {
 };
 
 const getQuestionText = (question) => question.text || question.prompt || question.indicator || question.objective || 'Assessment question';
+
+const getPublishedAssessmentQuestionnaire = async () => {
+  const typeFilter = { type: { $in: ['onboarding', 'compass'] } };
+  const publishedQuestionnaire = await Questionnaire.findOne({ ...typeFilter, isPublished: true })
+    .sort({ type: -1, version: -1, createdAt: -1 })
+    .lean();
+
+  return publishedQuestionnaire || Questionnaire.findOne(typeFilter).sort({ type: -1, version: -1, createdAt: -1 }).lean();
+};
+
+const getQuestionnaireQuestions = async () => {
+  const questionnaire = await getPublishedAssessmentQuestionnaire();
+  return questionnaire?.questions || [];
+};
 
 const serializeTopic = (topic) => ({
   materialTopic: topic._id,
@@ -78,6 +92,16 @@ const loadQuestionsForAnswers = async (answers) => {
     .lean();
 
   const questionById = new Map(questions.map((question) => [normalizeId(question._id), question]));
+  if (questionById.size < questionIds.length) {
+    const questionnaireQuestions = await getQuestionnaireQuestions();
+    questionnaireQuestions.forEach((question) => {
+      const key = normalizeId(question._id);
+      if (questionIds.some((questionId) => normalizeId(questionId) === key) && !questionById.has(key)) {
+        questionById.set(key, { ...question, materialTopics: question.materialTopics || [] });
+      }
+    });
+  }
+
   return answers.map((answer) => {
     const question = questionById.get(normalizeId(answer.questionId));
     if (!question) {
@@ -94,16 +118,35 @@ const loadQuestionsForAnswers = async (answers) => {
 const getRelevantTopicIds = (items) =>
   unique(items.flatMap(({ question }) => (question.materialTopics || []).map((topic) => normalizeId(topic._id))));
 
-const getRelevantSdgIds = (items) =>
-  unique(items.flatMap(({ question }) => (question.sdgs || []).map((sdg) => normalizeId(sdg._id || sdg))));
-
 const getRelevantSdgNumbers = (items) =>
   unique(items.flatMap(({ question }) => (question.sdgs || []).map(normalizeSdg)));
 
 const loadRecommendedKpis = async ({ organizationId, gapItems, strengthItems }) => {
   const relevantItems = [...gapItems, ...strengthItems];
   const materialTopicIds = getRelevantTopicIds(relevantItems);
-  const sdgIds = getRelevantSdgIds(relevantItems);
+  
+  const rawSdgValues = unique(relevantItems.flatMap(({ question }) => (question.sdgs || []).map(normalizeSdg)));
+  const numericSdgCodes = [];
+  const directSdgIds = [];
+  
+  rawSdgValues.forEach(value => {
+    if (/^[0-9a-fA-F]{24}$/.test(value)) {
+      directSdgIds.push(value);
+    } else {
+      const num = Number(value);
+      if (!isNaN(num)) {
+        numericSdgCodes.push(num);
+      }
+    }
+  });
+
+  const fetchedSdgIds = [];
+  if (numericSdgCodes.length > 0) {
+    const dbSdgs = await SDG.find({ number: { $in: numericSdgCodes } }).select('_id').lean();
+    dbSdgs.forEach(s => fetchedSdgIds.push(s._id.toString()));
+  }
+  
+  const sdgIds = unique([...directSdgIds, ...fetchedSdgIds]);
   const sdgNumbers = getRelevantSdgNumbers(relevantItems);
 
   if (!materialTopicIds.length && !sdgIds.length) return [];
@@ -149,10 +192,40 @@ const loadRecommendedKpis = async ({ organizationId, gapItems, strengthItems }) 
 
 export const fetchAllMaterialTopics = async (companyId) => {
   const organizationFilter = companyId ? [{ organization: companyId }, { organization: null }] : [{ organization: null }];
-  return MaterialTopic.find({ $or: organizationFilter, status: { $ne: 'archived' } })
+
+  const scopedTopics = await MaterialTopic.find({ $or: organizationFilter, status: { $ne: 'archived' } })
     .populate('sdgs')
     .sort('pillar serialNum title')
     .lean();
+
+  if (scopedTopics.length) {
+    return scopedTopics;
+  }
+
+  const allTopics = await MaterialTopic.find({ status: { $ne: 'archived' } })
+    .populate('sdgs')
+    .sort('pillar serialNum title')
+    .lean();
+
+  if (allTopics.length) {
+    return allTopics;
+  }
+
+  const legacyTopics = await MaterialTopic.db
+    .collection('material_topics')
+    .find({ status: { $ne: 'archived' } })
+    .sort({ pillar: 1, category: 1, serialNum: 1, title: 1, name: 1 })
+    .toArray();
+
+  return legacyTopics.map((topic) => ({
+    ...topic,
+    title: topic.title || topic.name,
+    pillar: topic.pillar || topic.category,
+    impactScore: topic.impactScore || 3,
+    stakeholderPriority: topic.stakeholderPriority || 3,
+    financialMateriality: topic.financialMateriality || 3,
+    sdgs: topic.sdgs || topic.sdgIds || [],
+  }));
 };
 
 export const buildAssessmentQuestions = async (selectedTopicIds) => {
@@ -162,8 +235,10 @@ export const buildAssessmentQuestions = async (selectedTopicIds) => {
 
   const topics = await MaterialTopic.find({ _id: { $in: selectedTopicIds } }).populate('sdgs').lean();
   const selectedSdgIds = unique(topics.flatMap((topic) => (topic.sdgs || []).map((sdg) => normalizeId(sdg._id || sdg))));
+  const selectedPillars = unique(topics.map((topic) => topic.pillar));
+  const selectedSdgValues = unique(topics.flatMap((topic) => (topic.sdgs || []).map(normalizeSdg)));
 
-  return Question.find({
+  const linkedQuestions = await Question.find({
     isActive: true,
     // A question is eligible when it directly references a selected Material Topic
     // or references an SDG attached to a selected Material Topic.
@@ -173,6 +248,18 @@ export const buildAssessmentQuestions = async (selectedTopicIds) => {
     .populate('sdgs')
     .sort('pillar order createdAt')
     .lean();
+
+  if (linkedQuestions.length) {
+    return linkedQuestions;
+  }
+
+  const questionnaireQuestions = await getQuestionnaireQuestions();
+  return questionnaireQuestions
+    .filter((question) => {
+      const questionSdgs = unique((question.sdgs || []).map(normalizeSdg));
+      return selectedPillars.includes(question.pillar) || questionSdgs.some((sdg) => selectedSdgValues.includes(sdg));
+    })
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
 };
 
 export const evaluateAndSaveAssessment = async ({ userId, answers, selectedTopicIds = [] }) => {

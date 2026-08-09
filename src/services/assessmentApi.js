@@ -36,9 +36,9 @@ export const assessmentApi = {
     }
   },
 
-  submitAssessment: async (answers) => {
+  submitAssessment: async (payload) => {
     try {
-      const response = await api.post('/assessment-flow/submit', { answers }, buildAuthHeaders());
+      const response = await api.post('/assessment-flow/submit', payload, buildAuthHeaders());
       return response.data;
     } catch (error) {
       throw toError(error, 'Unable to submit the assessment.');

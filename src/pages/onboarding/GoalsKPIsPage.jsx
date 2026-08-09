@@ -59,37 +59,112 @@ export default function GoalsKPIsPage() {
           </div>
         </div>
       </div>
-      <div className="metric-grid">
-        <div className="page-panel" style={{ minHeight: 320 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="page-panel">
           <div className="page-header" style={{ marginBottom: 12 }}>
-            <div><h3 style={{ margin: 0 }}>KPI list</h3></div>
+            <div>
+              <h3 style={{ margin: 0 }}>KPI list</h3>
+              <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 14 }}>
+                Select a KPI to review its progress and target trend.
+              </p>
+            </div>
           </div>
-          <div style={{ display: 'grid', gap: 10 }}>
-            {visibleItems.map((item) => (
-              <button key={item._id || item.id} type="button" className="page-panel" style={{ textAlign: 'left', padding: 12, margin: 0 }} onClick={() => setSelected(item)}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <strong>{item.name}</strong>
-                  <span>{item.pillar}</span>
-                </div>
-                <div style={{ color: '#64748b', fontSize: 13, marginTop: 6 }}>
-                  {item.currentValue}/{item.targetValue} {item.unit}
-                </div>
-              </button>
-            ))}
-          </div>
+          {visibleItems.length ? (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: 12,
+              }}
+            >
+              {visibleItems.map((item) => {
+                const itemId = item._id || item.id;
+                const isSelected = selected && (selected._id || selected.id) === itemId;
+
+                return (
+                  <button
+                    key={itemId}
+                    type="button"
+                    className="page-panel"
+                    style={{
+                      textAlign: 'left',
+                      padding: 12,
+                      margin: 0,
+                      cursor: 'pointer',
+                      border: isSelected ? '1px solid #0f766e' : '1px solid #e2e8f0',
+                      background: isSelected ? '#f0fdf4' : '#ffffff',
+                      transition: 'all 0.2s',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      minHeight: 100,
+                    }}
+                    onClick={() => setSelected(item)}
+                  >
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+                        <strong style={{ color: '#0f172a' }}>{item.name}</strong>
+                        {item.pillar ? (
+                          <span
+                            style={{
+                              fontSize: 11,
+                              color: '#0f766e',
+                              background: '#ccfbf1',
+                              padding: '2px 6px',
+                              borderRadius: 4,
+                              textTransform: 'capitalize',
+                              fontWeight: 600,
+                            }}
+                          >
+                            {item.pillar}
+                          </span>
+                        ) : null}
+                      </div>
+                      {item.description ? (
+                        <div style={{ color: '#64748b', fontSize: 13, marginTop: 8, lineHeight: 1.5 }}>
+                          {item.description}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div style={{ color: '#64748b', fontSize: 13, marginTop: 12 }}>
+                      Current {item.currentValue ?? 0}
+                      {' / '}
+                      Target {item.targetValue ?? 0}
+                      {item.unit ? ` ${item.unit}` : ''}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <p style={{ margin: 0, color: '#64748b' }}>No KPIs are available.</p>
+          )}
         </div>
-        <div className="page-panel" style={{ minHeight: 320 }}>
+
+        <div className="page-panel">
           {selected ? (
             <>
               <div className="page-header" style={{ marginBottom: 12 }}>
-                <div><h3 style={{ margin: 0 }}>{selected.name}</h3></div>
+                <div>
+                  <h3 style={{ margin: 0 }}>{selected.name}</h3>
+                  <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 14 }}>
+                    Review the selected KPI values and recent movement.
+                  </p>
+                </div>
               </div>
-              <div className="metric-grid" style={{ marginBottom: 12 }}>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+                  gap: 12,
+                  marginBottom: 16,
+                }}
+              >
                 <div className="metric-card"><span>Current</span><strong>{selected.currentValue}</strong></div>
                 <div className="metric-card"><span>Target</span><strong>{selected.targetValue}</strong></div>
                 <div className="metric-card"><span>Unit</span><strong>{selected.unit}</strong></div>
               </div>
-              <div style={{ height: 220 }}>
+              <div style={{ height: 260 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={selectedTrend}>
                     <CartesianGrid strokeDasharray="3 3" />

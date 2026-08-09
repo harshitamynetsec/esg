@@ -49,6 +49,8 @@
 
 .platform-main {
   min-width: 0;
+  width: auto;
+  max-width: calc(100vw - 300px);
   padding: 24px;
 }
 
@@ -139,6 +141,52 @@
   gap: 14px;
 }
 
+.analytics-dashboard {
+  width: 100%;
+  max-width: none;
+}
+
+.analytics-dashboard .metric-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 20px;
+}
+
+.analytics-dashboard .page-panel {
+  min-width: 0;
+}
+
+.analytics-dashboard .analytics-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.analytics-dashboard .analytics-panel {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.analytics-dashboard .analytics-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.analytics-dashboard .analytics-card strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.analytics-dashboard .analytics-card small {
+  color: #64748b;
+  font-size: 13px;
+}
+
 .metric-card,
 .content-card {
   background: #ffffff;
@@ -219,6 +267,56 @@
   color: #0f172a;
 }
 
+.dashboard-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.dashboard-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(300px, 0.9fr);
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.dashboard-main-column,
+.dashboard-side-column {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.dashboard-chart-panel {
+  min-width: 0;
+}
+
+.dashboard-lower-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.dashboard-list-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.dashboard-action {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -295,6 +393,9 @@
   }
 
   .metric-grid,
+  .dashboard-summary-grid,
+  .dashboard-workspace,
+  .dashboard-lower-grid,
   .form-grid,
   .card-grid,
   .admin-workspace {

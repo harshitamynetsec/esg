@@ -67,7 +67,7 @@ export default function AnalyticsDashboard() {
   };
 
   return (
-    <section>
+    <section className="analytics-dashboard">
       <PageHeader
         title="Assessment analytics"
         description="Review your latest assessment results and the actions that matter most for your ESG roadmap."
@@ -95,8 +95,8 @@ export default function AnalyticsDashboard() {
             ))}
           </div>
 
-          <div className="metric-grid" style={{ marginTop: 16 }}>
-            <div className="page-panel">
+          <div className="analytics-section">
+            <div className="page-panel analytics-panel">
               <div className="page-header" style={{ marginBottom: 12 }}>
                 <div>
                   <h3 style={{ margin: 0 }}>Compliance gaps</h3>
@@ -105,9 +105,9 @@ export default function AnalyticsDashboard() {
               {(analytics.complianceGaps || []).length ? (
                 <div style={{ display: 'grid', gap: 10 }}>
                   {analytics.complianceGaps.map((gap, index) => (
-                    <div key={`${gap.question}-${index}`} className="page-panel" style={{ padding: 12, margin: 0 }}>
+                    <div key={`${gap.question}-${index}`} className="analytics-card">
                       <strong>{gap.questionText}</strong>
-                      <div style={{ color: '#64748b', fontSize: 13, marginTop: 6 }}>{gap.pillar}</div>
+                      <small>{gap.pillar}</small>
                     </div>
                   ))}
                 </div>
@@ -116,7 +116,7 @@ export default function AnalyticsDashboard() {
               )}
             </div>
 
-            <div className="page-panel">
+            <div className="page-panel analytics-panel">
               <div className="page-header" style={{ marginBottom: 12 }}>
                 <div>
                   <h3 style={{ margin: 0 }}>Strengths</h3>
@@ -125,20 +125,22 @@ export default function AnalyticsDashboard() {
               {(analytics.strengths || []).length ? (
                 <div style={{ display: 'grid', gap: 10 }}>
                   {analytics.strengths.map((strength, index) => (
-                    <div key={`${strength.question}-${index}`} className="page-panel" style={{ padding: 12, margin: 0 }}>
+                    <div key={`${strength.question}-${index}`} className="analytics-card">
                       <strong>{strength.questionText}</strong>
-                      <div style={{ color: '#64748b', fontSize: 13, marginTop: 6 }}>{strength.pillar}</div>
+                      <small>{strength.pillar}</small>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p style={{ color: '#64748b', margin: 0 }}>No strengths recorded.</p>
+                <div style={{ padding: '14px 12px', minHeight: 86, display: 'flex', alignItems: 'flex-start' }}>
+                  <p style={{ color: '#64748b', margin: 0 }}>No strengths recorded.</p>
+                </div>
               )}
             </div>
           </div>
 
-          <div className="metric-grid" style={{ marginTop: 16 }}>
-            <div className="page-panel">
+          <div className="analytics-section">
+            <div className="page-panel analytics-panel">
               <div className="page-header" style={{ marginBottom: 12 }}>
                 <div>
                   <h3 style={{ margin: 0 }}>Prioritized KPIs</h3>
@@ -147,9 +149,9 @@ export default function AnalyticsDashboard() {
               {(analytics.kpisToTrack || []).length ? (
                 <div style={{ display: 'grid', gap: 10 }}>
                   {analytics.kpisToTrack.map((kpi, index) => (
-                    <div key={`${kpi.kpi || kpi.name}-${index}`} className="page-panel" style={{ padding: 12, margin: 0 }}>
+                    <div key={`${kpi.kpi || kpi.name}-${index}`} className="analytics-card">
                       <strong>{kpi.name}</strong>
-                      <div style={{ color: '#64748b', fontSize: 13, marginTop: 6 }}>{kpi.pillar} • {kpi.unit || 'N/A'}</div>
+                      <small>{kpi.pillar} • {kpi.unit || 'N/A'}</small>
                     </div>
                   ))}
                 </div>
@@ -158,7 +160,7 @@ export default function AnalyticsDashboard() {
               )}
             </div>
 
-            <div className="page-panel">
+            <div className="page-panel analytics-panel">
               <div className="page-header" style={{ marginBottom: 12 }}>
                 <div>
                   <h3 style={{ margin: 0 }}>Priority topics</h3>
@@ -167,9 +169,9 @@ export default function AnalyticsDashboard() {
               {(analytics.prioritizedMaterialTopics || []).length ? (
                 <div style={{ display: 'grid', gap: 10 }}>
                   {analytics.prioritizedMaterialTopics.map((topic, index) => (
-                    <div key={`${topic.materialTopic || topic.title}-${index}`} className="page-panel" style={{ padding: 12, margin: 0 }}>
+                    <div key={`${topic.materialTopic || topic.title}-${index}`} className="analytics-card">
                       <strong>{topic.title}</strong>
-                      <div style={{ color: '#64748b', fontSize: 13, marginTop: 6 }}>{topic.pillar}</div>
+                      <small>{topic.pillar}</small>
                     </div>
                   ))}
                 </div>

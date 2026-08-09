@@ -3,12 +3,38 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PageHeader from '../platform/PageHeader';
 import { assessmentApi } from '../../services/assessmentApi';
 
-const optionScale = [0, 1, 2, 3, 4];
+const fallbackOptions = [
+  { label: 'Not in place', score: 0 },
+  { label: 'Started', score: 1 },
+  { label: 'Basic', score: 2 },
+  { label: 'Managed', score: 3 },
+  { label: 'Fully mature', score: 4 },
+];
+
+const normalizeOptionScore = (option, index) => {
+  const numericValue = Number(option?.value);
+  if (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 4) {
+    return numericValue;
+  }
+
+  return index;
+};
+
+const getQuestionOptions = (question) => {
+  if (Array.isArray(question?.options) && question.options.length) {
+    return question.options.map((option, index) => ({
+      label: option.label || option.value || `Option ${index + 1}`,
+      score: normalizeOptionScore(option, index),
+    }));
+  }
+
+  return fallbackOptions;
+};
 
 export default function QuestionnaireWizard() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [questions, setQuestions] = useState(location.state?.questions || []);
+  const [questions] = useState(location.state?.questions || []);
   const [answers, setAnswers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,6 +102,7 @@ export default function QuestionnaireWizard() {
     if (!currentQuestion) return null;
     return answers[currentQuestion._id || currentQuestion.id];
   }, [answers, currentQuestion]);
+  const currentOptions = useMemo(() => getQuestionOptions(currentQuestion), [currentQuestion]);
 
   if (!currentQuestion) {
     return null;
@@ -85,7 +112,7 @@ export default function QuestionnaireWizard() {
     <section className="page-panel" style={{ margin: 24 }}>
       <PageHeader
         title="ESG Assessment"
-        description="Respond to each question using the 0 to 4 scale, where 0 means not in place and 4 means fully mature."
+        description="Select the response that best matches your current ESG maturity."
       />
       {error ? <p className="error-line">{error}</p> : null}
       {submitted ? <p className="status-line">Assessment submitted successfully.</p> : null}
@@ -105,11 +132,11 @@ export default function QuestionnaireWizard() {
             {currentIndex + 1}. {currentQuestion.text || currentQuestion.prompt || currentQuestion.indicator || 'Assessment question'}
           </legend>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {optionScale.map((value) => {
-              const isSelected = currentAnswer === value;
+            {currentOptions.map((option) => {
+              const isSelected = currentAnswer === option.score;
               return (
                 <label
-                  key={value}
+                  key={`${option.score}-${option.label}`}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -121,8 +148,15 @@ export default function QuestionnaireWizard() {
                     cursor: 'pointer',
                   }}
                 >
-                  <input type="radio" name={`question-${currentQuestion._id || currentQuestion.id}`} value={value} checked={isSelected} onChange={() => updateAnswer(value)} required />
-                  <span>{value}</span>
+                  <input
+                    type="radio"
+                    name={`question-${currentQuestion._id || currentQuestion.id}`}
+                    value={option.score}
+                    checked={isSelected}
+                    onChange={() => updateAnswer(option.score)}
+                    required
+                  />
+                  <span>{option.label}</span>
                 </label>
               );
             })}
