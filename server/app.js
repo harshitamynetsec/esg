@@ -23,7 +23,7 @@ export const createApp = () => {
   app.use(helmet());
   app.use(
     cors({
-      origin: env.clientUrl,
+      origin: process.env.CLIENT_URL || env.clientUrl,
       credentials: true,
     }),
   );
