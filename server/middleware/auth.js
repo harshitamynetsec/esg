@@ -11,7 +11,17 @@ export const authenticate = asyncHandler(async (req, _res, next) => {
     throw new AppError('Authentication required', 401, 'AUTH_REQUIRED');
   }
 
-  const payload = verifyAccessToken(token);
+  let payload;
+  try {
+    payload = verifyAccessToken(token);
+  } catch (error) {
+    const isExpired = error.name === 'TokenExpiredError';
+    throw new AppError(
+      isExpired ? 'Session expired. Please sign in again.' : 'Authentication required',
+      401,
+      isExpired ? 'SESSION_EXPIRED' : 'AUTH_INVALID_TOKEN',
+    );
+  }
   const user = await User.findById(payload.sub).populate({ path: 'roles', populate: { path: 'permissions' } });
 
   if (!user || !user.isActive) {

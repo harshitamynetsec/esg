@@ -10,8 +10,10 @@ const buildAuthHeaders = () => {
 };
 
 const toError = (error, fallbackMessage = 'Request failed') => {
-  const message = error?.response?.data?.message || error?.message || fallbackMessage;
-  const wrappedError = new Error(message);
+  const message = error?.displayMessage || error?.response?.data?.message || error?.message || fallbackMessage;
+  const wrappedError = new Error(error?.silent ? '' : message);
+  wrappedError.displayMessage = message;
+  wrappedError.silent = Boolean(error?.silent);
   wrappedError.status = error?.response?.status;
   wrappedError.response = error?.response;
   return wrappedError;

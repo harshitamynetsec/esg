@@ -31,7 +31,7 @@ export default function IndustriesPage() {
   return (
     <div className={styles.page}>
       <Navbar />
-      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 1200, padding: '0 24px',height: '500px' }}>
+      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 1200, padding: '0 24px',height: '772px' }}>
         <PageHeader 
           title="Industries We Serve" 
           description="Tailored ESG strategies and framework mappings for specialized sectors." 

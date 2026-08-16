@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { authApi } from '../services/api';
 import { AuthContext } from './authContextValue';
 
@@ -57,6 +57,17 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('esg_refresh_token');
     localStorage.removeItem('esg_user');
     setUser(null);
+    setError('');
+  }, []);
+
+  useEffect(() => {
+    const handleExpiredSession = () => {
+      setUser(null);
+      setError('');
+    };
+
+    window.addEventListener('esg:session-expired', handleExpiredSession);
+    return () => window.removeEventListener('esg:session-expired', handleExpiredSession);
   }, []);
 
   const value = useMemo(

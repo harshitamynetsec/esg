@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/routing/ProtectedRoute';
+import NotificationCenter from './components/platform/NotificationCenter';
 import AppLayout from './layouts/AppLayout';
 import LandingPage from './pages/public/LandingPage';
 import AboutPage from './pages/public/AboutPage';
@@ -60,6 +61,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
+          <NotificationCenter />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutPage />} />

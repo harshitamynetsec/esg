@@ -8,7 +8,7 @@ export default function AboutPage() {
   return (
     <div className={styles.page}>
       <Navbar />
-      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 1200, padding: '0 24px',height: '500px' }}>
+      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 1200, padding: '0 24px',height: '670px' }}>
         <PageHeader 
           title="About Us" 
           description="Driving sustainable futures through intelligent governance and compliance." 

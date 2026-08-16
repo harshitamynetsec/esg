@@ -376,6 +376,73 @@
   font-weight: 700;
 }
 
+.notification-stack {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 1000;
+  display: grid;
+  gap: 10px;
+  width: min(380px, calc(100vw - 32px));
+  text-align: left;
+}
+
+.notification-toast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 14px;
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #0f766e;
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
+
+.notification-toast.warning {
+  border-left-color: #d97706;
+}
+
+.notification-toast.error {
+  border-left-color: #dc2626;
+}
+
+.notification-toast.info {
+  border-left-color: #2563eb;
+}
+
+.notification-toast strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 14px;
+}
+
+.notification-toast p {
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.notification-toast button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.notification-toast button:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
 @media (max-width: 900px) {
   .platform-shell {
     grid-template-columns: 1fr;
@@ -404,5 +471,10 @@
 
   .admin-subnav {
     position: static;
+  }
+
+  .notification-stack {
+    right: 16px;
+    top: 16px;
   }
 }
