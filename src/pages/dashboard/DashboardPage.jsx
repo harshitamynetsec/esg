@@ -7,16 +7,33 @@ import { dashboardApi } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 
 const fallbackData = {
-  totals: { kpis: 0, policies: 0, materialTopics: 0, reports: 0 },
+  totals: { kpis: 0, policies: 0, materialTopics: 0, reports: 0, activeObjectives: 0 },
   pillarScores: [
     { pillar: 'environmental', score: 0 },
     { pillar: 'social', score: 0 },
     { pillar: 'governance', score: 0 },
   ],
   materialTopics: [],
+  goals: [],
   reports: [],
+  recentActivities: [],
   notifications: [],
   recentAssessment: null,
+  recommendedKpiCount: 0,
+  recommendedKpis: [],
+};
+
+const formatActivityDate = (value) => {
+  if (!value) return 'Recently';
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Recently';
+
+  return date.toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 };
 
 export default function DashboardPage() {
@@ -32,6 +49,8 @@ export default function DashboardPage() {
   }, []);
 
   const welcomeName = useMemo(() => user?.firstName || user?.fullName || 'there', [user]);
+  const esgScore = dashboard.recentAssessment?.pillarScores?.overall ?? dashboard.recentAssessment?.scores?.overall ?? 0;
+  const kpiCount = dashboard.recommendedKpiCount ?? 0;
 
   return (
     <section>
@@ -45,7 +64,7 @@ export default function DashboardPage() {
           <div>
             <h3 style={{ margin: '0 0 6px' }}>Welcome back, {welcomeName}</h3>
             <p style={{ margin: 0, color: '#64748b' }}>
-              Your organization is tracking {dashboard.totals.kpis} KPIs and {dashboard.totals.materialTopics} material topics.
+              Your organization is tracking {kpiCount} KPIs and {dashboard.totals.materialTopics} material topics.
             </p>
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -56,9 +75,9 @@ export default function DashboardPage() {
         </div>
       </div>
       <div className="dashboard-summary-grid">
-        <div className="metric-card"><span>ESG score</span><strong>{dashboard.recentAssessment?.scores?.overall ?? 0}</strong></div>
-        <div className="metric-card"><span>KPIs</span><strong>{dashboard.totals.kpis}</strong></div>
-        <div className="metric-card"><span>Policies</span><strong>{dashboard.totals.policies}</strong></div>
+        <div className="metric-card"><span>ESG score</span><strong>{esgScore}</strong></div>
+        <div className="metric-card"><span>KPIs</span><strong>{kpiCount}</strong></div>
+        <div className="metric-card"><span>Active Objectives</span><strong>{dashboard.totals.activeObjectives ?? 0}</strong></div>
         <div className="metric-card"><span>Material Topics</span><strong>{dashboard.totals.materialTopics}</strong></div>
       </div>
       <div className="dashboard-workspace">
@@ -98,12 +117,12 @@ export default function DashboardPage() {
                 <div><h3 style={{ margin: 0 }}>Recent activities</h3></div>
               </div>
               <ul style={{ margin: 0, paddingLeft: 16, display: 'grid', gap: 8 }}>
-                {[{ label: 'Quarterly report generated', detail: '2 hours ago' }, { label: 'KPI updated', detail: 'Yesterday' }].map((item) => (
-                  <li key={item.label} style={{ color: '#334155' }}>
+                {(dashboard.recentActivities || []).length ? dashboard.recentActivities.slice(0, 5).map((item) => (
+                  <li key={`${item.type}-${item.source || item.label}`} style={{ color: '#334155' }}>
                     <strong>{item.label}</strong>
-                    <div style={{ color: '#64748b', fontSize: 13 }}>{item.detail}</div>
+                    <div style={{ color: '#64748b', fontSize: 13 }}>{item.detail} - {formatActivityDate(item.occurredAt)}</div>
                   </li>
-                ))}
+                )) : <li style={{ color: '#64748b' }}>No recent activity yet.</li>}
               </ul>
             </div>
           </div>
@@ -115,17 +134,17 @@ export default function DashboardPage() {
               <div><h3 style={{ margin: 0 }}>Active goals</h3></div>
             </div>
             <div style={{ display: 'grid', gap: 10 }}>
-              {[{ name: 'Reduce energy intensity', progress: 76 }, { name: 'Improve worker safety', progress: 53 }].map((goal) => (
-                <div key={goal.name} className="dashboard-list-item">
+              {(dashboard.goals || []).length ? dashboard.goals.map((goal) => (
+                <div key={goal._id || goal.id || goal.name} className="dashboard-list-item">
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
-                    <strong>{goal.name}</strong>
-                    <span>{goal.progress}%</span>
+                    <strong>{goal.name || goal.title}</strong>
+                    <span>{goal.progress ?? 0}%</span>
                   </div>
                   <div style={{ height: 8, background: '#e2e8f0', borderRadius: 999 }}>
-                    <div style={{ width: `${goal.progress}%`, height: '100%', background: '#0f766e', borderRadius: 999 }} />
+                    <div style={{ width: `${goal.progress ?? 0}%`, height: '100%', background: '#0f766e', borderRadius: 999 }} />
                   </div>
                 </div>
-              ))}
+              )) : <p style={{ margin: 0, color: '#64748b' }}>No active goals recorded.</p>}
             </div>
           </div>
 

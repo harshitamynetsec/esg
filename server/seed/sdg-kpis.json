@@ -1,0 +1,365 @@
+{
+  "source": "REPORT FORMAT April 2026 with SDGs.pdf",
+  "version": "April 2026",
+  "kpiCount": 51,
+  "sdgCount": 17,
+  "kpis": [
+    {
+      "code": "SDG01-KPI01",
+      "sdgNumber": 1,
+      "name": "Living Wage Coverage Rate (% of direct workforce)",
+      "description": "Track and report the percentage of direct employees receiving at or above the local living wage benchmark.",
+      "target": "100% of all direct and indirect employees within the reporting period."
+    },
+    {
+      "code": "SDG01-KPI02",
+      "sdgNumber": 1,
+      "name": "Community Investment Spend (£ / % of pre-tax profit)",
+      "description": "Report total community investment spend and as a percentage of pre-tax profit annually.",
+      "target": "Minimum 1% of pre-tax profit directed to community economic development, with outcomes tracked and published."
+    },
+    {
+      "code": "SDG01-KPI03",
+      "sdgNumber": 1,
+      "name": "Supply Chain Fair Pay Audit Completion Rate (%)",
+      "description": "Report the percentage of tier-one suppliers completing a fair pay and labour conditions audit.",
+      "target": "100% of high-risk suppliers audited, with corrective action plans in place for all identified issues."
+    },
+    {
+      "code": "SDG02-KPI01",
+      "sdgNumber": 2,
+      "name": "Sustainable Commodity Sourcing Rate (%)",
+      "description": "Track the percentage of key agricultural commodities sourced from certified sustainable sources.",
+      "target": "100% for all priority commodities by the target date, with annual progress milestones published."
+    },
+    {
+      "code": "SDG02-KPI02",
+      "sdgNumber": 2,
+      "name": "Food Waste Volume (tonnes) & Reduction Rate (%)",
+      "description": "Report total food waste generated across operations in tonnes and as a year-on-year reduction percentage.",
+      "target": "50% absolute reduction from the baseline year by 2030."
+    },
+    {
+      "code": "SDG02-KPI03",
+      "sdgNumber": 2,
+      "name": "Supplier Sustainability Training Participation (%)",
+      "description": "Report the percentage of agricultural suppliers completing sustainability training or capacity-building programmes.",
+      "target": "80% of tier-one agricultural suppliers reached within the reporting period."
+    },
+    {
+      "code": "SDG03-KPI01",
+      "sdgNumber": 3,
+      "name": "Total Recordable Incident Rate (TRIR)",
+      "description": "Monitor and report workplace injury frequency annually.",
+      "target": "TRIR below the industry benchmark with a minimum 10% year-on-year reduction, embedded in operational leadership scorecards."
+    },
+    {
+      "code": "SDG03-KPI02",
+      "sdgNumber": 3,
+      "name": "Mental Health Programme Utilisation Rate (%)",
+      "description": "Track employees actively engaging with mental health support and EAP services.",
+      "target": "70% workforce awareness and 40% active participation by end of fiscal year with quarterly reviews."
+    },
+    {
+      "code": "SDG03-KPI03",
+      "sdgNumber": 3,
+      "name": "Healthcare Benefit Coverage Rate (%)",
+      "description": "Report on employees with access to comprehensive health and wellness benefits.",
+      "target": "100% coverage across all employment levels, contract types, and geographies with no exceptions."
+    },
+    {
+      "code": "SDG04-KPI01",
+      "sdgNumber": 4,
+      "name": "Average Training Hours per Employee per Year",
+      "description": "Report average annual training and development hours per employee by gender and level.",
+      "target": "Minimum 40 hours per employee per year with a year-on-year increase in investment per head."
+    },
+    {
+      "code": "SDG04-KPI02",
+      "sdgNumber": 4,
+      "name": "Training Participation Rate (% of workforce)",
+      "description": "Track the percentage of employees completing at least one formal learning activity in the reporting year.",
+      "target": "100% of all employees with an active development plan and at least one completed training."
+    },
+    {
+      "code": "SDG04-KPI03",
+      "sdgNumber": 4,
+      "name": "Apprenticeship & Early Careers Intake (number / year)",
+      "description": "Report the number of apprentices and graduates taken into the programme each year, with targets aligned to business growth. Track and report conversion to permanent employment rates.",
+      "target": "Targets aligned to business growth."
+    },
+    {
+      "code": "SDG05-KPI01",
+      "sdgNumber": 5,
+      "name": "Gender Pay Gap (% median & mean)",
+      "description": "Measure and report median and mean gender pay gap annually by seniority band.",
+      "target": "Eliminate all statistically significant gaps and publish full methodology and results in the annual ESG report."
+    },
+    {
+      "code": "SDG05-KPI02",
+      "sdgNumber": 5,
+      "name": "Women in Leadership (% at each level)",
+      "description": "Track women in senior management, director, and C-suite roles.",
+      "target": ">=40% female representation at each level, with year-on-year progression milestones and public reporting."
+    },
+    {
+      "code": "SDG05-KPI03",
+      "sdgNumber": 5,
+      "name": "Parental Leave Return & 12-Month Retention Rate (%)",
+      "description": "Report employees returning and remaining following all forms of parental leave.",
+      "target": ">=90% return rate and >=85% 12-month retention rate across all genders."
+    },
+    {
+      "code": "SDG06-KPI01",
+      "sdgNumber": 6,
+      "name": "Water Consumption (m³) & Intensity Ratio",
+      "description": "Report total water withdrawal by source and water intensity ratio (m³ per unit of revenue or production) annually.",
+      "target": "30% reduction in water intensity from the baseline year by 2030."
+    },
+    {
+      "code": "SDG06-KPI02",
+      "sdgNumber": 6,
+      "name": "Percentage of Sites in High Water-Stress Areas with Plans (%)",
+      "description": "Track the percentage of sites identified as operating in high water-stress areas that have a formal water stewardship plan in place.",
+      "target": "100% of high-risk sites with active plans."
+    },
+    {
+      "code": "SDG06-KPI03",
+      "sdgNumber": 6,
+      "name": "Wastewater Recycled or Reused (%)",
+      "description": "Report the percentage of total wastewater generated that is recycled or reused within operations.",
+      "target": "Year-on-year improvement toward zero process wastewater discharge to the environment."
+    },
+    {
+      "code": "SDG07-KPI01",
+      "sdgNumber": 7,
+      "name": "Renewable Energy Consumption (% of total)",
+      "description": "Report the percentage of total energy consumption from renewable sources.",
+      "target": "60% by FY2026 and 100% by FY2030, reported with full GHG Protocol methodology including any REGos applied."
+    },
+    {
+      "code": "SDG07-KPI02",
+      "sdgNumber": 7,
+      "name": "Total Energy Consumption (MWh) & Intensity Ratio",
+      "description": "Report absolute energy consumption and energy intensity per unit of revenue or production.",
+      "target": "25% reduction in energy intensity from the baseline year by 2030."
+    },
+    {
+      "code": "SDG07-KPI03",
+      "sdgNumber": 7,
+      "name": "Energy Cost Savings from Efficiency Measures (£)",
+      "description": "Track and report cumulative energy cost savings achieved through efficiency investments. Report annually with breakdown of savings by site and technology type to demonstrate return on investment.",
+      "target": null
+    },
+    {
+      "code": "SDG08-KPI01",
+      "sdgNumber": 8,
+      "name": "Average Training Hours per Employee per Year",
+      "description": "Report average annual training hours per employee by gender and seniority.",
+      "target": "Minimum 40 hours per employee per year, with a year-on-year increase in learning investment per head."
+    },
+    {
+      "code": "SDG08-KPI02",
+      "sdgNumber": 8,
+      "name": "Living Wage Coverage Rate (% of direct workforce)",
+      "description": "Track the percentage of direct employees at or above the local living wage benchmark.",
+      "target": "100% of the direct workforce, with annual milestones reported against the supplier extension roadmap."
+    },
+    {
+      "code": "SDG08-KPI03",
+      "sdgNumber": 8,
+      "name": "Supply Chain Labour Rights Audit Completion Rate (%)",
+      "description": "Report the percentage of high-risk tier-one suppliers completing independent labour rights audits.",
+      "target": "100% audited within the reporting period, with all corrective actions tracked to satisfactory resolution."
+    },
+    {
+      "code": "SDG09-KPI01",
+      "sdgNumber": 9,
+      "name": "R&D Investment (£ / % of revenue) in Sustainable Innovation",
+      "description": "Report total R&D investment and the proportion directed at sustainability-related innovation annually.",
+      "target": "Year-on-year increase in sustainable R&D spend as a percentage of total revenue."
+    },
+    {
+      "code": "SDG09-KPI02",
+      "sdgNumber": 9,
+      "name": "Digital Transformation Milestone Completion Rate (%)",
+      "description": "Track the percentage of digital transformation milestones completed against the published roadmap each year. Report efficiency gains, cost savings, and sustainability outcomes achieved through digitisation.",
+      "target": null
+    },
+    {
+      "code": "SDG09-KPI03",
+      "sdgNumber": 9,
+      "name": "Supply Chain Risk Concentration Index",
+      "description": "Report the proportion of critical inputs sourced from a single supplier or geography.",
+      "target": "Reduce single-source dependency for all identified critical inputs below a defined threshold within the reporting period."
+    },
+    {
+      "code": "SDG10-KPI01",
+      "sdgNumber": 10,
+      "name": "Intersectional Pay Gap (% by demographic group)",
+      "description": "Report median pay gaps by ethnicity, disability, gender, and other protected characteristics annually.",
+      "target": "Eliminate statistically significant gaps across all groups within a defined timeframe."
+    },
+    {
+      "code": "SDG10-KPI02",
+      "sdgNumber": 10,
+      "name": "Representation of Underrepresented Groups (% at each level)",
+      "description": "Track and report the percentage of employees from defined underrepresented groups at each organisational level.",
+      "target": "Report year-on-year progress against published representation targets."
+    },
+    {
+      "code": "SDG10-KPI03",
+      "sdgNumber": 10,
+      "name": "Socioeconomic Diversity in Graduate & Apprentice Intake (%)",
+      "description": "Report the socioeconomic background profile of graduate and apprentice entrants annually.",
+      "target": "Year-on-year improvement in representation from lower socioeconomic backgrounds in early careers programmes."
+    },
+    {
+      "code": "SDG11-KPI01",
+      "sdgNumber": 11,
+      "name": "% of Sites with Green Building Certification",
+      "description": "Report the percentage of operational sites with a recognised green building certification (BREEAM, LEED, or equivalent).",
+      "target": "100% of new builds certified and a year-on-year improvement in existing site ratings."
+    },
+    {
+      "code": "SDG11-KPI02",
+      "sdgNumber": 11,
+      "name": "Community Engagement Actions Resolved (%)",
+      "description": "Track the number of community issues or concerns raised and the percentage resolved within agreed timeframes.",
+      "target": "100% of community issues logged and 90% resolved within 30 days of receipt."
+    },
+    {
+      "code": "SDG11-KPI03",
+      "sdgNumber": 11,
+      "name": "Local Procurement Spend (% of total addressable spend)",
+      "description": "Report local procurement spend as a percentage of total addressable spend annually.",
+      "target": "30% local procurement by a defined date with year-on-year improvement milestones published."
+    },
+    {
+      "code": "SDG12-KPI01",
+      "sdgNumber": 12,
+      "name": "Total Waste Generated (tonnes) & Landfill Diversion Rate (%)",
+      "description": "Report total waste generated by category and the percentage diverted from landfill annually.",
+      "target": "100% landfill diversion by 2030 with year-on-year waste generation reduction."
+    },
+    {
+      "code": "SDG12-KPI02",
+      "sdgNumber": 12,
+      "name": "Recycled or Circular Materials as % of Total Input",
+      "description": "Track the percentage of materials and inputs that are recycled, reused, or of certified sustainable origin.",
+      "target": "Year-on-year increase toward a defined circular materials target."
+    },
+    {
+      "code": "SDG12-KPI03",
+      "sdgNumber": 12,
+      "name": "Sustainable Procurement Coverage (% of total spend)",
+      "description": "Report the percentage of total procurement spend covered by suppliers meeting the sustainable procurement policy criteria.",
+      "target": "100% of all new contracts and 80% of total spend by the target date."
+    },
+    {
+      "code": "SDG13-KPI01",
+      "sdgNumber": 13,
+      "name": "Total GHG Emissions (tCO2e) — Scope 1, 2 & 3",
+      "description": "Report absolute Scope 1, market-based Scope 2, and material Scope 3 emissions against a defined baseline year, with SBTi-aligned reduction milestones and full GHG Protocol methodology disclosed.",
+      "target": "SBTi-aligned reduction milestones with full GHG Protocol methodology disclosed."
+    },
+    {
+      "code": "SDG13-KPI02",
+      "sdgNumber": 13,
+      "name": "Renewable Energy Consumption (% of total)",
+      "description": "Track the percentage of total energy from renewable sources.",
+      "target": "60% by FY2026 and 100% by FY2030, reported with full methodology including any EACs or REGos applied."
+    },
+    {
+      "code": "SDG13-KPI03",
+      "sdgNumber": 13,
+      "name": "Carbon Intensity Ratio (tCO2e per GBPm revenue)",
+      "description": "Report carbon intensity against revenue targeting a minimum annual reduction, demonstrating continuous efficiency improvement and decoupling of business growth from emissions growth.",
+      "target": "Minimum annual reduction."
+    },
+    {
+      "code": "SDG14-KPI01",
+      "sdgNumber": 14,
+      "name": "Single-Use Plastic Reduction (tonnes / % eliminated)",
+      "description": "Report total single-use plastic eliminated from products and operations in tonnes and as a percentage of the baseline.",
+      "target": "100% elimination of identified single-use plastics by the target date."
+    },
+    {
+      "code": "SDG14-KPI02",
+      "sdgNumber": 14,
+      "name": "Sites with Zero Plastic-to-Waterway Incidents (%)",
+      "description": "Track the number of plastic pollution incidents affecting waterways from operational sites.",
+      "target": "Zero incidents across all sites, with annual audit completion rates and corrective action resolution tracked."
+    },
+    {
+      "code": "SDG14-KPI03",
+      "sdgNumber": 14,
+      "name": "Sustainable Marine Ingredient Sourcing Rate (%)",
+      "description": "Report the percentage of material marine-derived ingredients sourced from certified sustainable sources.",
+      "target": "100% sustainable sourcing for all material marine ingredients by the target date."
+    },
+    {
+      "code": "SDG15-KPI01",
+      "sdgNumber": 15,
+      "name": "Zero Deforestation Compliance Rate (% of priority commodities)",
+      "description": "Report the percentage of priority land-use commodities sourced in compliance with the zero-deforestation commitment.",
+      "target": "100% traceable and verified compliance for all priority commodities by the target date."
+    },
+    {
+      "code": "SDG15-KPI02",
+      "sdgNumber": 15,
+      "name": "Sites with Biodiversity Management Plans in Place (%)",
+      "description": "Track the percentage of major operational sites with a current biodiversity impact assessment and management plan.",
+      "target": "100% of sites with measurable biodiversity targets by the target date."
+    },
+    {
+      "code": "SDG15-KPI03",
+      "sdgNumber": 15,
+      "name": "Nature-Based Solutions Investment (£ / hectares restored)",
+      "description": "Report total investment in verified nature-based solutions and the resulting area of habitat restored, protected, or enhanced.",
+      "target": "Year-on-year increase in investment aligned to net positive nature commitment."
+    },
+    {
+      "code": "SDG16-KPI01",
+      "sdgNumber": 16,
+      "name": "Anti-Bribery & Corruption Training Completion Rate (%)",
+      "description": "Report the percentage of employees completing mandatory ABC training within the required annual cycle.",
+      "target": "100% completion rate for all employees and contractors with access to company resources or third-party relationships."
+    },
+    {
+      "code": "SDG16-KPI02",
+      "sdgNumber": 16,
+      "name": "Ethics Hotline Reports Resolved Within 30 Days (%)",
+      "description": "Track the number of reports received via the ethics hotline/speak-up channel and the percentage resolved within 30 business days.",
+      "target": "100% of substantiated reports receiving a documented resolution within the timeframe."
+    },
+    {
+      "code": "SDG16-KPI03",
+      "sdgNumber": 16,
+      "name": "ESG Disclosure Assurance Coverage (% of material metrics)",
+      "description": "Report the percentage of material ESG metrics receiving independent external assurance.",
+      "target": "Year-on-year increase in assured metrics, with a defined target for full limited assurance on all material data."
+    },
+    {
+      "code": "SDG17-KPI01",
+      "sdgNumber": 17,
+      "name": "Number of Active Industry SDG Partnerships",
+      "description": "Report the number of active industry coalitions, multi-stakeholder initiatives, and partnerships contributing to SDG delivery.",
+      "target": "Participation in at least three credible initiatives with documented contributions and outcomes each year."
+    },
+    {
+      "code": "SDG17-KPI02",
+      "sdgNumber": 17,
+      "name": "ESG Reporting Standards Coverage & Assurance Level",
+      "description": "Report the percentage of material sustainability metrics covered by GRI, SASB, and TCFD disclosures, and the level of independent external assurance obtained.",
+      "target": "Full limited assurance on all material quantitative metrics."
+    },
+    {
+      "code": "SDG17-KPI03",
+      "sdgNumber": 17,
+      "name": "Strategic Suppliers with Active Sustainability Improvement Plans (%)",
+      "description": "Track the percentage of strategic suppliers with co-developed, active sustainability improvement plans.",
+      "target": "100% of strategic suppliers engaged in collaborative sustainability programmes with documented progress."
+    }
+  ]
+}

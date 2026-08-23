@@ -56,7 +56,7 @@ const parseSdgNumber = (value) => {
 const normalizeSdgValues = (values) =>
   [...new Set((values || []).map(parseSdgNumber).filter(Boolean))];
 
-const buildSdgPageIndices = (assessmentResult) => {
+export const getSelectedReportSdgs = (assessmentResult) => {
   const gapSdgs = normalizeSdgValues(
     (assessmentResult.complianceGaps || []).flatMap((item) => item.sdgs || []),
   );
@@ -71,6 +71,12 @@ const buildSdgPageIndices = (assessmentResult) => {
     ...gapSdgs,
     ...selectedTopicSdgs.filter((sdg) => !strengthSdgs.includes(sdg)),
   ];
+
+  return [...new Set(keepSdgs)];
+};
+
+const buildSdgPageIndices = (assessmentResult) => {
+  const keepSdgs = getSelectedReportSdgs(assessmentResult);
 
   return [...new Set(keepSdgs)]
     .map((sdg) => SDG_PAGE_INDEX[sdg])
