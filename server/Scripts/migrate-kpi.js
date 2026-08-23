@@ -7,10 +7,7 @@ import mongoose from "mongoose";
 // ==================================================
 
 const DATABASE_NAME = "test";
-
-const MONGO_URI = 'mongodb+srv://mithleshsaini_db_user:mithleshsaini_db_user@cluster0.orts1zc.mongodb.net/?appName=Cluster0'; 
-
-
+const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb+srv://mithleshsaini_db_user:mithleshsaini_db_user@cluster0.orts1zc.mongodb.net/?appName=Cluster0';
 const SDG_COLLECTION = "sdgs";
 
 // IMPORTANT:
