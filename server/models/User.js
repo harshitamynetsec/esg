@@ -12,11 +12,12 @@ const userSchema = new Schema(
     email: emailField,
     password: {
       type: String,
-      required: true,
+      required: false,
       minlength: 8,
       select: false,
       validate: {
         validator(value) {
+          if (!value) return true;
           return value.startsWith('$2') || passwordPattern.test(value);
         },
         message: 'Password must contain uppercase, lowercase, number, and special character',
@@ -28,6 +29,9 @@ const userSchema = new Schema(
     title: optionalText(120),
     phone: optionalText(40),
     avatarUrl: optionalText(500),
+    status: { type: String, enum: ['invited', 'active', 'inactive'], default: 'active' },
+    inviteTokenHash: { type: String, select: false },
+    inviteTokenExpiresAt: { type: Date, select: false },
     isEmailVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     lastLoginAt: Date,
@@ -43,16 +47,15 @@ userSchema.virtual('fullName').get(function fullName() {
 });
 
 userSchema.pre('save', async function hashPassword() {
-  if (!this.isModified('password') || this.password.startsWith('$2')) {
-
+  if (!this.password || !this.isModified('password') || this.password.startsWith('$2')) {
     return;
   }
 
   this.password = await bcrypt.hash(this.password, env.bcryptSaltRounds);
- 
 });
 
 userSchema.methods.comparePassword = function comparePassword(candidate) {
+  if (!this.password) return false;
   return bcrypt.compare(candidate, this.password);
 };
 
@@ -60,6 +63,8 @@ userSchema.set('toJSON', {
   virtuals: true,
   transform(_doc, ret) {
     delete ret.password;
+    delete ret.inviteTokenHash;
+    delete ret.inviteTokenExpiresAt;
     delete ret.__v;
     return ret;
   },

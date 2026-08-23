@@ -16,6 +16,7 @@ import CompassResultsPage from './pages/public/CompassResultsPage';
 import BookDemoPage from './pages/public/BookDemoPage';
 import Login from './pages/auth/Login';
 import SignUp from './pages/auth/SignUp';
+import SetPasswordPage from './pages/auth/SetPasswordPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ESGScoresPage from './pages/dashboard/ESGScoresPage';
 import AnalyticsDashboard from './components/dashboard/AnalyticsDashboard';
@@ -79,6 +80,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/sign-in" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/set-password" element={<SetPasswordPage />} />
             <Route path="/try" element={<CompassIntroPage />} />
             <Route path="/legal/terms" element={<TermsPage />} />
             <Route path="/legal/privacy" element={<PrivacyPage />} />

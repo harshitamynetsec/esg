@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import {
   Organization,
   Role,
@@ -107,4 +108,34 @@ export const logout = asyncHandler(async (req, res) => {
 
 export const me = asyncHandler(async (req, res) => {
   ok(res, { user: await serializeUser(req.user) }, 'Current user');
+});
+
+export const setPassword = asyncHandler(async (req, res) => {
+  const { token, password } = req.body;
+  if (!token) {
+    throw new AppError('Invitation token is required', 400, 'TOKEN_REQUIRED');
+  }
+
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
+  const user = await User.findOne({
+    inviteTokenHash: tokenHash,
+    inviteTokenExpiresAt: { $gt: new Date() },
+  }).select('+inviteTokenHash +inviteTokenExpiresAt');
+
+  if (!user) {
+    throw new AppError('Invitation token is invalid or has expired', 400, 'INVALID_INVITE_TOKEN');
+  }
+
+  user.password = password;
+  user.status = 'active';
+  user.isActive = true;
+  user.isEmailVerified = true;
+  user.inviteTokenHash = undefined;
+  user.inviteTokenExpiresAt = undefined;
+
+  await user.save();
+
+  const tokens = await issueTokens(user, req);
+  ok(res, { user: await serializeUser(user), tokens }, 'Password configured successfully');
 });

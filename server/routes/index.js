@@ -6,6 +6,7 @@ import learningRoutes from './learningRoutes.js';
 import questionnaireRoutes from './questionnaireRoutes.js';
 import reportRoutes from './reportRoutes.js';
 import resourceRoutes from './resourceRoutes.js';
+import teamRoutes from './teamRoutes.js';
 import uploadRoutes from './uploadRoutes.js';
 
 const router = Router();
@@ -15,6 +16,7 @@ router.get('/health', (_req, res) => {
 });
 
 router.use('/auth', authRoutes);
+router.use('/team', teamRoutes);
 router.use('/assessment-flow', assessmentFlowRoutes);
 router.use('/questionnaire', questionnaireRoutes);
 router.use('/dashboard', dashboardRoutes);

@@ -88,6 +88,15 @@ export const authApi = {
   login: (payload) => api.post('/auth/login', payload),
   register: (payload) => api.post('/auth/register', payload),
   me: () => api.get('/auth/me'),
+  setPassword: (payload) => api.post('/auth/set-password', payload),
+};
+
+export const teamApi = {
+  list: () => api.get('/team'),
+  invite: (payload) => api.post('/team/invite', payload),
+  update: (id, payload) => api.patch(`/team/${id}`, payload),
+  updateStatus: (id, payload) => api.patch(`/team/${id}/status`, payload),
+  resendInvite: (id) => api.post(`/team/${id}/resend-invite`),
 };
 
 export const dashboardApi = {
