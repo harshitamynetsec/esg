@@ -120,13 +120,11 @@ export default function ObjectivesPage() {
           </div>
         </section>
       ))}
-      {pagination.pages > 1 ? (
-        <div className="objectives-pagination">
-          <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
-          <span>Page {page} of {pagination.pages}</span>
-          <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
-        </div>
-      ) : null}
+      <div className="objectives-pagination">
+        <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+        <span>Page {page} of {pagination.pages}</span>
+        <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+      </div>
       {!groupedItems.length && !error ? (
         <div className="page-panel objectives-empty"><p>No objectives are available yet.</p></div>
       ) : null}

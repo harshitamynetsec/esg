@@ -370,13 +370,11 @@ export default function MaterialityStep() {
               })}
             </div>
           )}
-          {pagination.pages > 1 ? (
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
-              <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
-              <span style={{ color: '#64748b', fontSize: 13 }}>Page {page} of {pagination.pages}</span>
-              <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
-            </div>
-          ) : null}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+            <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+            <span style={{ color: '#64748b', fontSize: 13 }}>Page {page} of {pagination.pages}</span>
+            <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+          </div>
         </div>
       </div>
     </section>
