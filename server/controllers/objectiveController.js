@@ -5,14 +5,15 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const listObjectives = (req, baseFilter) => {
   const { $or: searchFilter, ...filter } = baseFilter;
+  delete filter.organization;
   const organization = req.user?.roleKey === 'platform_super_admin' && req.query.organization
     ? req.query.organization
     : req.organizationId;
-  const organizationFilter = organization
-    ? { $or: [{ organization }, { organization: null }] }
-    : { organization: null };
+  const organizationFilter = { organization: { $in: organization ? [organization, null] : [null] } };
 
-  return searchFilter ? { ...filter, $and: [organizationFilter, { $or: searchFilter }] } : { ...filter, ...organizationFilter };
+  return searchFilter
+    ? { ...filter, $and: [organizationFilter, { $or: searchFilter }] }
+    : { ...filter, ...organizationFilter };
 };
 
 export const activateObjective = asyncHandler(async (req, res) => {
