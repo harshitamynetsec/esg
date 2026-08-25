@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "esg-client-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "client:dev"],
+      "port": 5173
+    }
+  ]
+}

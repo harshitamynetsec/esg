@@ -14,6 +14,7 @@ import CompassIntroPage from './pages/public/CompassIntroPage';
 import CompassQuestionnairePage from './pages/public/CompassQuestionnairePage';
 import CompassResultsPage from './pages/public/CompassResultsPage';
 import BookDemoPage from './pages/public/BookDemoPage';
+import RequestDemoPage from './pages/public/RequestDemoPage';
 import Login from './pages/auth/Login';
 import SignUp from './pages/auth/SignUp';
 import SetPasswordPage from './pages/auth/SetPasswordPage';
@@ -74,6 +75,7 @@ function App() {
             <Route path="/industries/:industry" element={<IndustriesPage />} />
             <Route path="/solutions" element={<SolutionsPage />} />
             <Route path="/book-demo" element={<BookDemoPage />} />
+            <Route path="/request-demo" element={<RequestDemoPage />} />
             <Route path="/compass" element={<CompassIntroPage />} />
             <Route path="/compass/questionnaire" element={<CompassQuestionnairePage />} />
             <Route path="/compass/results" element={<CompassResultsPage />} />

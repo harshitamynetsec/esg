@@ -3,6 +3,7 @@ export { Assessment } from './Assessment.js';
 export { AssessmentResult } from './AssessmentResult.js';
 export { AuditLog } from './AuditLog.js';
 export { Course } from './Course.js';
+export { DemoRequest } from './DemoRequest.js';
 export { Department } from './Department.js';
 export { Goal } from './Goal.js';
 export { Invoice } from './Invoice.js';

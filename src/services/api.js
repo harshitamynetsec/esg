@@ -150,6 +150,12 @@ export const learningApi = {
   updateProgress: (payload) => api.post('/learning/progress', payload),
 };
 
+export const demoRequestApi = {
+  submit: (payload) => api.post('/demo-requests', payload),
+  list: (params) => api.get('/demo-requests', { params }),
+  updateStatus: (id, status) => api.patch(`/demo-requests/${id}/status`, { status }),
+};
+
 export const questionnaireApi = {
   get: (type = 'compass') => api.get('/questionnaire', { params: { type } }),
   submit: (payload) => api.post('/questionnaire', payload),
