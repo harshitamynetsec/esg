@@ -12,6 +12,7 @@ export default function ObjectivesPage() {
   const [successMsg, setSuccessMsg] = useState('');
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 });
+  const [loading, setLoading] = useState(() => !getCachedResponse(getResourceCacheKey('objectives', { page: 1, limit: 15 })));
 
   useEffect(() => {
     const load = async () => {
@@ -22,6 +23,7 @@ export default function ObjectivesPage() {
         if (cached) {
           setItems(cached.data || []);
           setPagination(cached.meta || { page, pages: 1, total: cached.data?.length || 0 });
+          setLoading(false);
         }
         const response = await api.listCached(params);
         setItems(response.data || []);
@@ -29,6 +31,8 @@ export default function ObjectivesPage() {
         setError('');
       } catch (err) {
         setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
     load();
@@ -74,7 +78,19 @@ export default function ObjectivesPage() {
       <PageHeader title="Objectives" description="Track SMART ESG objectives and connect them to material topics and KPIs." />
       {successMsg ? <p className="status-line objectives-message">{successMsg}</p> : null}
       {error ? <p className="error-line objectives-message">{error}</p> : null}
-      {groupedItems.map(([sdg, objectives]) => (
+      {loading ? (
+        <div className="objectives-grid" style={{ marginTop: 12 }}>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={`objective-skeleton-${index}`} className="objective-card">
+              <div className="skeleton skeleton-text" style={{ width: '40%', marginBottom: 14 }} />
+              <div className="skeleton skeleton-text" style={{ width: '80%', height: 16, marginBottom: 10 }} />
+              <div className="skeleton skeleton-text" style={{ width: '100%', marginBottom: 6 }} />
+              <div className="skeleton skeleton-text" style={{ width: '90%', marginBottom: 6 }} />
+              <div className="skeleton skeleton-text" style={{ width: '60%' }} />
+            </div>
+          ))}
+        </div>
+      ) : groupedItems.map(([sdg, objectives]) => (
         <section key={sdg} className="objectives-section">
           <div className="objectives-section-header">
             <div>

@@ -149,6 +149,8 @@ export const kpiApi = {
 export const reportApi = {
   list: () => api.get('/reports'),
   generate: (payload) => api.post('/reports/generate', payload),
+  detail: (id) => api.get(`/reports/${id}/detail`),
+  downloadPdf: (id) => api.get(`/reports/${id}/pdf`, { responseType: 'blob' }),
 };
 
 export const learningApi = {

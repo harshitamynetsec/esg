@@ -52,6 +52,20 @@ const fallbackData = {
   recommendedKpis: [],
 };
 
+const SkeletonRows = ({ count = 3 }) => (
+  <div style={{ display: 'grid', gap: 12 }}>
+    {Array.from({ length: count }).map((_, index) => (
+      <div key={`skeleton-row-${index}`} className="skeleton-row">
+        <div className="skeleton skeleton-row-icon" />
+        <div className="skeleton-row-body">
+          <div className="skeleton skeleton-text" style={{ width: '70%' }} />
+          <div className="skeleton skeleton-text" style={{ width: '40%' }} />
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
 const formatActivityDate = (value) => {
   if (!value) return 'Recently';
 
@@ -69,6 +83,7 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const [dashboard, setDashboard] = useState(fallbackData);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(() => !getCachedResponse('dashboard'));
 
   useEffect(() => {
     const cached = getCachedResponse('dashboard');
@@ -76,18 +91,18 @@ export default function DashboardPage() {
     dashboardApi
       .dashboardCached()
       .then((response) => setDashboard(response.data || fallbackData))
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const welcomeName = useMemo(() => user?.firstName || user?.fullName || 'there', [user]);
   const esgScore = dashboard.recentAssessment?.pillarScores?.overall ?? dashboard.recentAssessment?.scores?.overall ?? 0;
-  const kpiCount = dashboard.recommendedKpiCount ?? 0;
+  const kpiCount = dashboard.totals.kpis ?? 0;
 
   const pillarPieData = useMemo(
     () => (dashboard.pillarScores || []).map((row) => ({ ...row, color: PILLAR_COLORS[row.pillar] || '#0f766e' })),
     [dashboard.pillarScores],
   );
-  const hasPillarScore = pillarPieData.some((row) => row.score > 0);
 
   const kpiSummary = dashboard.kpiSummary || { total: 0, onTrack: 0, needsAttention: 0, byPillar: [] };
   const kpiStatusData = [
@@ -120,19 +135,39 @@ export default function DashboardPage() {
       <div className="dashboard-summary-grid">
         <div className="metric-card dashboard-stat-card stat-teal">
           <div className="dashboard-stat-icon"><Gauge size={20} /></div>
-          <div className="dashboard-stat-body"><span>ESG score</span><strong>{esgScore}</strong></div>
+          {isLoading ? (
+            <div style={{ flex: 1 }}>
+              <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: 8 }} />
+              <div className="skeleton skeleton-text" style={{ width: '30%', height: 20 }} />
+            </div>
+          ) : <div className="dashboard-stat-body"><span>ESG score</span><strong>{esgScore}</strong></div>}
         </div>
         <div className="metric-card dashboard-stat-card stat-blue">
           <div className="dashboard-stat-icon"><TrendingUp size={20} /></div>
-          <div className="dashboard-stat-body"><span>KPIs</span><strong>{kpiCount}</strong></div>
+          {isLoading ? (
+            <div style={{ flex: 1 }}>
+              <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: 8 }} />
+              <div className="skeleton skeleton-text" style={{ width: '30%', height: 20 }} />
+            </div>
+          ) : <div className="dashboard-stat-body"><span>KPIs</span><strong>{kpiCount}</strong></div>}
         </div>
         <div className="metric-card dashboard-stat-card stat-purple">
           <div className="dashboard-stat-icon"><Target size={20} /></div>
-          <div className="dashboard-stat-body"><span>Active Objectives</span><strong>{dashboard.totals.activeObjectives ?? 0}</strong></div>
+          {isLoading ? (
+            <div style={{ flex: 1 }}>
+              <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: 8 }} />
+              <div className="skeleton skeleton-text" style={{ width: '30%', height: 20 }} />
+            </div>
+          ) : <div className="dashboard-stat-body"><span>Active Objectives</span><strong>{dashboard.totals.activeObjectives ?? 0}</strong></div>}
         </div>
         <div className="metric-card dashboard-stat-card stat-amber">
           <div className="dashboard-stat-icon"><Flag size={20} /></div>
-          <div className="dashboard-stat-body"><span>Material Topics</span><strong>{dashboard.totals.materialTopics}</strong></div>
+          {isLoading ? (
+            <div style={{ flex: 1 }}>
+              <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: 8 }} />
+              <div className="skeleton skeleton-text" style={{ width: '30%', height: 20 }} />
+            </div>
+          ) : <div className="dashboard-stat-body"><span>Material Topics</span><strong>{dashboard.totals.materialTopics}</strong></div>}
         </div>
       </div>
 
@@ -141,61 +176,32 @@ export default function DashboardPage() {
           <div className="page-header" style={{ marginBottom: 12 }}>
             <div><h3 style={{ margin: 0 }}>ESG Score by Pillar</h3></div>
           </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={pillarPieData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="pillar" tickFormatter={(value) => value.charAt(0).toUpperCase() + value.slice(1)} />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Bar dataKey="score" radius={[6, 6, 0, 0]}>
-                {pillarPieData.map((row) => (
-                  <Cell key={row.pillar} fill={row.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="page-panel">
-          <div className="page-header" style={{ marginBottom: 12 }}>
-            <div><h3 style={{ margin: 0 }}>Pillar Composition</h3></div>
-          </div>
-          {hasPillarScore ? (
-            <>
-              <div className="dashboard-donut-wrap">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie data={pillarPieData} dataKey="score" nameKey="pillar" innerRadius={55} outerRadius={80} paddingAngle={3} strokeWidth={0}>
-                      {pillarPieData.map((row) => (
-                        <Cell key={row.pillar} fill={row.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="dashboard-donut-center">
-                  <strong>{esgScore}</strong>
-                  <span>Overall</span>
-                </div>
-              </div>
-              <div className="dashboard-legend-list">
-                {pillarPieData.map((row) => (
-                  <div key={row.pillar} className="dashboard-legend-row">
-                    <span className="dashboard-legend-dot" style={{ background: row.color }} />
-                    <span style={{ textTransform: 'capitalize' }}>{row.pillar}</span>
-                    <strong>{row.score}</strong>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : <p style={{ margin: 0, color: '#64748b' }}>Complete an assessment to see pillar scores.</p>}
+          {isLoading ? (
+            <div className="skeleton skeleton-chart" />
+          ) : (
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={pillarPieData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="pillar" tickFormatter={(value) => value.charAt(0).toUpperCase() + value.slice(1)} />
+                <YAxis domain={[0, 100]} />
+                <Tooltip />
+                <Bar dataKey="score" radius={[6, 6, 0, 0]}>
+                  {pillarPieData.map((row) => (
+                    <Cell key={row.pillar} fill={row.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          )}
         </div>
 
         <div className="page-panel">
           <div className="page-header" style={{ marginBottom: 12 }}>
             <div><h3 style={{ margin: 0 }}>KPI Status</h3></div>
           </div>
-          {kpiSummary.total ? (
+          {isLoading ? (
+            <div className="skeleton skeleton-donut" />
+          ) : kpiSummary.total ? (
             <>
               <div className="dashboard-donut-wrap">
                 <ResponsiveContainer width="100%" height="100%">
@@ -235,7 +241,7 @@ export default function DashboardPage() {
                 <div><h3 style={{ margin: 0 }}>Material topics overview</h3></div>
               </div>
               <div style={{ display: 'grid', gap: 10 }}>
-                {(dashboard.materialTopics || []).length ? dashboard.materialTopics.slice(0, 5).map((topic) => {
+                {isLoading ? <SkeletonRows /> : (dashboard.materialTopics || []).length ? dashboard.materialTopics.slice(0, 5).map((topic) => {
                   const score = topic.impactScore ?? 0;
                   const color = PILLAR_COLORS[topic.pillar] || '#0f766e';
                   return (
@@ -257,7 +263,7 @@ export default function DashboardPage() {
                 <div><h3 style={{ margin: 0 }}>Recent activities</h3></div>
               </div>
               <div style={{ display: 'grid', gap: 12 }}>
-                {(dashboard.recentActivities || []).length ? dashboard.recentActivities.slice(0, 5).map((item) => {
+                {isLoading ? <SkeletonRows /> : (dashboard.recentActivities || []).length ? dashboard.recentActivities.slice(0, 5).map((item) => {
                   const Icon = ACTIVITY_ICONS[item.type] || Bell;
                   return (
                     <div key={`${item.type}-${item.source || item.label}`} className="dashboard-activity-row">
@@ -280,7 +286,7 @@ export default function DashboardPage() {
               <div><h3 style={{ margin: 0 }}>Active goals</h3></div>
             </div>
             <div style={{ display: 'grid', gap: 10 }}>
-              {(dashboard.goals || []).length ? dashboard.goals.map((goal) => {
+              {isLoading ? <SkeletonRows count={2} /> : (dashboard.goals || []).length ? dashboard.goals.map((goal) => {
                 const progress = goal.progress ?? 0;
                 return (
                   <div key={goal._id || goal.id || goal.name} className="dashboard-list-item">
@@ -302,7 +308,7 @@ export default function DashboardPage() {
               <div><h3 style={{ margin: 0 }}>Active objectives</h3></div>
             </div>
             <div style={{ display: 'grid', gap: 10 }}>
-              {(dashboard.objectives || []).length ? dashboard.objectives.map((objective) => (
+              {isLoading ? <SkeletonRows count={2} /> : (dashboard.objectives || []).length ? dashboard.objectives.map((objective) => (
                 <div key={objective._id || objective.id} className="dashboard-list-item">
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start' }}>
                     <strong>{objective.title}</strong>
@@ -335,7 +341,7 @@ export default function DashboardPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Bell size={16} /><h3 style={{ margin: 0 }}>Notifications</h3></div>
             </div>
             <div style={{ display: 'grid', gap: 10 }}>
-              {(dashboard.notifications || []).length ? dashboard.notifications.slice(0, 4).map((notification) => (
+              {isLoading ? <SkeletonRows count={2} /> : (dashboard.notifications || []).length ? dashboard.notifications.slice(0, 4).map((notification) => (
                 <div key={notification._id || notification.id} className="dashboard-list-item" style={{ display: 'flex', gap: 10 }}>
                   <span className="dashboard-notification-dot" />
                   <div>

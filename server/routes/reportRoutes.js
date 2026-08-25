@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import { createCrudController } from '../controllers/crudController.js';
-import { generateReport } from '../controllers/reportController.js';
+import { downloadReportPdf, generateReport, getReportDetail } from '../controllers/reportController.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 import { auditAction } from '../middleware/audit.js';
 import { validate } from '../middleware/validate.js';
+import { idParamValidator } from '../validators/commonValidators.js';
 import { Report } from '../models/index.js';
 import { crudRoutes } from './crudRoutes.js';
 
@@ -26,6 +27,9 @@ router.post(
   auditAction('generate', 'reports'),
   generateReport,
 );
+
+router.get('/:id/detail', authenticate, authorize('reports:read'), idParamValidator, validate, getReportDetail);
+router.get('/:id/pdf', authenticate, authorize('reports:read'), idParamValidator, validate, downloadReportPdf);
 
 router.use(
   '/',

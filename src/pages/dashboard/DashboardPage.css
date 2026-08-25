@@ -88,11 +88,15 @@
 .stat-purple { --stat-accent: #7c3aed; --stat-accent-soft: #ede9fe; }
 .stat-amber { --stat-accent: #d97706; --stat-accent-soft: #fef3c7; }
 
+.dashboard-summary-grid {
+  margin-bottom: 24px;
+}
+
 .dashboard-chart-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   align-items: stretch;
 }
 
@@ -242,6 +246,29 @@
   background: #2563eb;
   flex: 0 0 auto;
   margin-top: 6px;
+}
+
+.dashboard-workspace {
+  margin-top: 4px;
+}
+
+.skeleton-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex: 0 0 auto;
+}
+
+.skeleton-chart {
+  height: 220px;
+  width: 100%;
+}
+
+.skeleton-donut {
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  margin: 8px auto;
 }
 
 @media (max-width: 1100px) {

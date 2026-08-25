@@ -8,6 +8,7 @@ const reportVersionSchema = new Schema(
     version: { type: Number, min: 1, required: true },
     content: { type: Schema.Types.Mixed, required: true },
     upload: objectId('Upload'),
+    pdfFileId: { type: Schema.Types.ObjectId },
     notes: optionalText(1000),
     createdBy: objectId('User', true),
   },

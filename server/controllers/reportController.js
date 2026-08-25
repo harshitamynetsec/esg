@@ -1,6 +1,19 @@
 import { KPI, Policy, Report, ReportVersion } from '../models/index.js';
-import { created } from '../utils/apiResponse.js';
+import { created, ok } from '../utils/apiResponse.js';
+import { AppError } from '../utils/AppError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { generateManagementReportPdf } from '../services/managementReportPdfService.js';
+import { streamGridFSFile, uploadBufferToGridFS } from '../utils/gridfs.js';
+
+const findOrgReport = async (req) => {
+  const report = await Report.findOne({ _id: req.params.id, organization: req.organizationId }).lean();
+  if (!report) {
+    throw new AppError('Report not found', 404, 'NOT_FOUND');
+  }
+  return report;
+};
+
+const findLatestVersion = (reportId) => ReportVersion.findOne({ report: reportId }).sort('-version').lean();
 
 export const generateReport = asyncHandler(async (req, res) => {
   const [kpis, policies] = await Promise.all([
@@ -32,11 +45,18 @@ export const generateReport = asyncHandler(async (req, res) => {
     metricsSnapshot,
   });
 
+  const pdfBuffer = await generateManagementReportPdf({ report, kpis, policies });
+  const pdfFileId = await uploadBufferToGridFS(pdfBuffer, `${report._id}.pdf`, {
+    organization: String(req.organizationId),
+    report: String(report._id),
+  });
+
   const version = await ReportVersion.create({
     organization: req.organizationId,
     report: report._id,
     version: 1,
     createdBy: req.user._id,
+    pdfFileId,
     content: {
       title: report.title,
       summary: report.summary,
@@ -47,4 +67,22 @@ export const generateReport = asyncHandler(async (req, res) => {
   });
 
   created(res, { report, version }, 'Report generated');
+});
+
+export const getReportDetail = asyncHandler(async (req, res) => {
+  const report = await findOrgReport(req);
+  const version = await findLatestVersion(report._id);
+  ok(res, { report, version }, 'Report detail');
+});
+
+export const downloadReportPdf = asyncHandler(async (req, res) => {
+  const report = await findOrgReport(req);
+  const version = await findLatestVersion(report._id);
+  if (!version?.pdfFileId) {
+    throw new AppError('No PDF is available for this report', 404, 'PDF_NOT_AVAILABLE');
+  }
+  streamGridFSFile(version.pdfFileId, res, {
+    filename: `${report.title.replace(/[^a-z0-9]+/gi, '-')}.pdf`,
+    contentType: 'application/pdf',
+  });
 });

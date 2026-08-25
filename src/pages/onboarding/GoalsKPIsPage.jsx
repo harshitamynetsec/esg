@@ -10,7 +10,6 @@ export default function GoalsKPIsPage() {
   const api = useMemo(() => resourceApi('kpis'), []);
   const [items, setItems] = useState([]);
   const [recommendedKpis, setRecommendedKpis] = useState([]);
-  const [loadingRecommended, setLoadingRecommended] = useState(true);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(null);
   const [error, setError] = useState('');
@@ -30,6 +29,7 @@ export default function GoalsKPIsPage() {
   const [formError, setFormError] = useState('');
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 });
+  const [loading, setLoading] = useState(() => !getCachedResponse(getResourceCacheKey('kpis', { page: 1, limit: 15 })));
 
   const loadData = useCallback(async () => {
     try {
@@ -39,6 +39,7 @@ export default function GoalsKPIsPage() {
       if (cachedKpis) {
         setItems(cachedKpis.data || []);
         setPagination(cachedKpis.meta || { page, pages: 1, total: cachedKpis.data?.length || 0 });
+        setLoading(false);
       }
       const [kpisRes, dashRes] = await Promise.all([
         api.listCached(params),
@@ -55,7 +56,7 @@ export default function GoalsKPIsPage() {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoadingRecommended(false);
+      setLoading(false);
     }
   }, [api, page, selected]);
 
@@ -194,10 +195,21 @@ export default function GoalsKPIsPage() {
       </div>
 
       <div className="kpi-summary-grid">
-        <div className="metric-card"><span>Total KPIs</span><strong>{summaryStats.total}</strong></div>
-        <div className="metric-card"><span>On Track</span><strong>{summaryStats.onTrack}</strong></div>
-        <div className="metric-card"><span>Needs Attention</span><strong>{summaryStats.needsAttention}</strong></div>
-        <div className="metric-card"><span>Avg. Progress</span><strong>{summaryStats.avgProgress}%</strong></div>
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <div key={`kpi-stat-skeleton-${index}`} className="metric-card">
+              <div className="skeleton skeleton-text" style={{ width: '50%', marginBottom: 10 }} />
+              <div className="skeleton skeleton-text" style={{ width: '30%', height: 22 }} />
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="metric-card"><span>Total KPIs</span><strong>{summaryStats.total}</strong></div>
+            <div className="metric-card"><span>On Track</span><strong>{summaryStats.onTrack}</strong></div>
+            <div className="metric-card"><span>Needs Attention</span><strong>{summaryStats.needsAttention}</strong></div>
+            <div className="metric-card"><span>Avg. Progress</span><strong>{summaryStats.avgProgress}%</strong></div>
+          </>
+        )}
       </div>
 
       <div className="kpi-workspace" style={{ marginBottom: 20 }}>
@@ -206,7 +218,21 @@ export default function GoalsKPIsPage() {
             <h3>KPI list</h3>
             <p>Select a KPI to review its progress and target trend.</p>
           </div>
-          {visibleItems.length ? (
+          {loading ? (
+            <div className="kpi-list">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={`kpi-row-skeleton-${index}`} className="kpi-row skeleton-row" style={{ cursor: 'default' }}>
+                  <div className="kpi-row-title" style={{ flex: '0 0 40%' }}>
+                    <div className="skeleton skeleton-text" style={{ width: '100%' }} />
+                  </div>
+                  <div className="kpi-row-progress">
+                    <div className="skeleton" style={{ flex: 1, height: 6, borderRadius: 999 }} />
+                    <div className="skeleton skeleton-text" style={{ width: 60 }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : visibleItems.length ? (
             <div className="kpi-list">
               {visibleItems.map((item) => {
                 const itemId = item._id || item.id;
@@ -247,7 +273,20 @@ export default function GoalsKPIsPage() {
         </div>
 
         <div className="page-panel kpi-detail-panel">
-          {selected ? (
+          {loading ? (
+            <>
+              <div className="skeleton skeleton-text" style={{ width: '55%', height: 18, marginBottom: 16 }} />
+              <div className="kpi-detail-metrics">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={`kpi-detail-metric-skeleton-${index}`} className="metric-card">
+                    <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: 10 }} />
+                    <div className="skeleton skeleton-text" style={{ width: '35%', height: 20 }} />
+                  </div>
+                ))}
+              </div>
+              <div className="skeleton kpi-detail-chart" />
+            </>
+          ) : selected ? (
             <>
               <div className="kpi-detail-heading">
                 <h3>{selected.name}</h3>
@@ -280,7 +319,17 @@ export default function GoalsKPIsPage() {
           <h3>Recommended KPIs</h3>
           <p>Recommended KPIs aligned with your organization's latest assessment, grouped by SDG.</p>
         </div>
-        {groupedRecommendedKpis.length ? (
+        {loading ? (
+          <div className="kpi-recommended-grid">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={`kpi-recommended-skeleton-${index}`} className="kpi-recommended-card">
+                <div className="skeleton skeleton-text" style={{ width: '70%', marginBottom: 10 }} />
+                <div className="skeleton skeleton-text" style={{ width: '90%', marginBottom: 6 }} />
+                <div className="skeleton skeleton-text" style={{ width: '60%' }} />
+              </div>
+            ))}
+          </div>
+        ) : groupedRecommendedKpis.length ? (
           <div className="kpi-recommended-groups">
             {groupedRecommendedKpis.map((group) => (
               <div key={group.sdgNumber || group.sdgName} className="kpi-recommended-group">
@@ -322,9 +371,7 @@ export default function GoalsKPIsPage() {
             ))}
           </div>
         ) : (
-          <p className="kpi-empty-panel">
-            {loadingRecommended ? 'Loading recommended KPIs...' : 'No recommended KPIs available.'}
-          </p>
+          <p className="kpi-empty-panel">No recommended KPIs available.</p>
         )}
       </div>
 

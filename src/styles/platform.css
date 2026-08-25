@@ -585,3 +585,39 @@
     top: 16px;
   }
 }
+
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #edf2f7 37%, #e2e8f0 63%);
+  background-size: 400% 100%;
+  animation: app-skeleton-shimmer 1.4s ease infinite;
+  border-radius: 6px;
+}
+
+@keyframes app-skeleton-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+.skeleton-text {
+  height: 12px;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skeleton-row-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  flex: 0 0 auto;
+}
+
+.skeleton-row-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
