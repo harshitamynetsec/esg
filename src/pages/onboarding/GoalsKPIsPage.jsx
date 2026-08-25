@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Plus, Search } from 'lucide-react';
 import PageHeader from '../../components/platform/PageHeader';
 import { dashboardApi, getCachedResponse, getResourceCacheKey, resourceApi } from '../../services/api';
+import './GoalsKPIsPage.css';
 
 export default function GoalsKPIsPage() {
   const api = useMemo(() => resourceApi('kpis'), []);
@@ -152,131 +154,112 @@ export default function GoalsKPIsPage() {
     ];
   }, [selected]);
 
+  const summaryStats = useMemo(() => {
+    const total = pagination.total || items.length;
+    const onTrack = items.filter((item) => Number(item.targetValue || 0) > 0 && Number(item.currentValue || 0) >= Number(item.targetValue || 0)).length;
+    const needsAttention = items.length ? items.length - onTrack : 0;
+    const progressValues = items
+      .filter((item) => Number(item.targetValue || 0) > 0)
+      .map((item) => Math.min(100, (Number(item.currentValue || 0) / Number(item.targetValue || 0)) * 100));
+    const avgProgress = progressValues.length
+      ? Math.round(progressValues.reduce((sum, value) => sum + value, 0) / progressValues.length)
+      : 0;
+    return { total, onTrack, needsAttention, avgProgress };
+  }, [items, pagination.total]);
+
+  const getProgress = (item) => {
+    const target = Number(item?.targetValue || 0);
+    const current = Number(item?.currentValue || 0);
+    if (!target) return 0;
+    return Math.min(100, Math.max(0, (current / target) * 100));
+  };
+
+  const selectedProgress = selected ? Math.round(getProgress(selected)) : 0;
+
   return (
     <section>
-      <PageHeader title="KPI Management" description="Review KPI performance, trends, and targets across the organization." />
+      <PageHeader
+        title="KPI Management"
+        description="Review KPI performance, trends, and targets across the organization."
+        action={<Link to="/app/kpis/add" className="primary-button"><Plus size={16} /> Add KPI</Link>}
+      />
       {successMsg ? <p className="status-line" style={{ marginBottom: 12 }}>{successMsg}</p> : null}
       {error ? <p className="error-line" style={{ marginBottom: 12 }}>{error}</p> : null}
-      <div className="page-panel" style={{ marginBottom: 16 }}>
-        <div className="field" style={{ maxWidth: 320 }}>
-          <span>Search KPIs</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Search size={16} />
-            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search by name, code, or SDG" />
-          </div>
+
+      <div className="kpi-toolbar">
+        <div className="kpi-search-field">
+          <Search size={16} />
+          <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search by name, code, or SDG" />
         </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-        <div className="page-panel">
-          <div className="page-header" style={{ marginBottom: 12 }}>
-            <div>
-              <h3 style={{ margin: 0 }}>KPI list</h3>
-              <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 14 }}>
-                Select a KPI to review its progress and target trend.
-              </p>
-            </div>
+
+      <div className="kpi-summary-grid">
+        <div className="metric-card"><span>Total KPIs</span><strong>{summaryStats.total}</strong></div>
+        <div className="metric-card"><span>On Track</span><strong>{summaryStats.onTrack}</strong></div>
+        <div className="metric-card"><span>Needs Attention</span><strong>{summaryStats.needsAttention}</strong></div>
+        <div className="metric-card"><span>Avg. Progress</span><strong>{summaryStats.avgProgress}%</strong></div>
+      </div>
+
+      <div className="kpi-workspace" style={{ marginBottom: 20 }}>
+        <div className="page-panel kpi-list-panel">
+          <div className="kpi-panel-heading">
+            <h3>KPI list</h3>
+            <p>Select a KPI to review its progress and target trend.</p>
           </div>
           {visibleItems.length ? (
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                gap: 12,
-              }}
-            >
+            <div className="kpi-list">
               {visibleItems.map((item) => {
                 const itemId = item._id || item.id;
                 const isSelected = selected && (selected._id || selected.id) === itemId;
+                const progress = getProgress(item);
 
                 return (
                   <button
                     key={itemId}
                     type="button"
-                    className="page-panel"
-                    style={{
-                      textAlign: 'left',
-                      padding: 12,
-                      margin: 0,
-                      cursor: 'pointer',
-                      border: isSelected ? '1px solid #0f766e' : '1px solid #e2e8f0',
-                      background: isSelected ? '#f0fdf4' : '#ffffff',
-                      transition: 'all 0.2s',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      minHeight: 100,
-                    }}
+                    className={`kpi-row${isSelected ? ' is-selected' : ''}`}
                     onClick={() => setSelected(item)}
                   >
-                    <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
-                        <strong style={{ color: '#0f172a' }}>{item.name}</strong>
-                        {item.pillar ? (
-                          <span
-                            style={{
-                              fontSize: 11,
-                              color: '#0f766e',
-                              background: '#ccfbf1',
-                              padding: '2px 6px',
-                              borderRadius: 4,
-                              textTransform: 'capitalize',
-                              fontWeight: 600,
-                            }}
-                          >
-                            {item.pillar}
-                          </span>
-                        ) : null}
-                      </div>
-                      {item.description ? (
-                        <div style={{ color: '#64748b', fontSize: 13, marginTop: 8, lineHeight: 1.5 }}>
-                          {item.description}
-                        </div>
-                      ) : null}
+                    <div className="kpi-row-title">
+                      <strong>{item.name}</strong>
+                      {item.pillar ? <span className={`pillar-chip pillar-${item.pillar}`}>{item.pillar}</span> : null}
                     </div>
-                    <div style={{ color: '#64748b', fontSize: 13, marginTop: 12 }}>
-                      Current {item.currentValue ?? 0}
-                      {' / '}
-                      Target {item.targetValue ?? 0}
-                      {item.unit ? ` ${item.unit}` : ''}
+                    <div className={`kpi-row-progress${progress >= 100 ? ' is-complete' : ''}`}>
+                      <div className="kpi-progress-track">
+                        <div className="kpi-progress-fill" style={{ width: `${progress}%` }} />
+                      </div>
+                      <span className="kpi-row-value">
+                        {item.currentValue ?? 0} / {item.targetValue ?? 0}{item.unit ? ` ${item.unit}` : ''}
+                      </span>
                     </div>
                   </button>
                 );
               })}
             </div>
           ) : (
-            <p style={{ margin: 0, color: '#64748b' }}>No KPIs are available.</p>
+            <p className="kpi-empty-panel">No KPIs are available.</p>
           )}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+          <div className="kpi-pagination">
             <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
-            <span style={{ color: '#64748b', fontSize: 13 }}>Page {page} of {pagination.pages}</span>
+            <span>Page {page} of {pagination.pages}</span>
             <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
           </div>
         </div>
 
-        <div className="page-panel">
+        <div className="page-panel kpi-detail-panel">
           {selected ? (
             <>
-              <div className="page-header" style={{ marginBottom: 12 }}>
-                <div>
-                  <h3 style={{ margin: 0 }}>{selected.name}</h3>
-                  <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 14 }}>
-                    Review the selected KPI values and recent movement.
-                  </p>
-                </div>
+              <div className="kpi-detail-heading">
+                <h3>{selected.name}</h3>
+                {selected.pillar ? <span className={`pillar-chip pillar-${selected.pillar}`}>{selected.pillar}</span> : null}
               </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-                  gap: 12,
-                  marginBottom: 16,
-                }}
-              >
-                <div className="metric-card"><span>Current</span><strong>{selected.currentValue}</strong></div>
-                <div className="metric-card"><span>Target</span><strong>{selected.targetValue}</strong></div>
-                <div className="metric-card"><span>Unit</span><strong>{selected.unit}</strong></div>
+              {selected.description ? <p className="kpi-detail-description">{selected.description}</p> : null}
+              <div className="kpi-detail-metrics">
+                <div className="metric-card"><span>Current</span><strong>{selected.currentValue ?? 0}</strong></div>
+                <div className="metric-card"><span>Target</span><strong>{selected.targetValue ?? 0}</strong></div>
+                <div className="metric-card"><span>Progress</span><strong>{selectedProgress}%</strong></div>
               </div>
-              <div style={{ height: 260 }}>
+              <div className="kpi-detail-chart">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={selectedTrend}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -288,149 +271,77 @@ export default function GoalsKPIsPage() {
                 </ResponsiveContainer>
               </div>
             </>
-          ) : <p style={{ margin: 0, color: '#64748b' }}>No KPI selected.</p>}
-        </div>
-
-        <div className="page-panel">
-          <div className="page-header" style={{ marginBottom: 16 }}>
-            <div>
-              <h3 style={{ margin: 0 }}>Recommended KPIs</h3>
-              <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 14 }}>
-                Recommended KPIs aligned with your organization's latest assessment, grouped by SDG.
-              </p>
-            </div>
-          </div>
-          {groupedRecommendedKpis.length ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              {groupedRecommendedKpis.map((group) => (
-                <div key={group.sdgNumber || group.sdgName} style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                  <h4 style={{ margin: '0 0 12px', color: '#0f766e', fontSize: 15, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    {group.sdgNumber ? (
-                      <span style={{ background: '#0f766e', color: '#ffffff', padding: '2px 8px', borderRadius: 4, fontSize: 12, fontWeight: 700 }}>
-                        SDG {group.sdgNumber}
-                      </span>
-                    ) : null}
-                    {group.sdgName ? group.sdgName : `SDG ${group.sdgNumber}`}
-                  </h4>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                      gap: 12,
-                    }}
-                  >
-                    {group.kpis.map((kpi) => (
-                      <div
-                        key={kpi.code || kpi.name}
-                        style={{
-                          background: '#ffffff',
-                          padding: 14,
-                          borderRadius: 6,
-                          border: '1px solid #cbd5e1',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          gap: 12,
-                        }}
-                      >
-                        <div>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
-                            <strong style={{ color: '#0f172a', fontSize: 14 }}>{kpi.name}</strong>
-                            <span
-                              style={{
-                                fontSize: 11,
-                                color: '#0369a1',
-                                background: '#e0f2fe',
-                                padding: '2px 6px',
-                                borderRadius: 4,
-                                fontWeight: 600,
-                                whiteSpace: 'nowrap',
-                              }}
-                            >
-                              {kpi.code}
-                            </span>
-                          </div>
-                          {kpi.description ? (
-                            <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 12, lineHeight: 1.4 }}>
-                              {kpi.description}
-                            </p>
-                          ) : null}
-                        </div>
-                        <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 8, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                          <div style={{ display: 'grid', gap: 4, fontSize: 12, color: '#475569' }}>
-                            <div>
-                              <strong>Target:</strong> {kpi.target || 'N/A'}
-                            </div>
-                            <div>
-                              <strong>Unit:</strong> {kpi.unit || 'N/A'}
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            className="primary-button"
-                            style={{ padding: '6px 12px', fontSize: 13, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-                            onClick={() => handleOpenAddModal(kpi)}
-                          >
-                            <Plus size={14} /> Add KPI
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p style={{ margin: 0, color: '#64748b' }}>
-              {loadingRecommended ? 'Loading recommended KPIs...' : 'No recommended KPIs available.'}
-            </p>
-          )}
+          ) : <p className="kpi-empty-panel">No KPI selected.</p>}
         </div>
       </div>
 
-      {activeTemplate ? (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(15, 23, 42, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: 16,
-          }}
-        >
-          <div
-            style={{
-              background: '#ffffff',
-              borderRadius: 8,
-              padding: 24,
-              maxWidth: 520,
-              width: '100%',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 16,
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <h3 style={{ margin: 0, color: '#0f172a' }}>Add Recommended KPI</h3>
-                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13 }}>
-                  Configure required metrics and activate this template for your organization.
-                </p>
+      <div className="page-panel">
+        <div className="kpi-panel-heading">
+          <h3>Recommended KPIs</h3>
+          <p>Recommended KPIs aligned with your organization's latest assessment, grouped by SDG.</p>
+        </div>
+        {groupedRecommendedKpis.length ? (
+          <div className="kpi-recommended-groups">
+            {groupedRecommendedKpis.map((group) => (
+              <div key={group.sdgNumber || group.sdgName} className="kpi-recommended-group">
+                <h4 className="kpi-recommended-group-heading">
+                  {group.sdgNumber ? <span className="kpi-sdg-badge">SDG {group.sdgNumber}</span> : null}
+                  {group.sdgName ? group.sdgName : `SDG ${group.sdgNumber}`}
+                </h4>
+                <div className="kpi-recommended-grid">
+                  {group.kpis.map((kpi) => (
+                    <div key={kpi.code || kpi.name} className="kpi-recommended-card">
+                      <div>
+                        <div className="kpi-recommended-card-top">
+                          <strong>{kpi.name}</strong>
+                          <span className="kpi-recommended-code">{kpi.code}</span>
+                        </div>
+                        {kpi.description ? (
+                          <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 12, lineHeight: 1.4 }}>
+                            {kpi.description}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div className="kpi-recommended-meta">
+                        <div>
+                          <div><strong>Target:</strong> {kpi.target || 'N/A'}</div>
+                          <div><strong>Unit:</strong> {kpi.unit || 'N/A'}</div>
+                        </div>
+                        <button
+                          type="button"
+                          className="primary-button kpi-recommended-add"
+                          onClick={() => handleOpenAddModal(kpi)}
+                        >
+                          <Plus size={14} /> Add KPI
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setActiveTemplate(null)}
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b', fontSize: 18 }}
-              >
+            ))}
+          </div>
+        ) : (
+          <p className="kpi-empty-panel">
+            {loadingRecommended ? 'Loading recommended KPIs...' : 'No recommended KPIs available.'}
+          </p>
+        )}
+      </div>
+
+      {activeTemplate ? (
+        <div className="kpi-modal-overlay">
+          <div className="kpi-modal">
+            <div className="kpi-modal-heading">
+              <div>
+                <h3>Add Recommended KPI</h3>
+                <p>Configure required metrics and activate this template for your organization.</p>
+              </div>
+              <button type="button" className="kpi-modal-close" onClick={() => setActiveTemplate(null)}>
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleCreateFromTemplate} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <form onSubmit={handleCreateFromTemplate} className="kpi-modal-form">
               <label className="field">
                 <span>KPI Name *</span>
                 <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
@@ -442,11 +353,10 @@ export default function GoalsKPIsPage() {
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={2}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 14 }}
                 />
               </label>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="kpi-modal-row-2">
                 <label className="field">
                   <span>SDG Alignment</span>
                   <input type="text" value={formData.sdgInfo} disabled style={{ background: '#f1f5f9', color: '#475569' }} />
@@ -458,7 +368,7 @@ export default function GoalsKPIsPage() {
                 </label>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+              <div className="kpi-modal-row-3">
                 <label className="field">
                   <span>Pillar *</span>
                   <select value={formData.pillar} onChange={(e) => setFormData({ ...formData, pillar: e.target.value })} required>
@@ -495,7 +405,7 @@ export default function GoalsKPIsPage() {
 
               {formError ? <p className="error-line" style={{ margin: 0 }}>{formError}</p> : null}
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 8 }}>
+              <div className="kpi-modal-actions">
                 <button type="button" className="secondary-button" onClick={() => setActiveTemplate(null)} disabled={submitting}>
                   Cancel
                 </button>

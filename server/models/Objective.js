@@ -5,6 +5,7 @@ const objectiveSchema = new Schema(
   {
     organization: objectId('Organization', false),
     materialTopic: objectId('MaterialTopic'),
+    materialTopics: [objectId('MaterialTopic')],
     sdgNumber: { type: Number, min: 1, max: 17 },
     title: nameField('Objective title', 5, 160),
     description: optionalText(1600),

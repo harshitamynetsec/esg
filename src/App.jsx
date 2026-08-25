@@ -30,6 +30,7 @@ import GoalsKPIsPage from './pages/onboarding/GoalsKPIsPage';
 import OnboardingCompletePage from './pages/onboarding/OnboardingCompletePage';
 import LearningHubPage from './pages/learning/LearningHubPage';
 import ObjectivesPage from './pages/objectives/ObjectivesPage';
+import AddKpiPage from './pages/kpis/AddKpiPage';
 import PoliciesPage from './pages/policies/PoliciesPage';
 import ReportsPage from './pages/reports/ReportsPage';
 import ReportViewerPage from './pages/reports/ReportViewerPage';
@@ -102,6 +103,7 @@ function App() {
                 <Route path="onboarding/goals-kpis" element={<GoalsKPIsPage />} />
                 <Route path="onboarding/complete" element={<OnboardingCompletePage />} />
                 <Route path="kpis" element={<GoalsKPIsPage />} />
+                <Route path="kpis/add" element={<AddKpiPage />} />
                 <Route path="objectives" element={<ObjectivesPage />} />
                 <Route path="material-topics" element={<MaterialTopicsPage />} />
                 <Route path="policies" element={<PoliciesPage />} />

@@ -23,6 +23,10 @@ const kpiSchema = new Schema(
     frequency: { type: String, enum: ['monthly', 'quarterly', 'annually'], required: true },
     owner: objectId('User'),
     status: { type: String, enum: lifecycleStatuses, default: 'active' },
+    trackingStatus: { type: String, enum: ['not_started', 'in_progress', 'completed'], default: 'not_started' },
+    progressStage: { type: String, enum: ['early', 'mid', 'late'], default: 'early' },
+    startDate: { type: Date },
+    targetDate: { type: Date },
   },
   timestamps,
 );

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { body } from 'express-validator';
 import { createCrudController } from '../controllers/crudController.js';
 import {
   AuditLog,
@@ -17,7 +18,8 @@ import {
 import { crudRoutes } from './crudRoutes.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 import { auditAction } from '../middleware/audit.js';
-import { activateObjective, listObjectives } from '../controllers/objectiveController.js';
+import { activateObjective, listObjectives, quickCreateObjective } from '../controllers/objectiveController.js';
+import { quickCreateKPI } from '../controllers/kpiController.js';
 import { validate } from '../middleware/validate.js';
 import { idParamValidator } from '../validators/commonValidators.js';
 
@@ -83,6 +85,17 @@ router.post(
   auditAction('create', 'objectives'),
   activateObjective,
 );
+router.post(
+  '/objectives/quick-add',
+  authenticate,
+  authorize('goals:create'),
+  body('title').trim().isLength({ min: 5, max: 160 }).withMessage('Objective must be 5-160 characters'),
+  body('materialTopics').optional().isArray(),
+  body('materialTopics.*').optional().isMongoId(),
+  validate,
+  auditAction('create', 'objectives'),
+  quickCreateObjective,
+);
 mount(
   '/goals',
   Goal,
@@ -94,6 +107,20 @@ mount(
   KPI,
   { resourceName: 'KPI', searchFields: ['name', 'description'], populate: ['materialTopic', 'objective', 'goal', 'owner'] },
   { resource: 'kpis', read: 'kpis:read', create: 'kpis:create', update: 'kpis:update', delete: 'kpis:delete' },
+);
+router.post(
+  '/kpis/quick-add',
+  authenticate,
+  authorize('kpis:create'),
+  body('name').trim().isLength({ min: 2, max: 140 }).withMessage('KPI name must be 2-140 characters'),
+  body('trackingStatus').optional().isIn(['not_started', 'in_progress', 'completed']),
+  body('progressStage').optional().isIn(['early', 'mid', 'late']),
+  body('startDate').optional({ checkFalsy: true }).isISO8601(),
+  body('targetDate').optional({ checkFalsy: true }).isISO8601(),
+  body('objective').optional({ checkFalsy: true }).isMongoId(),
+  validate,
+  auditAction('create', 'kpis'),
+  quickCreateKPI,
 );
 mount(
   '/kpi-history',

@@ -3,6 +3,34 @@ import { created, ok } from '../utils/apiResponse.js';
 import { AppError } from '../utils/AppError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
+export const quickCreateObjective = asyncHandler(async (req, res) => {
+  if (!req.organizationId) {
+    throw new AppError('An organization is required to add an objective', 400, 'ORGANIZATION_REQUIRED');
+  }
+
+  const { title, materialTopics } = req.body;
+  const startDate = new Date();
+  const targetDate = new Date(startDate);
+  targetDate.setFullYear(targetDate.getFullYear() + 1);
+
+  const objective = await Objective.create({
+    organization: req.organizationId,
+    title,
+    materialTopics: Array.isArray(materialTopics) ? materialTopics : [],
+    owner: req.user._id,
+    startDate,
+    targetDate,
+    smart: {
+      specific: title,
+      measurable: 'Tracked through linked KPIs and periodic progress reviews.',
+      achievable: 'Scoped to be achievable within current organizational capacity.',
+      relevant: 'Aligned with the organization\'s ESG priorities.',
+      timeBound: `Targeted for completion by ${targetDate.toDateString()}.`,
+    },
+  });
+  created(res, objective, 'Objective added');
+});
+
 export const listObjectives = (req, baseFilter) => {
   const { $or: searchFilter, ...filter } = baseFilter;
   delete filter.organization;

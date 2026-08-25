@@ -136,6 +136,16 @@ export const resourceApi = (resource) => ({
 
 export const getResourceCacheKey = (resource, params) => `${resource}:${JSON.stringify(params || {})}`;
 
+export const objectiveApi = {
+  ...resourceApi('objectives'),
+  quickAdd: (payload) => api.post('/objectives/quick-add', payload),
+};
+
+export const kpiApi = {
+  ...resourceApi('kpis'),
+  quickAdd: (payload) => api.post('/kpis/quick-add', payload),
+};
+
 export const reportApi = {
   list: () => api.get('/reports'),
   generate: (payload) => api.post('/reports/generate', payload),
