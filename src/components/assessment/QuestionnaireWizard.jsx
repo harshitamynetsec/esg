@@ -11,20 +11,14 @@ const fallbackOptions = [
   { label: 'Fully mature', score: 4 },
 ];
 
-const normalizeOptionScore = (option, index) => {
-  const numericValue = Number(option?.value);
-  if (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 4) {
-    return numericValue;
-  }
-
-  return index;
-};
-
 const getQuestionOptions = (question) => {
   if (Array.isArray(question?.options) && question.options.length) {
+    const numericValues = question.options.map((option) => Number(option?.value));
+    const valuesMatchIndex = numericValues.every((value, index) => value === index);
+
     return question.options.map((option, index) => ({
       label: option.label || option.value || `Option ${index + 1}`,
-      score: normalizeOptionScore(option, index),
+      score: valuesMatchIndex ? numericValues[index] : index,
     }));
   }
 

@@ -16,6 +16,7 @@ export default function ObjectivesPage() {
 
   useEffect(() => {
     const load = async () => {
+      setLoading(true);
       try {
         const params = { page, limit: 15 };
         const cacheKey = getResourceCacheKey('objectives', params);
@@ -137,9 +138,9 @@ export default function ObjectivesPage() {
         </section>
       ))}
       <div className="objectives-pagination">
-        <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+        <button className="secondary-button" type="button" disabled={loading || page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
         <span>Page {page} of {pagination.pages}</span>
-        <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+        <button className="secondary-button" type="button" disabled={loading || page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
       </div>
       {!loading && !groupedItems.length && !error ? (
         <div className="page-panel objectives-empty"><p>No objectives are available yet.</p></div>

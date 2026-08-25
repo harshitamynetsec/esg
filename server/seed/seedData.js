@@ -154,27 +154,29 @@ export const seedDatabase = async () => {
   const questionnaire = await Questionnaire.findOneAndUpdate(
     { type: 'compass', version: 1 },
     {
-      title: 'Sustainability Compass',
-      description: 'A fast ESG maturity assessment for visitors and onboarding teams.',
-      type: 'compass',
-      version: 1,
-      isPublished: true,
-      questions: compassQuestions.map(([prompt, pillar]) => ({
-        prompt,
-        pillar,
-        inputType: 'scale',
-        weight: 2,
-        required: true,
-        options: [
-          { label: 'Not started', value: '1' },
-          { label: 'Basic', value: '2' },
-          { label: 'Managed', value: '3' },
-          { label: 'Advanced', value: '4' },
-          { label: 'Leading', value: '5' },
-        ],
-      })),
+      $setOnInsert: {
+        title: 'Sustainability Compass',
+        description: 'A fast ESG maturity assessment for visitors and onboarding teams.',
+        type: 'compass',
+        version: 1,
+        questions: compassQuestions.map(([prompt, pillar]) => ({
+          prompt,
+          pillar,
+          inputType: 'scale',
+          weight: 2,
+          required: true,
+          options: [
+            { label: 'Not started', value: '1' },
+            { label: 'Basic', value: '2' },
+            { label: 'Managed', value: '3' },
+            { label: 'Advanced', value: '4' },
+            { label: 'Leading', value: '5' },
+          ],
+        })),
+      },
+      $set: { isPublished: true },
     },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
+    { upsert: true, new: true },
   );
 
   const legacyCourse = await Course.findOne({ title: 'ESG Foundations for SMEs' }).lean();

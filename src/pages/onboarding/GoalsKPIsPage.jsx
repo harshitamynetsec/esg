@@ -32,6 +32,7 @@ export default function GoalsKPIsPage() {
   const [loading, setLoading] = useState(() => !getCachedResponse(getResourceCacheKey('kpis', { page: 1, limit: 15 })));
 
   const loadData = useCallback(async () => {
+    setLoading(true);
     try {
       const params = { page, limit: 15 };
       const cacheKey = getResourceCacheKey('kpis', params);
@@ -266,9 +267,9 @@ export default function GoalsKPIsPage() {
             <p className="kpi-empty-panel">No KPIs are available.</p>
           )}
           <div className="kpi-pagination">
-            <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+            <button className="secondary-button" type="button" disabled={loading || page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
             <span>Page {page} of {pagination.pages}</span>
-            <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+            <button className="secondary-button" type="button" disabled={loading || page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
           </div>
         </div>
 

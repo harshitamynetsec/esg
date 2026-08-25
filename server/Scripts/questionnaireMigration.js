@@ -1,7 +1,11 @@
+import 'dotenv/config';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import mongoose from 'mongoose';
-import { Questionnaire } from '../models/questionnaire.js';
+import { Questionnaire } from '../models/Questionnaire.js';
+
+const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URI
+  || 'mongodb+srv://mithleshsaini_db_user:mithleshsaini_db_user@cluster0.orts1zc.mongodb.net/?appName=Cluster0';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,7 +21,6 @@ const firebaseConfig = {
 // Initialize Firebase Web SDK
 const app = initializeApp(firebaseConfig);
 const firestoreDb = getFirestore(app);
-const MONGO_URI = 'mongodb+srv://mithleshsaini_db_user:mithleshsaini_db_user@cluster0.orts1zc.mongodb.net/?appName=Cluster0';
 
 async function migrateData() {
   try {
@@ -78,23 +81,26 @@ async function migrateData() {
         sdgs: fsDoc.sdgs || []
       };
     });
-    mongooseQuestions.sort((a, b) => a.order - b.order);
+    mongooseQuestions.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-    const newQuestionnaire = new Questionnaire({
-      title: 'ESG Compass Assessment',
-      type: 'compass',
-      version: 1,
-      questions: mongooseQuestions
-    });
+    console.log(`Restoring ${mongooseQuestions.length} questions onto the existing compass questionnaire...`);
 
-    await newQuestionnaire.save();
-    console.log('Migration successful!');
+    const updated = await Questionnaire.findOneAndUpdate(
+      { type: 'compass', version: 1 },
+      { $set: { questions: mongooseQuestions } },
+      { new: true, runValidators: true },
+    );
 
+    if (!updated) {
+      console.log('No existing compass questionnaire document found (type=compass, version=1). Nothing was updated.');
+    } else {
+      console.log(`Migration successful! Questionnaire "${updated.title}" now has ${updated.questions.length} questions.`);
+    }
   } catch (error) {
     console.error('Migration failed:', error);
+    process.exitCode = 1;
   } finally {
     await mongoose.disconnect();
-    process.exit(0);
   }
 }
 

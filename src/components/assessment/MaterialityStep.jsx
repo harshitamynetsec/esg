@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../platform/PageHeader';
 import { assessmentApi } from '../../services/assessmentApi';
@@ -14,11 +14,13 @@ export default function MaterialityStep() {
   const [submitting, setSubmitting] = useState(false);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 });
+  const hasAutoSelected = useRef(false);
 
   useEffect(() => {
     let active = true;
 
     const loadTopics = async () => {
+      setLoading(true);
       try {
         const cacheKey = `material-topics:${page}:15`;
         const cached = getCachedResponse(cacheKey);
@@ -37,7 +39,8 @@ export default function MaterialityStep() {
         setTopics(list);
         setPagination(response?.meta || { page, pages: 1, total: list.length });
 
-        if (list.length) {
+        if (list.length && !hasAutoSelected.current) {
+          hasAutoSelected.current = true;
           const initialSelection = list
             .slice(0, 3)
             .map((topic) => topic._id || topic.id);
@@ -407,9 +410,9 @@ export default function MaterialityStep() {
             </div>
           )}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
-            <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+            <button className="secondary-button" type="button" disabled={loading || page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
             <span style={{ color: '#64748b', fontSize: 13 }}>Page {page} of {pagination.pages}</span>
-            <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+            <button className="secondary-button" type="button" disabled={loading || page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
           </div>
         </div>
       </div>

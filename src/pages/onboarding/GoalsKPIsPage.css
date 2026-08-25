@@ -44,6 +44,12 @@
   min-width: 0;
 }
 
+.kpi-list-panel {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
 .kpi-detail-panel {
   position: sticky;
   top: 24px;
@@ -67,8 +73,13 @@
 
 .kpi-list {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 8px;
+}
+
+.kpi-list-panel .kpi-empty-panel {
+  flex: 1;
 }
 
 .kpi-row {
@@ -178,7 +189,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 14px;
+  margin-top: auto;
+  padding-top: 14px;
 }
 
 .kpi-pagination span {
