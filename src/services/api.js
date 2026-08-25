@@ -141,6 +141,15 @@ export const reportApi = {
   generate: (payload) => api.post('/reports/generate', payload),
 };
 
+export const learningApi = {
+  hub: () => api.get('/learning/hub'),
+  hubCached: () => api.get('/learning/hub').then((response) => {
+    setCachedResponse('learning:hub', response);
+    return response;
+  }),
+  updateProgress: (payload) => api.post('/learning/progress', payload),
+};
+
 export const questionnaireApi = {
   get: (type = 'compass') => api.get('/questionnaire', { params: { type } }),
   submit: (payload) => api.post('/questionnaire', payload),

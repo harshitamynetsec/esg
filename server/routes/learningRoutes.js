@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import { listCourses, updateProgress } from '../controllers/learningController.js';
+import { getLearningHub, listCourses, updateProgress } from '../controllers/learningController.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
 
 const router = Router();
 
 router.use(authenticate);
+router.get('/hub', authorize('learning:read'), getLearningHub);
 router.get('/courses', authorize('learning:read'), listCourses);
 router.get('/modules', authorize('learning:read'), listCourses);
 router.post(

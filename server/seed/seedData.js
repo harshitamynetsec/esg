@@ -8,6 +8,7 @@ import {
   Role,
   SDG,
 } from '../models/index.js';
+import { learningHubCourse, learningModules } from './learningModules.js';
 
 const permissionGroups = {
   auth: ['read', 'create', 'update', 'delete'],
@@ -176,44 +177,55 @@ export const seedDatabase = async () => {
     { upsert: true, new: true, setDefaultsOnInsert: true },
   );
 
+  const legacyCourse = await Course.findOne({ title: 'ESG Foundations for SMEs' }).lean();
+  if (legacyCourse) {
+    await Lesson.deleteMany({ course: legacyCourse._id });
+    await Module.deleteMany({ course: legacyCourse._id });
+    await Course.deleteOne({ _id: legacyCourse._id });
+  }
+
+  const totalDurationMinutes = learningModules.reduce((sum, item) => sum + item.durationMinutes, 0);
+
   const course = await Course.findOneAndUpdate(
-    { title: 'ESG Foundations for SMEs' },
+    { title: learningHubCourse.title },
     {
-      title: 'ESG Foundations for SMEs',
-      description: 'Practical ESG fundamentals covering materiality, KPIs, policies, and reporting.',
+      title: learningHubCourse.title,
+      description: learningHubCourse.description,
       pillar: 'cross_pillar',
       level: 'beginner',
-      durationMinutes: 45,
+      durationMinutes: totalDurationMinutes,
       isPublished: true,
     },
     { upsert: true, new: true, setDefaultsOnInsert: true },
   );
 
-  const module = await Module.findOneAndUpdate(
-    { course: course._id, order: 1 },
-    {
-      course: course._id,
-      title: 'Getting Started',
-      description: 'Understand ESG responsibilities and build a practical first roadmap.',
-      order: 1,
-    },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
-  );
+  for (const [index, moduleData] of learningModules.entries()) {
+    const order = index + 1;
+    const module = await Module.findOneAndUpdate(
+      { course: course._id, order },
+      {
+        course: course._id,
+        title: moduleData.title,
+        description: moduleData.description,
+        order,
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
+    );
 
-  await Lesson.findOneAndUpdate(
-    { module: module._id, order: 1 },
-    {
-      course: course._id,
-      module: module._id,
-      title: 'What ESG Means in Daily Operations',
-      content:
-        'ESG turns sustainability commitments into managed business practices. Start by identifying material topics, assigning owners, measuring KPIs, publishing policies, and reviewing progress on a predictable cadence.',
-      contentType: 'article',
-      durationMinutes: 10,
-      order: 1,
-    },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
-  );
+    await Lesson.findOneAndUpdate(
+      { module: module._id, order: 1 },
+      {
+        course: course._id,
+        module: module._id,
+        title: moduleData.title,
+        content: moduleData.content,
+        contentType: 'article',
+        durationMinutes: moduleData.durationMinutes,
+        order: 1,
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
+    );
+  }
 
-  return { permissions: permissions.length, questionnaire: questionnaire.title, course: course.title };
+  return { permissions: permissions.length, questionnaire: questionnaire.title, course: course.title, modules: learningModules.length };
 };

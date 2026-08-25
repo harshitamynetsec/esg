@@ -1,0 +1,577 @@
+<title>Request an ESG Compass Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f7f5ef;
+    --surface: #ffffff;
+    --surface-2: #efebe0;
+    --ink: #16231f;
+    --ink-muted: #5b6660;
+    --border: #dfdacb;
+    --accent: #1f6f54;
+    --accent-hover: #17563f;
+    --accent-soft: #e4efe9;
+    --gold: #b98a3d;
+    --panel-bg: #14211c;
+    --panel-text: #f3f1e9;
+    --panel-muted: #9fb0a7;
+    --panel-border: rgba(255, 255, 255, 0.12);
+    --focus: #4fae87;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1512;
+      --surface: #131c18;
+      --surface-2: #1a2620;
+      --ink: #ede9df;
+      --ink-muted: #93a099;
+      --border: #263129;
+      --accent: #4fae87;
+      --accent-hover: #63c29b;
+      --accent-soft: #1c2f27;
+      --gold: #d8a857;
+      --panel-bg: #0b120f;
+      --panel-text: #f3f1e9;
+      --panel-muted: #8fa098;
+      --panel-border: rgba(255, 255, 255, 0.1);
+      --focus: #63c29b;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0e1512;
+    --surface: #131c18;
+    --surface-2: #1a2620;
+    --ink: #ede9df;
+    --ink-muted: #93a099;
+    --border: #263129;
+    --accent: #4fae87;
+    --accent-hover: #63c29b;
+    --accent-soft: #1c2f27;
+    --gold: #d8a857;
+    --panel-bg: #0b120f;
+    --panel-text: #f3f1e9;
+    --panel-muted: #8fa098;
+    --panel-border: rgba(255, 255, 255, 0.1);
+    --focus: #63c29b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: "Fraunces", ui-serif, Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  a { color: inherit; }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px clamp(20px, 4vw, 48px);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Fraunces", serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .wordmark svg { flex: none; }
+
+  .header-link {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.15s ease;
+  }
+  .header-link:hover { color: var(--accent); }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    min-height: calc(100vh - 73px);
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Left panel ---- */
+  .pitch-panel {
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    padding: clamp(36px, 5vw, 72px) clamp(24px, 5vw, 64px);
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .pitch-head { display: flex; flex-direction: column; gap: 18px; }
+
+  .pitch-head h1 {
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    line-height: 1.15;
+    max-width: 15ch;
+  }
+
+  .pitch-sub {
+    color: var(--panel-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  .framework-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .framework-pill {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--panel-border);
+    color: var(--panel-muted);
+  }
+
+  .covers {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-top: 4px;
+  }
+
+  .covers-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--panel-muted);
+  }
+
+  .covers ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .covers li {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 14px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--panel-text);
+  }
+
+  .covers .num {
+    font-family: "Fraunces", serif;
+    font-size: 1rem;
+    color: var(--gold);
+    line-height: 1.5;
+  }
+
+  .outcomes {
+    margin-top: auto;
+    padding-top: 28px;
+    border-top: 1px solid var(--panel-border);
+    color: var(--panel-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    max-width: 42ch;
+  }
+
+  .outcomes strong { color: var(--panel-text); font-weight: 600; }
+
+  /* ---- Right panel / form ---- */
+  .form-panel {
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    padding: clamp(36px, 5vw, 72px) clamp(20px, 4vw, 56px);
+  }
+
+  .form-card { width: 100%; max-width: 480px; }
+
+  .form-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+
+  .form-intro {
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0 0 30px;
+    max-width: 44ch;
+  }
+
+  form { display: flex; flex-direction: column; gap: 18px; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 520px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--ink-muted);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  textarea { resize: vertical; min-height: 84px; line-height: 1.5; }
+
+  input::placeholder, textarea::placeholder { color: var(--ink-muted); opacity: 0.75; }
+
+  input:focus, select:focus, textarea:focus, .chip input:focus + span {
+    outline: none;
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%235b6660' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 34px;
+  }
+
+  fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip { position: relative; }
+
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .chip span {
+    display: inline-block;
+    font-size: 0.82rem;
+    padding: 6px 13px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--ink-muted);
+    background: var(--surface);
+    transition: all 0.15s ease;
+  }
+
+  .chip input:checked + span {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent-hover);
+    font-weight: 500;
+  }
+
+  .submit-btn {
+    margin-top: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fdfdfa;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 13px 20px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.05s ease;
+  }
+  .submit-btn:hover { background: var(--accent-hover); }
+  .submit-btn:active { transform: translateY(1px); }
+  .submit-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  .fine-print {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ---- Success state ---- */
+  .success-card {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .success-card.visible { display: flex; }
+  .form-card.hidden { display: none; }
+
+  .success-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .success-card h2 { font-size: 1.5rem; }
+
+  .success-card p {
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 42ch;
+    margin: 0;
+  }
+
+  .reset-btn {
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .reset-btn:hover { border-color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<header class="site-header">
+  <span class="wordmark">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C7 4 4 8 4 13c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9 0-5-3-9-8-11Z" stroke="#1f6f54" stroke-width="1.6" fill="#e4efe9"/>
+      <path d="M8.5 12.2l2.4 2.6 4.6-5.4" stroke="#1f6f54" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    ESG Compass
+  </span>
+  <a class="header-link" href="https://esg-amber.vercel.app/" target="_blank" rel="noopener">
+    ← Back to esgcompass.io
+  </a>
+</header>
+
+<div class="layout">
+  <section class="pitch-panel">
+    <div class="pitch-head">
+      <span class="eyebrow">Request a demo</span>
+      <h1>See governance-grade ESG reporting, before your next audit.</h1>
+      <p class="pitch-sub">
+        One walkthrough of assessments, materiality mapping, KPI tracking, and disclosure
+        reporting — scoped to the frameworks your business actually reports against.
+      </p>
+    </div>
+
+    <div class="framework-row">
+      <span class="framework-pill">GRI</span>
+      <span class="framework-pill">BRSR</span>
+      <span class="framework-pill">SASB</span>
+      <span class="framework-pill">CSRD</span>
+      <span class="framework-pill">CDP</span>
+      <span class="framework-pill">TCFD</span>
+      <span class="framework-pill">SDGs</span>
+    </div>
+
+    <div class="covers">
+      <span class="covers-title">What the call covers</span>
+      <ol>
+        <li><span class="num">01</span><span>A 30-minute walkthrough scoped to your entities, frameworks, and reporting calendar</span></li>
+        <li><span class="num">02</span><span>A live look at materiality mapping, KPI tracking, and AI-drafted disclosures</span></li>
+        <li><span class="num">03</span><span>Direct answers on SSO, audit logs, and data residency for your security team</span></li>
+      </ol>
+    </div>
+
+    <p class="outcomes">
+      <strong>Built for regulated reporting.</strong> Every disclosure maps to a single data
+      model, so your team enters each metric once and reuses it across GRI, BRSR, SASB, CSRD,
+      CDP, and TCFD.
+    </p>
+  </section>
+
+  <section class="form-panel">
+    <div class="form-card" id="formCard">
+      <h2>Talk to our team</h2>
+      <p class="form-intro">
+        Tell us a bit about your organization and we'll pair you with someone who knows your
+        reporting frameworks.
+      </p>
+
+      <form id="demoForm">
+        <div class="field-row">
+          <div>
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Jordan Alvarez" required>
+          </div>
+          <div>
+            <label for="workEmail">Work email</label>
+            <input type="email" id="workEmail" name="workEmail" placeholder="jordan@company.com" required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" placeholder="Company name" required>
+          </div>
+          <div>
+            <label for="jobTitle">Job title</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Sustainability Lead">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label for="companySize">Company size</label>
+            <select id="companySize" name="companySize">
+              <option value="">Select one</option>
+              <option>1–50 employees</option>
+              <option>51–200 employees</option>
+              <option>201–1,000 employees</option>
+              <option>1,000+ employees</option>
+            </select>
+          </div>
+          <div>
+            <label for="region">Country / region</label>
+            <input type="text" id="region" name="region" placeholder="e.g. India">
+          </div>
+        </div>
+
+        <fieldset>
+          <label>Frameworks you report against <span class="optional">(optional)</span></label>
+          <div class="chip-group">
+            <label class="chip"><input type="checkbox" name="framework" value="GRI"><span>GRI</span></label>
+            <label class="chip"><input type="checkbox" name="framework" value="BRSR"><span>BRSR</span></label>
+            <label class="chip"><input type="checkbox" name="framework" value="SASB"><span>SASB</span></label>
+            <label class="chip"><input type="checkbox" name="framework" value="CSRD"><span>CSRD</span></label>
+            <label class="chip"><input type="checkbox" name="framework" value="CDP"><span>CDP</span></label>
+            <label class="chip"><input type="checkbox" name="framework" value="TCFD"><span>TCFD</span></label>
+            <label class="chip"><input type="checkbox" name="framework" value="Not sure yet"><span>Not sure yet</span></label>
+          </div>
+        </fieldset>
+
+        <div>
+          <label for="notes">What should the demo focus on? <span class="optional">(optional)</span></label>
+          <textarea id="notes" name="notes" placeholder="Materiality mapping, CSRD readiness, supplier questionnaires…"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Request Demo</button>
+        <p class="fine-print">By submitting, you agree to be contacted about ESG Compass. No spam, unsubscribe anytime.</p>
+      </form>
+    </div>
+
+    <div class="success-card" id="successCard">
+      <div class="success-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2>Request received</h2>
+      <p>Someone from our team will reach out within one business day to schedule your walkthrough. Check your inbox for a confirmation shortly.</p>
+      <button type="button" class="reset-btn" id="resetBtn">Submit another request</button>
+    </div>
+  </section>
+</div>
+
+<script>
+  const form = document.getElementById('demoForm');
+  const formCard = document.getElementById('formCard');
+  const successCard = document.getElementById('successCard');
+  const resetBtn = document.getElementById('resetBtn');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    formCard.classList.add('hidden');
+    successCard.classList.add('visible');
+  });
+
+  resetBtn.addEventListener('click', function () {
+    form.reset();
+    successCard.classList.remove('visible');
+    formCard.classList.remove('hidden');
+  });
+</script>
