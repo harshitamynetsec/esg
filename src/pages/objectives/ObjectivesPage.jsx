@@ -141,7 +141,7 @@ export default function ObjectivesPage() {
         <span>Page {page} of {pagination.pages}</span>
         <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
       </div>
-      {!groupedItems.length && !error ? (
+      {!loading && !groupedItems.length && !error ? (
         <div className="page-panel objectives-empty"><p>No objectives are available yet.</p></div>
       ) : null}
     </section>

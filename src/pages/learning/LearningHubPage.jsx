@@ -18,10 +18,14 @@ export default function LearningHubPage() {
   const [openModuleId, setOpenModuleId] = useState('');
   const [openLessonId, setOpenLessonId] = useState('');
   const [savingLessonId, setSavingLessonId] = useState('');
+  const [loading, setLoading] = useState(() => !getCachedResponse('learning:hub'));
 
   useEffect(() => {
     const cached = getCachedResponse('learning:hub');
-    if (cached) setCourses(cached.data || []);
+    if (cached) {
+      setCourses(cached.data || []);
+      setLoading(false);
+    }
 
     learningApi.hubCached()
       .then((response) => {
@@ -30,7 +34,8 @@ export default function LearningHubPage() {
         if (data[0]?.modules?.[0]) setOpenModuleId(data[0].modules[0]._id);
         setError('');
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   }, []);
 
   const toggleModule = (moduleId) => {
@@ -76,7 +81,36 @@ export default function LearningHubPage() {
       <PageHeader title="Learning Hub" description="Structured ESG education for onboarding and continuous improvement." />
       {error ? <p className="error-line">{error}</p> : null}
 
-      {courses.map((course) => {
+      {loading ? (
+        Array.from({ length: 2 }).map((_, index) => (
+          <article key={`learning-course-skeleton-${index}`} className="learning-course page-panel">
+            <div className="learning-course-header">
+              <div className="skeleton" style={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0 }} />
+              <div className="learning-course-info">
+                <div className="skeleton skeleton-text" style={{ width: '35%', height: 18, marginBottom: 8 }} />
+                <div className="skeleton skeleton-text" style={{ width: '70%', marginBottom: 12 }} />
+                <div style={{ display: 'flex', gap: 14 }}>
+                  <div className="skeleton skeleton-text" style={{ width: 90 }} />
+                  <div className="skeleton skeleton-text" style={{ width: 70 }} />
+                  <div className="skeleton skeleton-text" style={{ width: 110 }} />
+                </div>
+              </div>
+              <div className="skeleton" style={{ width: 60, height: 60, borderRadius: '50%', flexShrink: 0 }} />
+            </div>
+            <div className="learning-module-list">
+              {Array.from({ length: 3 }).map((__, moduleIndex) => (
+                <div key={`learning-module-skeleton-${index}-${moduleIndex}`} className="skeleton-row" style={{ padding: '14px 16px', border: '1px solid #e2e8f0', borderRadius: 8 }}>
+                  <div className="skeleton skeleton-row-icon" style={{ borderRadius: '50%' }} />
+                  <div className="skeleton-row-body">
+                    <div className="skeleton skeleton-text" style={{ width: '40%' }} />
+                    <div className="skeleton skeleton-text" style={{ width: '65%' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))
+      ) : courses.map((course) => {
         const totalLessons = countLessons(course);
         const completedLessons = countCompleted(course);
         const percent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
@@ -162,7 +196,7 @@ export default function LearningHubPage() {
         );
       })}
 
-      {!hasCourses && !error ? (
+      {!loading && !hasCourses && !error ? (
         <div className="page-panel learning-empty"><p>No learning content is available yet.</p></div>
       ) : null}
     </section>

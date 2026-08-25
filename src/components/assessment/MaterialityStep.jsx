@@ -170,7 +170,26 @@ export default function MaterialityStep() {
             </div>
           </div>
 
-          {selectedTopics.length ? (
+          {loading ? (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: 12,
+              }}
+            >
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={`selected-topic-skeleton-${index}`}
+                  className="page-panel"
+                  style={{ padding: 12, margin: 0, background: '#f8fafc', border: '1px solid #cbd5e1' }}
+                >
+                  <div className="skeleton skeleton-text" style={{ width: '55%', marginBottom: 8 }} />
+                  <div className="skeleton skeleton-text" style={{ width: '85%' }} />
+                </div>
+              ))}
+            </div>
+          ) : selectedTopics.length ? (
             <div
               style={{
                 display: 'grid',
@@ -260,9 +279,26 @@ export default function MaterialityStep() {
           </div>
 
           {loading ? (
-            <p style={{ color: '#64748b' }}>
-              Loading topics...
-            </p>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: 12,
+              }}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={`material-topic-skeleton-${index}`}
+                  className="page-panel"
+                  style={{ padding: 12, margin: 0, minHeight: '100px' }}
+                >
+                  <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: 10 }} />
+                  <div className="skeleton skeleton-text" style={{ width: '95%', marginBottom: 6 }} />
+                  <div className="skeleton skeleton-text" style={{ width: '80%', marginBottom: 16 }} />
+                  <div className="skeleton skeleton-text" style={{ width: '40%' }} />
+                </div>
+              ))}
+            </div>
           ) : topics.length === 0 ? (
             <p style={{ color: '#64748b' }}>
               No material topics are available.
