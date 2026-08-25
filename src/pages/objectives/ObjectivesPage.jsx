@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Check, Plus } from 'lucide-react';
 import PageHeader from '../../components/platform/PageHeader';
-import { resourceApi } from '../../services/api';
+import { getCachedResponse, getResourceCacheKey, resourceApi } from '../../services/api';
 import './ObjectivesPage.css';
 
 export default function ObjectivesPage() {
@@ -10,19 +10,29 @@ export default function ObjectivesPage() {
   const [error, setError] = useState('');
   const [activatingId, setActivatingId] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 });
 
   useEffect(() => {
     const load = async () => {
       try {
-        const response = await api.list({ limit: 100 });
+        const params = { page, limit: 15 };
+        const cacheKey = getResourceCacheKey('objectives', params);
+        const cached = getCachedResponse(cacheKey);
+        if (cached) {
+          setItems(cached.data || []);
+          setPagination(cached.meta || { page, pages: 1, total: cached.data?.length || 0 });
+        }
+        const response = await api.listCached(params);
         setItems(response.data || []);
+        setPagination(response.meta || { page, pages: 1, total: response.data?.length || 0 });
         setError('');
       } catch (err) {
         setError(err.message);
       }
     };
     load();
-  }, [api]);
+  }, [api, page]);
 
   const groupedItems = useMemo(() => {
     const groups = items.reduce((result, item) => {
@@ -46,8 +56,9 @@ export default function ObjectivesPage() {
     try {
       await api.activate(itemId);
       setSuccessMsg(`"${item.title}" is now active for your organization.`);
-      const response = await api.list({ limit: 100 });
+      const response = await api.listCached({ page, limit: 15 });
       setItems(response.data || []);
+      setPagination(response.meta || { page, pages: 1, total: response.data?.length || 0 });
       setError('');
     } catch (err) {
       setError(err.message);
@@ -109,6 +120,13 @@ export default function ObjectivesPage() {
           </div>
         </section>
       ))}
+      {pagination.pages > 1 ? (
+        <div className="objectives-pagination">
+          <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+          <span>Page {page} of {pagination.pages}</span>
+          <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+        </div>
+      ) : null}
       {!groupedItems.length && !error ? (
         <div className="page-panel objectives-empty"><p>No objectives are available yet.</p></div>
       ) : null}

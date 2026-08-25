@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Plus, Search } from 'lucide-react';
 import PageHeader from '../../components/platform/PageHeader';
-import { dashboardApi, resourceApi } from '../../services/api';
+import { dashboardApi, getCachedResponse, getResourceCacheKey, resourceApi } from '../../services/api';
 
 export default function GoalsKPIsPage() {
   const api = useMemo(() => resourceApi('kpis'), []);
@@ -26,15 +26,25 @@ export default function GoalsKPIsPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 });
 
   const loadData = useCallback(async () => {
     try {
+      const params = { page, limit: 15 };
+      const cacheKey = getResourceCacheKey('kpis', params);
+      const cachedKpis = getCachedResponse(cacheKey);
+      if (cachedKpis) {
+        setItems(cachedKpis.data || []);
+        setPagination(cachedKpis.meta || { page, pages: 1, total: cachedKpis.data?.length || 0 });
+      }
       const [kpisRes, dashRes] = await Promise.all([
-        api.list({ limit: 25 }),
-        dashboardApi.dashboard(),
+        api.listCached(params),
+        dashboardApi.dashboardCached(),
       ]);
       const loadedItems = kpisRes.data || [];
       setItems(loadedItems);
+      setPagination(kpisRes.meta || { page, pages: 1, total: loadedItems.length });
       if (loadedItems.length && !selected) {
         setSelected(loadedItems[0]);
       }
@@ -45,7 +55,7 @@ export default function GoalsKPIsPage() {
     } finally {
       setLoadingRecommended(false);
     }
-  }, [api, selected]);
+  }, [api, page, selected]);
 
   useEffect(() => {
     loadData();
@@ -236,6 +246,13 @@ export default function GoalsKPIsPage() {
           ) : (
             <p style={{ margin: 0, color: '#64748b' }}>No KPIs are available.</p>
           )}
+          {pagination.pages > 1 ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+              <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+              <span style={{ color: '#64748b', fontSize: 13 }}>Page {page} of {pagination.pages}</span>
+              <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+            </div>
+          ) : null}
         </div>
 
         <div className="page-panel">

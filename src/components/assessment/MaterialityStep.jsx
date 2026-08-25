@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../platform/PageHeader';
 import { assessmentApi } from '../../services/assessmentApi';
+import { getCachedResponse, setCachedResponse } from '../../services/api';
 
 export default function MaterialityStep() {
   const navigate = useNavigate();
@@ -11,21 +12,30 @@ export default function MaterialityStep() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 });
 
   useEffect(() => {
     let active = true;
 
     const loadTopics = async () => {
       try {
-        const response = await assessmentApi.fetchMaterialTopics();
+        const cacheKey = `material-topics:${page}:15`;
+        const cached = getCachedResponse(cacheKey);
+        if (cached && active) {
+          setTopics(cached.data || []);
+          setPagination(cached.meta || { page, pages: 1, total: cached.data?.length || 0 });
+          setLoading(false);
+        }
+        const response = await assessmentApi.fetchMaterialTopics({ page, limit: 15 });
 
         if (!active) return;
 
-        const list = Array.isArray(response)
-          ? response
-          : response?.data || [];
+        const list = response?.data || [];
+        setCachedResponse(cacheKey, response);
 
         setTopics(list);
+        setPagination(response?.meta || { page, pages: 1, total: list.length });
 
         if (list.length) {
           const initialSelection = list
@@ -54,7 +64,7 @@ export default function MaterialityStep() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [page]);
 
   const toggleTopic = (topicId) => {
     setSelectedIds((current) =>
@@ -360,6 +370,13 @@ export default function MaterialityStep() {
               })}
             </div>
           )}
+          {pagination.pages > 1 ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+              <button className="secondary-button" type="button" disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
+              <span style={{ color: '#64748b', fontSize: 13 }}>Page {page} of {pagination.pages}</span>
+              <button className="secondary-button" type="button" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

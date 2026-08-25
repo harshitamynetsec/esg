@@ -190,34 +190,42 @@ const loadRecommendedKpis = async ({ organizationId, gapItems, strengthItems }) 
     });
 };
 
-export const fetchAllMaterialTopics = async (companyId) => {
+export const fetchAllMaterialTopics = async (companyId, pagination) => {
   const organizationFilter = companyId ? [{ organization: companyId }, { organization: null }] : [{ organization: null }];
 
-  const scopedTopics = await MaterialTopic.find({ $or: organizationFilter, status: { $ne: 'archived' } })
-    .populate('sdgs')
-    .sort('pillar serialNum title')
-    .lean();
+  const scopedFilter = { $or: organizationFilter, status: { $ne: 'archived' } };
+  const scopedQuery = MaterialTopic.find(scopedFilter).populate('sdgs').sort('pillar serialNum title').lean();
+  const scopedTopics = pagination
+    ? await scopedQuery.skip((pagination.page - 1) * pagination.limit).limit(pagination.limit)
+    : await scopedQuery;
+  const scopedTotal = pagination ? await MaterialTopic.countDocuments(scopedFilter) : scopedTopics.length;
 
-  if (scopedTopics.length) {
-    return scopedTopics;
+  if (scopedTotal) {
+    if (!pagination) return scopedTopics;
+    return { data: scopedTopics, meta: { page: pagination.page, limit: pagination.limit, total: scopedTotal, pages: Math.max(Math.ceil(scopedTotal / pagination.limit), 1) } };
   }
 
-  const allTopics = await MaterialTopic.find({ status: { $ne: 'archived' } })
-    .populate('sdgs')
-    .sort('pillar serialNum title')
-    .lean();
+  const allFilter = { status: { $ne: 'archived' } };
+  const allQuery = MaterialTopic.find(allFilter).populate('sdgs').sort('pillar serialNum title').lean();
+  const allTopics = pagination
+    ? await allQuery.skip((pagination.page - 1) * pagination.limit).limit(pagination.limit)
+    : await allQuery;
+  const allTotal = pagination ? await MaterialTopic.countDocuments(allFilter) : allTopics.length;
 
-  if (allTopics.length) {
-    return allTopics;
+  if (allTotal) {
+    if (!pagination) return allTopics;
+    return { data: allTopics, meta: { page: pagination.page, limit: pagination.limit, total: allTotal, pages: Math.max(Math.ceil(allTotal / pagination.limit), 1) } };
   }
 
-  const legacyTopics = await MaterialTopic.db
-    .collection('material_topics')
-    .find({ status: { $ne: 'archived' } })
-    .sort({ pillar: 1, category: 1, serialNum: 1, title: 1, name: 1 })
-    .toArray();
+  const legacyCollection = MaterialTopic.db.collection('material_topics');
+  const legacyFilter = { status: { $ne: 'archived' } };
+  const legacyQuery = legacyCollection.find(legacyFilter).sort({ pillar: 1, category: 1, serialNum: 1, title: 1, name: 1 });
+  const legacyTopics = pagination
+    ? await legacyQuery.skip((pagination.page - 1) * pagination.limit).limit(pagination.limit).toArray()
+    : await legacyQuery.toArray();
+  const legacyTotal = pagination ? await legacyCollection.countDocuments(legacyFilter) : legacyTopics.length;
 
-  return legacyTopics.map((topic) => ({
+  const normalizedLegacyTopics = legacyTopics.map((topic) => ({
     ...topic,
     title: topic.title || topic.name,
     pillar: topic.pillar || topic.category,
@@ -226,6 +234,11 @@ export const fetchAllMaterialTopics = async (companyId) => {
     financialMateriality: topic.financialMateriality || 3,
     sdgs: topic.sdgs || topic.sdgIds || [],
   }));
+  if (!pagination) return normalizedLegacyTopics;
+  return {
+    data: normalizedLegacyTopics,
+    meta: { page: pagination.page, limit: pagination.limit, total: legacyTotal, pages: Math.max(Math.ceil(legacyTotal / pagination.limit), 1) },
+  };
 };
 
 export const buildAssessmentQuestions = async (selectedTopicIds) => {

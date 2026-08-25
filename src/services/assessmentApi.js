@@ -20,10 +20,10 @@ const toError = (error, fallbackMessage = 'Request failed') => {
 };
 
 export const assessmentApi = {
-  fetchMaterialTopics: async () => {
+  fetchMaterialTopics: async (params) => {
     try {
-      const response = await api.get('/assessment-flow/material-topics', buildAuthHeaders());
-      return response.data;
+      const response = await api.get('/assessment-flow/material-topics', { ...buildAuthHeaders(), params });
+      return response;
     } catch (error) {
       throw toError(error, 'Unable to load material topics.');
     }

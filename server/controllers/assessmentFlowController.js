@@ -12,8 +12,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 const getUserId = (req) => req?.params?.userId || req?.body?.userId || req?.user?._id;
 
 export const listMaterialTopics = asyncHandler(async (req, res) => {
-  const topics = await fetchAllMaterialTopics(req.organizationId);
-  ok(res, topics, 'Material topics fetched');
+  const page = Math.max(Number(req.query.page) || 1, 1);
+  const limit = Math.min(Math.max(Number(req.query.limit) || 20, 1), 100);
+  const result = await fetchAllMaterialTopics(req.organizationId, { page, limit });
+  ok(res, result.data, 'Material topics fetched', 200, result.meta);
 });
 
 export const startAssessment = asyncHandler(async (req, res) => {

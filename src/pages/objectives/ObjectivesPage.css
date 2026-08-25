@@ -189,6 +189,15 @@
   margin-top: 20px;
 }
 
+.objectives-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 24px;
+  color: #64748b;
+  font-size: 13px;
+}
+
 @media (max-width: 1100px) {
   .objectives-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

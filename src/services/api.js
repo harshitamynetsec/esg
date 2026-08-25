@@ -3,6 +3,16 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL || 'https://esg-7uft.onrender.com/api';
 const AUTH_STORAGE_KEYS = ['esg_access_token', 'esg_refresh_token', 'esg_user'];
 let sessionExpiryHandled = false;
+const responseCache = new Map();
+
+export const getCachedResponse = (key) => {
+  const cached = responseCache.get(key);
+  return cached?.data || null;
+};
+
+export const setCachedResponse = (key, data) => {
+  responseCache.set(key, { data, timestamp: Date.now() });
+};
 
 const notify = (detail) => {
   window.dispatchEvent(new CustomEvent('esg:notification', { detail }));
@@ -101,17 +111,30 @@ export const teamApi = {
 
 export const dashboardApi = {
   dashboard: () => api.get('/dashboard'),
+  dashboardCached: () => api.get('/dashboard').then((response) => {
+    setCachedResponse('dashboard', response);
+    return response;
+  }),
   analytics: () => api.get('/dashboard/analytics'),
 };
 
 export const resourceApi = (resource) => ({
   list: (params) => api.get(`/${resource}`, { params }),
+  listCached: (params) => {
+    const key = `${resource}:${JSON.stringify(params || {})}`;
+    return api.get(`/${resource}`, { params }).then((response) => {
+      setCachedResponse(key, response);
+      return response;
+    });
+  },
   get: (id) => api.get(`/${resource}/${id}`),
   create: (payload) => api.post(`/${resource}`, payload),
   activate: (id) => api.post(`/${resource}/${id}/activate`),
   update: (id, payload) => api.put(`/${resource}/${id}`, payload),
   remove: (id) => api.delete(`/${resource}/${id}`),
 });
+
+export const getResourceCacheKey = (resource, params) => `${resource}:${JSON.stringify(params || {})}`;
 
 export const reportApi = {
   list: () => api.get('/reports'),

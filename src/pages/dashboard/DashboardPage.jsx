@@ -3,7 +3,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { FileBarChart, Flag, Target, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageHeader from '../../components/platform/PageHeader';
-import { dashboardApi } from '../../services/api';
+import { dashboardApi, getCachedResponse } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 
 const fallbackData = {
@@ -42,8 +42,10 @@ export default function DashboardPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const cached = getCachedResponse('dashboard');
+    if (cached) setDashboard(cached.data || fallbackData);
     dashboardApi
-      .dashboard()
+      .dashboardCached()
       .then((response) => setDashboard(response.data || fallbackData))
       .catch((err) => setError(err.message));
   }, []);
