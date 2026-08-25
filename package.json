@@ -10,6 +10,7 @@
     "server:start": "node server/server.js",
     "start": "node server/server.js",
     "seed": "node server/seed/runSeed.js",
+    "fix-kpi-index": "node server/Scripts/fix-kpi-code-index.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

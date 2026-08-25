@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Link2, Target, Gauge } from 'lucide-react';
 import PageHeader from '../../components/platform/PageHeader';
-import { kpiApi, objectiveApi, resourceApi } from '../../services/api';
+import { kpiApi, objectiveApi } from '../../services/api';
+import { assessmentApi } from '../../services/assessmentApi';
 import './AddKpiPage.css';
 
 const STATUS_OPTIONS = [
@@ -78,7 +79,7 @@ export default function AddKpiPage() {
 
   useEffect(() => {
     refreshCounts();
-    resourceApi('material-topics').list({ limit: 100 }).then((res) => setMaterialTopics(res.data || [])).catch(() => {});
+    assessmentApi.fetchMaterialTopics({ limit: 100 }).then((res) => setMaterialTopics(res.data || [])).catch(() => {});
     objectiveApi.list({ limit: 100 }).then((res) => setObjectives(res.data || [])).catch(() => {});
   }, []);
 

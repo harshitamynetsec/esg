@@ -34,6 +34,24 @@ const calculateGoalProgress = (goal) => {
   return Math.round(Math.max(0, Math.min(((current - baseline) / range) * 100, 100)));
 };
 
+const buildKpiSummary = (kpis) => {
+  const byPillar = pillars.map((pillar) => ({
+    pillar,
+    count: kpis.filter((kpi) => kpi.pillar === pillar).length,
+  }));
+
+  let onTrack = 0;
+  let needsAttention = 0;
+  kpis.forEach((kpi) => {
+    const target = Number(kpi.targetValue || 0);
+    const current = Number(kpi.currentValue || 0);
+    if (target > 0 && current >= target) onTrack += 1;
+    else needsAttention += 1;
+  });
+
+  return { total: kpis.length, onTrack, needsAttention, byPillar };
+};
+
 const buildActivity = ({ type, label, detail, occurredAt, source }) => ({
   type,
   label,
@@ -145,6 +163,7 @@ export const getDashboard = asyncHandler(async (req, res) => {
     reports,
     latestAssessmentResult,
     goals,
+    activeObjectives,
     activeObjectiveCount,
     kpiHistories,
     notifications,
@@ -156,6 +175,7 @@ export const getDashboard = asyncHandler(async (req, res) => {
     Report.find(filter).sort('-createdAt').limit(5).lean(),
     AssessmentResult.findOne({ ...filter, status: 'completed' }).sort('-completedAt').lean(),
     Goal.find({ ...filter, status: 'active' }).sort('dueDate').limit(5).lean(),
+    Objective.find({ ...filter, status: 'active' }).sort('-updatedAt').limit(5).lean(),
     Objective.countDocuments({ ...filter, status: 'active' }),
     KPIHistory.find(filter).populate('kpi').sort('-periodEnd').limit(8).lean(),
     Notification.find({ ...filter, user: req.user._id, readAt: null }).sort('-createdAt').limit(8).lean(),
@@ -186,10 +206,12 @@ export const getDashboard = asyncHandler(async (req, res) => {
     policies,
   });
   const recommendedKpis = await getRecommendedKpiTemplates(latestAssessmentResult);
+  const kpiSummary = buildKpiSummary(kpis);
 
   ok(res, {
     totals,
     pillarScores,
+    kpiSummary,
     recentAssessment: latestAssessmentResult
       ? {
           ...latestAssessmentResult,
@@ -198,6 +220,7 @@ export const getDashboard = asyncHandler(async (req, res) => {
       : null,
     materialTopics: effectiveMaterialTopics,
     goals: goalsWithProgress,
+    objectives: activeObjectives,
     policies,
     reports,
     recentActivities,

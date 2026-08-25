@@ -54,8 +54,8 @@ export default function ObjectivesPage() {
     setActivatingId(itemId);
     setSuccessMsg('');
     try {
-      await api.activate(itemId);
-      setSuccessMsg(`"${item.title}" is now active for your organization.`);
+      const activateResponse = await api.activate(itemId);
+      setSuccessMsg(activateResponse.message ? `${activateResponse.message}: "${item.title}"` : `"${item.title}" is now active for your organization.`);
       const response = await api.listCached({ page, limit: 15 });
       setItems(response.data || []);
       setPagination(response.meta || { page, pages: 1, total: response.data?.length || 0 });

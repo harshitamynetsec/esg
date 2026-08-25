@@ -37,6 +37,14 @@ export default function AppLayout() {
     navigate('/');
   };
 
+  const displayName = user?.fullName || `${user?.firstName || 'ESG'} ${user?.lastName || 'User'}`;
+  const initials = displayName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('') || 'ES';
+
   return (
     <div className="platform-shell">
       <aside className="platform-sidebar">
@@ -55,18 +63,20 @@ export default function AppLayout() {
             );
           })}
         </nav>
+        <div className="platform-sidebar-footer">
+          <div className="platform-user">
+            <span className="platform-user-avatar">{initials}</span>
+            <div className="platform-user-info">
+              <strong>{displayName}</strong>
+              <small>{user?.organization?.name || 'Organization Workspace'}</small>
+            </div>
+          </div>
+          <button className="platform-signout" type="button" onClick={handleLogout} aria-label="Sign out" title="Sign out">
+            <LogOut size={16} />
+          </button>
+        </div>
       </aside>
       <main className="platform-main">
-        <header className="platform-topbar">
-          <div>
-            <p>{user?.organization?.name || 'Organization Workspace'}</p>
-            <h1>{user?.fullName || `${user?.firstName || 'ESG'} ${user?.lastName || 'User'}`}</h1>
-          </div>
-          <button className="icon-text-button" type="button" onClick={handleLogout}>
-            <LogOut size={18} />
-            Sign out
-          </button>
-        </header>
         <Outlet />
       </main>
     </div>
