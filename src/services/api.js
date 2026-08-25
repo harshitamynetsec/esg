@@ -108,6 +108,7 @@ export const resourceApi = (resource) => ({
   list: (params) => api.get(`/${resource}`, { params }),
   get: (id) => api.get(`/${resource}/${id}`),
   create: (payload) => api.post(`/${resource}`, payload),
+  activate: (id) => api.post(`/${resource}/${id}/activate`),
   update: (id, payload) => api.put(`/${resource}/${id}`, payload),
   remove: (id) => api.delete(`/${resource}/${id}`),
 });

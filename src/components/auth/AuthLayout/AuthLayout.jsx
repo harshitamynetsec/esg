@@ -25,7 +25,7 @@ export default function AuthLayout({ children }) {
           <div className={styles.panelBody}>
             <span className={styles.eyebrow}>AI-Powered ESG Intelligence Platform</span>
             <h1 className={styles.headline}>
-              Enterprise ESG, governed with the rigor of finance.
+              Enterprise ESG, with governance built in.
             </h1>
             <p className={styles.subtitle}>
               One system of record for assessments, materiality, KPIs, and

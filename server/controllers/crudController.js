@@ -22,6 +22,7 @@ export const createCrudController = (Model, options = {}) => {
     searchFields = [],
     defaultSort = '-createdAt',
     populate = [],
+    listFilter,
   } = options;
 
   const buildFilter = (req) => {
@@ -41,7 +42,7 @@ export const createCrudController = (Model, options = {}) => {
   return {
     list: asyncHandler(async (req, res) => {
       const { page, limit, skip } = getPagination(req.query);
-      const filter = buildFilter(req);
+      const filter = listFilter ? listFilter(req, buildFilter(req)) : buildFilter(req);
       const [items, total] = await Promise.all([
         applyPopulate(Model.find(filter).sort(req.query.sort || defaultSort).skip(skip).limit(limit)),
         Model.countDocuments(filter),

@@ -3,8 +3,9 @@ import { Schema, lifecycleStatuses, nameField, objectId, optionalText, timestamp
 
 const objectiveSchema = new Schema(
   {
-    organization: objectId('Organization', true),
+    organization: objectId('Organization', false),
     materialTopic: objectId('MaterialTopic'),
+    sdgNumber: { type: Number, min: 1, max: 17 },
     title: nameField('Objective title', 5, 160),
     description: optionalText(1600),
     owner: objectId('User'),
@@ -23,6 +24,10 @@ const objectiveSchema = new Schema(
 );
 
 objectiveSchema.index({ organization: 1, materialTopic: 1 });
+objectiveSchema.index(
+  { organization: 1, sdgNumber: 1, title: 1 },
+  { unique: true, partialFilterExpression: { sdgNumber: { $exists: true } } },
+);
 objectiveSchema.index({ targetDate: 1 });
 objectiveSchema.pre('validate', function validateDates(next) {
   if (this.startDate && this.targetDate && this.targetDate <= this.startDate) {

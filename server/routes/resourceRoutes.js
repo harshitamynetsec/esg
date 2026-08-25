@@ -15,6 +15,11 @@ import {
   User,
 } from '../models/index.js';
 import { crudRoutes } from './crudRoutes.js';
+import { authenticate, authorize } from '../middleware/auth.js';
+import { auditAction } from '../middleware/audit.js';
+import { activateObjective, listObjectives } from '../controllers/objectiveController.js';
+import { validate } from '../middleware/validate.js';
+import { idParamValidator } from '../validators/commonValidators.js';
 
 const router = Router();
 
@@ -61,8 +66,22 @@ mount(
 mount(
   '/objectives',
   Objective,
-  { resourceName: 'Objective', searchFields: ['title', 'description'], populate: ['materialTopic', 'owner'] },
+  {
+    resourceName: 'Objective',
+    searchFields: ['title', 'description'],
+    populate: ['materialTopic', 'owner'],
+    listFilter: listObjectives,
+  },
   { resource: 'objectives', read: 'goals:read', create: 'goals:create', update: 'goals:update', delete: 'goals:delete' },
+);
+router.post(
+  '/objectives/:id/activate',
+  authenticate,
+  authorize('goals:create'),
+  idParamValidator,
+  validate,
+  auditAction('create', 'objectives'),
+  activateObjective,
 );
 mount(
   '/goals',

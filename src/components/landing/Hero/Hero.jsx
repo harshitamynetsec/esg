@@ -48,9 +48,9 @@ export default function Hero() {
           </span>
 
           <h1 className={styles.headline}>
-            Enterprise ESG, governed
+            Enterprise ESG,
             <br />
-            with the rigor of finance.
+            with governance built in.
           </h1>
 
           <p className={styles.subtitle}>

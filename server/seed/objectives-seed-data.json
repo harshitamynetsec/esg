@@ -1,0 +1,306 @@
+{
+  "source": "REPORT FORMAT April 2026 with SDGs.pdf",
+  "description": "Exact SDG-specific objectives and descriptions extracted from the report. This is source data for seeding organization objectives; organization/materialTopic/KPI references should be resolved by the migration script.",
+  "objectives": [
+    {
+      "sdgNumber": 1,
+      "sdgName": "No Poverty",
+      "title": "Achieve 100% Living Wage Coverage Across Direct Operations",
+      "description": "Conduct an annual living wage assessment for all direct employees, benchmark against the applicable local living wage standard, and close any identified gaps through a time-bound remediation plan published in the ESG report."
+    },
+    {
+      "sdgNumber": 1,
+      "sdgName": "No Poverty",
+      "title": "Invest in Community Economic Development Programmes",
+      "description": "Allocate a defined percentage of pre-tax profit to community investment activities that create sustainable economic opportunities, with priority given to disadvantaged communities in our operating geographies."
+    },
+    {
+      "sdgNumber": 1,
+      "sdgName": "No Poverty",
+      "title": "Embed Poverty Risk Assessment Across Our Supply Chain",
+      "description": "Conduct poverty and fair pay risk assessments for all tier-one suppliers, requiring corrective action plans for any identified non-conformances and reporting supplier wage compliance rates annually."
+    },
+    {
+      "sdgNumber": 2,
+      "sdgName": "Zero Hunger",
+      "title": "Source 100% of Key Agricultural Commodities Sustainably",
+      "description": "Map all agricultural commodity supply chains, establish sustainability criteria aligned to leading certification schemes, and achieve 100% certified sustainable sourcing for priority commodities within a defined timeframe."
+    },
+    {
+      "sdgNumber": 2,
+      "sdgName": "Zero Hunger",
+      "title": "Reduce Operational Food Waste by 50% by 2030",
+      "description": "Conduct a baseline food waste audit across all relevant operations, set site-level reduction targets, and implement waste prevention programmes including staff education, portion management, and redistribution partnerships."
+    },
+    {
+      "sdgNumber": 2,
+      "sdgName": "Zero Hunger",
+      "title": "Support Supplier Agricultural Sustainability Capacity Building",
+      "description": "Provide agricultural suppliers with access to sustainability training, best-practice guidance, and financial support where needed to transition to more sustainable and resilient farming practices."
+    },
+    {
+      "sdgNumber": 3,
+      "sdgName": "Good Health and Well-Being",
+      "title": "Implement a Robust ISO 45001-Aligned OHS Management System",
+      "description": "Embed an Occupational Health & Safety framework across all operations with regular audits, incident tracking, contractor management protocols, and continuous improvement processes to ensure a zero-harm environment."
+    },
+    {
+      "sdgNumber": 3,
+      "sdgName": "Good Health and Well-Being",
+      "title": "Launch a Company-Wide Mental Health Programme",
+      "description": "Provide confidential counselling access, train Mental Health First Aiders in every department, and foster psychological safety through structured manager-led well-being conversations and peer-support networks."
+    },
+    {
+      "sdgNumber": 3,
+      "sdgName": "Good Health and Well-Being",
+      "title": "Guarantee Equitable Healthcare Access for All Employees",
+      "description": "Ensure all employees — regardless of role, location, or contract type — receive comprehensive healthcare coverage, including preventative care, chronic condition management, and mental health services with no coverage gaps."
+    },
+    {
+      "sdgNumber": 4,
+      "sdgName": "Quality Education",
+      "title": "Provide Structured Learning Pathways for Every Employee",
+      "description": "Develop and implement role-specific learning pathways for all employees, including access to digital learning platforms, funded professional qualifications, and minimum annual training hour commitments tracked in the ESG report."
+    },
+    {
+      "sdgNumber": 4,
+      "sdgName": "Quality Education",
+      "title": "Launch an Apprenticeship and Early Careers Programme",
+      "description": "Establish or expand a structured apprenticeship and early careers programme that provides quality vocational education and employment pathways for young people, with measurable intake targets each year."
+    },
+    {
+      "sdgNumber": 4,
+      "sdgName": "Quality Education",
+      "title": "Ensure Equal Access to Development Opportunities",
+      "description": "Audit training participation by gender, seniority, and location to identify access gaps. Implement targeted interventions to eliminate disparities and ensure every employee has an active personal development plan."
+    },
+    {
+      "sdgNumber": 5,
+      "sdgName": "Gender Equality",
+      "title": "Achieve >=40% Female Representation in Senior Leadership",
+      "description": "Drive measurable gender parity across senior management, director, and board-level positions through structured talent pipeline development, targeted sponsorship, and inclusive promotion processes."
+    },
+    {
+      "sdgNumber": 5,
+      "sdgName": "Gender Equality",
+      "title": "Introduce Equal, Gender-Neutral Parental Leave Policy",
+      "description": "Develop and implement a comprehensive parental leave policy providing equal, fully-paid leave entitlements to all parents regardless of gender, removing structural barriers to women’s career progression."
+    },
+    {
+      "sdgNumber": 6,
+      "sdgName": "Clean Water and Sanitation",
+      "title": "Reduce Water Consumption Intensity by 30% by 2030",
+      "description": "Set site-level water consumption baselines and implement targeted reduction programmes across all operations, with priority given to sites in high water-stress areas, targeting a 30% intensity reduction by 2030."
+    },
+    {
+      "sdgNumber": 6,
+      "sdgName": "Clean Water and Sanitation",
+      "title": "Achieve Zero Process Wastewater Discharge to Waterways",
+      "description": "Implement closed-loop water recycling systems at manufacturing and processing sites, treating all process wastewater to the required standard before any discharge and targeting zero direct discharge to natural waterways."
+    },
+    {
+      "sdgNumber": 6,
+      "sdgName": "Clean Water and Sanitation",
+      "title": "Conduct Water Risk Assessments at All Key Operating Sites",
+      "description": "Complete AQUEDUCT or equivalent water risk assessments for all key operational sites, integrating results into the enterprise risk register and developing site-specific water stewardship plans for high-risk locations."
+    },
+    {
+      "sdgNumber": 7,
+      "sdgName": "Affordable and Clean Energy",
+      "title": "Transition to 100% Renewable Electricity by 2030",
+      "description": "Transition all electricity consumption to renewable sources by 2030 through a combination of on-site generation, Power Purchase Agreements (PPAs), and REGo certificates, with an interim 60% target by FY2026."
+    },
+    {
+      "sdgNumber": 7,
+      "sdgName": "Affordable and Clean Energy",
+      "title": "Reduce Energy Consumption Intensity by 25% by 2030",
+      "description": "Implement energy audits across all key sites, develop site-level energy efficiency roadmaps, and invest in smart metering, LED lighting, building management systems, and process efficiency upgrades to drive a 25% intensity reduction."
+    },
+    {
+      "sdgNumber": 7,
+      "sdgName": "Affordable and Clean Energy",
+      "title": "Invest in Clean Energy Innovation and Supply Chain Transition",
+      "description": "Allocate R&D investment to clean energy technologies, share energy efficiency best practices with suppliers, and engage the top 50% of energy-intensive suppliers in developing their own energy transition plans."
+    },
+    {
+      "sdgNumber": 8,
+      "sdgName": "Decent Work and Economic Growth",
+      "title": "Invest in Continuous Skills & Career Development for All",
+      "description": "Provide every employee with structured learning pathways — mentoring, funded external training, digital learning platforms, and workshops — committing to a minimum annual training hours target per employee, tracked and published in the ESG report."
+    },
+    {
+      "sdgNumber": 8,
+      "sdgName": "Decent Work and Economic Growth",
+      "title": "Implement a Living Wage Commitment Across All Operations",
+      "description": "Ensure all direct employees are paid at or above the applicable local living wage benchmark, and develop a phased roadmap to extend this to tier-one suppliers through contractual requirements and capacity-building support."
+    },
+    {
+      "sdgNumber": 8,
+      "sdgName": "Decent Work and Economic Growth",
+      "title": "Eliminate Modern Slavery Risk Across Our Value Chain",
+      "description": "Conduct annual Modern Slavery risk assessments using a tiered approach, ensuring 100% of high-risk tier-one suppliers complete independent labour rights audits with corrective action plans tracked to resolution."
+    },
+    {
+      "sdgNumber": 9,
+      "sdgName": "Industry, Innovation and Infrastructure",
+      "title": "Increase R&D Investment in Sustainable Technologies",
+      "description": "Allocate a minimum percentage of revenue to research and development with a focus on sustainable product design, clean technology adoption, and circular economy solutions, publishing annual R&D investment and sustainability outcomes."
+    },
+    {
+      "sdgNumber": 9,
+      "sdgName": "Industry, Innovation and Infrastructure",
+      "title": "Achieve Digital Transformation of Key Business Processes",
+      "description": "Implement a digital transformation roadmap targeting key operational processes, reducing paper usage, automating routine tasks, and leveraging data analytics to drive sustainability and efficiency improvements."
+    },
+    {
+      "sdgNumber": 9,
+      "sdgName": "Industry, Innovation and Infrastructure",
+      "title": "Build Supply Chain Resilience Through Diversification",
+      "description": "Conduct supply chain vulnerability assessments, implement dual or multi-sourcing for critical inputs, and develop supplier capacity-building programmes to strengthen the resilience of our value chain against disruption."
+    },
+    {
+      "sdgNumber": 10,
+      "sdgName": "Reduced Inequalities",
+      "title": "Conduct and Publish Intersectional Pay Gap Analysis",
+      "description": "Expand pay gap reporting beyond gender to include ethnicity, disability, and socioeconomic background. Publish full intersectional pay gap analysis annually with a defined remediation plan for all identified disparities."
+    },
+    {
+      "sdgNumber": 10,
+      "sdgName": "Reduced Inequalities",
+      "title": "Achieve Representation Targets for Underrepresented Groups",
+      "description": "Set and publish representation targets for underrepresented groups at each level of the organisation. Develop targeted recruitment, retention, and progression programmes to achieve targets within defined timelines."
+    },
+    {
+      "sdgNumber": 10,
+      "sdgName": "Reduced Inequalities",
+      "title": "Remove Barriers to Social Mobility in Recruitment",
+      "description": "Audit and reform recruitment practices to eliminate socioeconomic bias, including removing unpaid internships, implementing contextual recruitment, and partnering with organisations supporting candidates from disadvantaged backgrounds."
+    },
+    {
+      "sdgNumber": 11,
+      "sdgName": "Sustainable Cities and Communities",
+      "title": "Achieve Green Building Certification for All New Sites",
+      "description": "Target BREEAM 'Excellent' or equivalent certification for all new office and operational builds, and conduct sustainability audits on existing sites to identify refurbishment opportunities for energy, water, and waste improvements."
+    },
+    {
+      "sdgNumber": 11,
+      "sdgName": "Sustainable Cities and Communities",
+      "title": "Develop a Formal Community Engagement Programme",
+      "description": "Establish structured community consultation mechanisms at each major operating site, publishing a Community Engagement Plan annually and reporting on community issues raised, actions taken, and outcomes achieved."
+    },
+    {
+      "sdgNumber": 11,
+      "sdgName": "Sustainable Cities and Communities",
+      "title": "Increase Local Procurement to 30% of Total Spend",
+      "description": "Grow local procurement (within 50km of operating sites) to 30% of total addressable spend by a defined date, supporting local economic development and reducing transport-related environmental impact."
+    },
+    {
+      "sdgNumber": 12,
+      "sdgName": "Responsible Consumption and Production",
+      "title": "Achieve Zero Waste to Landfill Across All Operations by 2030",
+      "description": "Conduct waste composition audits at all sites, implement waste hierarchy-led reduction programmes, and develop partnerships with recyclers and waste-to-energy operators to divert 100% of waste from landfill by 2030."
+    },
+    {
+      "sdgNumber": 12,
+      "sdgName": "Responsible Consumption and Production",
+      "title": "Implement a Circular Economy Design Standard for New Products",
+      "description": "Develop and apply a circular economy design standard to all new product development processes, requiring consideration of end-of-life recyclability, material efficiency, and repairability as core design criteria."
+    },
+    {
+      "sdgNumber": 12,
+      "sdgName": "Responsible Consumption and Production",
+      "title": "Roll Out a Sustainable Procurement Policy Across All Spend",
+      "description": "Apply the sustainable procurement policy to 100% of new supplier contracts, including environmental and social minimum standards, and report annually on the percentage of spend covered by compliant suppliers."
+    },
+    {
+      "sdgNumber": 13,
+      "sdgName": "Climate Action",
+      "title": "Develop a Science-Based Net-Zero Emissions Roadmap (SBTi)",
+      "description": "Produce and publish a decarbonisation roadmap validated by SBTi, aligned to the 1.5C pathway, with interim net-zero targets for Scope 1 & 2 by 2040 and full value chain neutrality by 2050."
+    },
+    {
+      "sdgNumber": 13,
+      "sdgName": "Climate Action",
+      "title": "Transition to 100% Renewable Energy Across All Operations by 2030",
+      "description": "Transition total energy consumption to 100% renewable sources through on-site generation, long-term Power Purchase Agreements, and REGo-certified procurement, with an interim 60% target by FY2026."
+    },
+    {
+      "sdgNumber": 13,
+      "sdgName": "Climate Action",
+      "title": "Embed Annual TCFD-Aligned Climate Risk Disclosure",
+      "description": "Conduct annual TCFD scenario analysis covering physical and transition risks, integrate outputs into the enterprise risk register, and publish results in the ESG report aligned to regulatory disclosure requirements."
+    },
+    {
+      "sdgNumber": 14,
+      "sdgName": "Life Below Water",
+      "title": "Eliminate Single-Use Plastic Packaging by 2025",
+      "description": "Audit all product and operational packaging, set elimination targets for all single-use plastics, and transition to reusable, recyclable, or compostable alternatives, with 100% elimination of identified single-use plastics by 2025."
+    },
+    {
+      "sdgNumber": 14,
+      "sdgName": "Life Below Water",
+      "title": "Achieve Zero Operational Plastic Discharge to Waterways",
+      "description": "Implement waste management protocols at all operational sites to prevent any plastic waste entering waterways, with 100% of sites audited annually and corrective actions tracked to completion."
+    },
+    {
+      "sdgNumber": 14,
+      "sdgName": "Life Below Water",
+      "title": "Source 100% of Marine Ingredients from Certified Sustainable Sources",
+      "description": "Map all marine-derived ingredients in products and supply chains, transition to MSC, ASC, or equivalent certified sustainable sources for 100% of material marine ingredients within a defined timeframe."
+    },
+    {
+      "sdgNumber": 15,
+      "sdgName": "Life on Land",
+      "title": "Achieve Zero Deforestation Across Our Entire Supply Chain",
+      "description": "Map all land-use-risk commodities in our supply chain and implement a zero-deforestation commitment traceable to farm or forest of origin for 100% of priority commodities, with third-party verification published annually."
+    },
+    {
+      "sdgNumber": 15,
+      "sdgName": "Life on Land",
+      "title": "Conduct Biodiversity Impact Assessments at All Major Sites",
+      "description": "Complete TNFD or equivalent biodiversity impact assessments at all major operational sites, identify priority actions to protect or restore biodiversity, and publish site-level biodiversity plans with measurable targets."
+    },
+    {
+      "sdgNumber": 15,
+      "sdgName": "Life on Land",
+      "title": "Invest in Nature-Based Solutions to Offset Residual Land Impact",
+      "description": "Allocate investment to verified, high-quality nature-based solutions — including habitat restoration, reforestation, and wetland conservation — to address residual land-use impacts and contribute to net positive biodiversity outcomes."
+    },
+    {
+      "sdgNumber": 16,
+      "sdgName": "Peace, Justice and Strong Institutions",
+      "title": "Maintain Zero Tolerance Anti-Bribery & Corruption Framework",
+      "description": "Operate a comprehensive anti-bribery and corruption (ABC) programme aligned to the UK Bribery Act and applicable international standards, with annual staff training, third-party due diligence, and independent audits of compliance."
+    },
+    {
+      "sdgNumber": 16,
+      "sdgName": "Peace, Justice and Strong Institutions",
+      "title": "Implement Human Rights Due Diligence Across the Value Chain",
+      "description": "Conduct annual human rights impact assessments aligned to the UN Guiding Principles, covering our own operations and supply chain. Publish an annual Modern Slavery and Human Rights Statement with actions taken and outcomes."
+    },
+    {
+      "sdgNumber": 16,
+      "sdgName": "Peace, Justice and Strong Institutions",
+      "title": "Enhance Transparency Through Comprehensive ESG Disclosure",
+      "description": "Report against internationally recognised ESG disclosure standards (GRI, SASB, TCFD, or equivalent), achieving external assurance on material data points and ensuring stakeholders have timely access to accurate sustainability performance data."
+    },
+    {
+      "sdgNumber": 17,
+      "sdgName": "Partnerships for the Goals",
+      "title": "Actively Participate in at Least Three Industry SDG Initiatives",
+      "description": "Identify, join, and contribute meaningfully to a minimum of three credible industry coalitions or multi-stakeholder initiatives aligned to our material SDGs, reporting annually on participation, contributions, and outcomes achieved."
+    },
+    {
+      "sdgNumber": 17,
+      "sdgName": "Partnerships for the Goals",
+      "title": "Align ESG Reporting to GRI, SASB, and TCFD Standards",
+      "description": "Produce an integrated sustainability report fully aligned to GRI Standards, SASB sector standards, and TCFD recommendations, with independent limited assurance on all material quantitative disclosures."
+    },
+    {
+      "sdgNumber": 17,
+      "sdgName": "Partnerships for the Goals",
+      "title": "Engage 100% of Strategic Suppliers in Sustainability Collaboration",
+      "description": "Move from compliance-focused supplier engagement to collaborative sustainability partnerships with all strategic suppliers, co-developing improvement plans, sharing tools and expertise, and publicly reporting on supplier sustainability progress."
+    }
+  ]
+}
