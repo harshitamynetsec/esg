@@ -21,7 +21,7 @@ kpiHistorySchema.pre('validate', function validatePeriod(next) {
     next(new Error('KPI history period end must be after period start'));
     return;
   }
-  next();
+  // next();
 });
 
 export const KPIHistory = mongoose.model('KPIHistory', kpiHistorySchema);
