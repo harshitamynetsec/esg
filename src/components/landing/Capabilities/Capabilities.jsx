@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faClipboardCheck,
@@ -8,7 +7,6 @@ import {
   faFileShield,
   faChartLine,
   faWandMagicSparkles,
-  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './Capabilities.module.scss';
 
@@ -82,10 +80,6 @@ export default function Capabilities() {
               </span>
               <h3 className={styles.cardTitle}>{cap.title}</h3>
               <p className={styles.cardDescription}>{cap.description}</p>
-              <Link to={cap.href} className={styles.cardLink}>
-                Learn more
-                <FontAwesomeIcon icon={faArrowRight} />
-              </Link>
             </motion.div>
           ))}
         </div>
