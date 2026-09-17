@@ -14,6 +14,7 @@ import {
 import { Bell, ClipboardCheck, FileBarChart, Flag, Gauge, Shield, Target, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageHeader from '../../components/platform/PageHeader';
+import InfoTooltip from '../../components/platform/InfoTooltip';
 import { dashboardApi, getCachedResponse } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 import './DashboardPage.css';
@@ -140,7 +141,15 @@ export default function DashboardPage() {
               <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: 8 }} />
               <div className="skeleton skeleton-text" style={{ width: '30%', height: 20 }} />
             </div>
-          ) : <div className="dashboard-stat-body"><span>ESG score</span><strong>{esgScore}</strong></div>}
+          ) : (
+            <div className="dashboard-stat-body">
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                ESG score
+                <InfoTooltip text="Your organization's overall ESG maturity score (0-100), calculated as the average of your Environmental, Social, and Governance pillar scores from your most recently completed assessment." />
+              </span>
+              <strong>{esgScore}</strong>
+            </div>
+          )}
         </div>
         <div className="metric-card dashboard-stat-card stat-blue">
           <div className="dashboard-stat-icon"><TrendingUp size={20} /></div>
@@ -174,7 +183,10 @@ export default function DashboardPage() {
       <div className="dashboard-chart-row">
         <div className="page-panel">
           <div className="page-header" style={{ marginBottom: 12 }}>
-            <div><h3 style={{ margin: 0 }}>ESG Score by Pillar</h3></div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <h3 style={{ margin: 0 }}>ESG Score by Pillar</h3>
+              <InfoTooltip text="Your score in each pillar (0-100) reflects the average maturity of your answers to questions tagged with that pillar in your latest assessment." />
+            </div>
           </div>
           {isLoading ? (
             <div className="skeleton skeleton-chart" />

@@ -67,6 +67,7 @@ const rolePermissionMap = {
     'reports:create',
     'reports:generate',
     'learning:read',
+    'learning:update',
   ],
   organization_admin: [
     'users:read',
@@ -77,6 +78,8 @@ const rolePermissionMap = {
     'billing:read',
     'billing:update',
     'audit_logs:read',
+    'learning:read',
+    'learning:update',
   ],
   platform_super_admin: [],
 };
