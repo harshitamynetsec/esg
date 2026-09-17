@@ -35,7 +35,7 @@ objectiveSchema.pre('validate', function validateDates(next) {
     next(new Error('Objective target date must be after start date'));
     return;
   }
-  next();
+  // next();
 });
 
 export const Objective = mongoose.model('Objective', objectiveSchema);
