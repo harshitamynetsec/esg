@@ -25,7 +25,7 @@ policySchema.pre('validate', function validateReview(next) {
     next(new Error('Policy review date must be after effective date'));
     return;
   }
-  next();
+  // next();
 });
 
 export const Policy = mongoose.model('Policy', policySchema);

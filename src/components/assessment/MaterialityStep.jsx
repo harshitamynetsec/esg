@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../platform/PageHeader';
+import InfoTooltip from '../platform/InfoTooltip';
+import { getMaterialTopicTooltip } from '../../data/tooltipData';
 import { assessmentApi } from '../../services/assessmentApi';
 import { getCachedResponse, setCachedResponse } from '../../services/api';
 
@@ -201,31 +203,37 @@ export default function MaterialityStep() {
                 gap: 12,
               }}
             >
-              {selectedTopics.map((topic) => (
-                <div
-                  key={topic._id || topic.id}
-                  className="page-panel"
-                  style={{
-                    padding: 12,
-                    margin: 0,
-                    background: '#f8fafc',
-                    border: '1px solid #cbd5e1',
-                  }}
-                >
-                  <strong>{topic.title}</strong>
-
+              {selectedTopics.map((topic) => {
+                const tooltipData = getMaterialTopicTooltip(topic.title);
+                return (
                   <div
+                    key={topic._id || topic.id}
+                    className="page-panel"
                     style={{
-                      color: '#64748b',
-                      fontSize: 13,
-                      marginTop: 6,
+                      padding: 12,
+                      margin: 0,
+                      background: '#f8fafc',
+                      border: '1px solid #cbd5e1',
                     }}
                   >
-                    {topic.description ||
-                      'This topic will shape the assessment questions.'}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <strong>{topic.title}</strong>
+                      {tooltipData && <InfoTooltip data={tooltipData} title={topic.title} />}
+                    </div>
+
+                    <div
+                      style={{
+                        color: '#64748b',
+                        fontSize: 13,
+                        marginTop: 6,
+                      }}
+                    >
+                      {topic.description ||
+                        'This topic will shape the assessment questions.'}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <p
@@ -317,8 +325,8 @@ export default function MaterialityStep() {
             >
               {topics.map((topic) => {
                 const topicId = topic._id || topic.id;
-                const isSelected =
-                  selectedIds.includes(topicId);
+                const isSelected = selectedIds.includes(topicId);
+                const tooltipData = getMaterialTopicTooltip(topic.title);
 
                 return (
                   <button
@@ -353,13 +361,10 @@ export default function MaterialityStep() {
                           gap: 8,
                         }}
                       >
-                        <strong
-                          style={{
-                            color: '#0f172a',
-                          }}
-                        >
-                          {topic.title}
-                        </strong>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <strong style={{ color: '#0f172a' }}>{topic.title}</strong>
+                          {tooltipData && <InfoTooltip data={tooltipData} title={topic.title} />}
+                        </div>
 
                         {topic.pillar && (
                           <span

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Plus, Search } from 'lucide-react';
 import PageHeader from '../../components/platform/PageHeader';
+import InfoTooltip from '../../components/platform/InfoTooltip';
+import { getKpiTooltip } from '../../data/tooltipData';
 import { dashboardApi, getCachedResponse, getResourceCacheKey, resourceApi } from '../../services/api';
 import './GoalsKPIsPage.css';
 
@@ -240,15 +242,19 @@ export default function GoalsKPIsPage() {
                 const isSelected = selected && (selected._id || selected.id) === itemId;
                 const progress = getProgress(item);
 
+                const tooltipData = getKpiTooltip(item.name);
                 return (
                   <button
-                    key={itemId}
+                    key={item.id || item._id || item.name}
                     type="button"
                     className={`kpi-row${isSelected ? ' is-selected' : ''}`}
                     onClick={() => setSelected(item)}
                   >
                     <div className="kpi-row-title">
-                      <strong>{item.name}</strong>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <strong>{item.name}</strong>
+                        {tooltipData && <InfoTooltip data={tooltipData} title={item.name} />}
+                      </div>
                       {item.pillar ? <span className={`pillar-chip pillar-${item.pillar}`}>{item.pillar}</span> : null}
                     </div>
                     <div className={`kpi-row-progress${progress >= 100 ? ' is-complete' : ''}`}>
@@ -339,13 +345,18 @@ export default function GoalsKPIsPage() {
                   {group.sdgName ? group.sdgName : `SDG ${group.sdgNumber}`}
                 </h4>
                 <div className="kpi-recommended-grid">
-                  {group.kpis.map((kpi) => (
-                    <div key={kpi.code || kpi.name} className="kpi-recommended-card">
-                      <div>
-                        <div className="kpi-recommended-card-top">
-                          <strong>{kpi.name}</strong>
-                          <span className="kpi-recommended-code">{kpi.code}</span>
-                        </div>
+                  {group.kpis.map((kpi) => {
+                    const tooltipData = getKpiTooltip(kpi.name);
+                    return (
+                      <div key={kpi.code || kpi.name} className="kpi-recommended-card">
+                        <div>
+                          <div className="kpi-recommended-card-top">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                              <strong>{kpi.name}</strong>
+                              {tooltipData && <InfoTooltip data={tooltipData} title={kpi.name} />}
+                            </div>
+                            <span className="kpi-recommended-code">{kpi.code}</span>
+                          </div>
                         {kpi.description ? (
                           <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 12, lineHeight: 1.4 }}>
                             {kpi.description}
@@ -366,7 +377,8 @@ export default function GoalsKPIsPage() {
                         </button>
                       </div>
                     </div>
-                  ))}
+                  );
+                })}
                 </div>
               </div>
             ))}

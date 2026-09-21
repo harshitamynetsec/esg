@@ -15,6 +15,7 @@ import { Bell, ClipboardCheck, FileBarChart, Flag, Gauge, Shield, Target, Trendi
 import { Link } from 'react-router-dom';
 import PageHeader from '../../components/platform/PageHeader';
 import InfoTooltip from '../../components/platform/InfoTooltip';
+import { CHART_TOOLTIPS } from '../../data/tooltipData';
 import { dashboardApi, getCachedResponse } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 import './DashboardPage.css';
@@ -127,14 +128,14 @@ export default function DashboardPage() {
             <p>Your organization is tracking {kpiCount} KPIs and {dashboard.totals.materialTopics} material topics.</p>
           </div>
           <div className="dashboard-hero-actions">
-            <Link className="primary-button" to="/app/onboarding/questionnaire">Start questionnaire</Link>
+            <Link id="tour-start-assessment" className="primary-button" to="/app/onboarding/questionnaire">Start questionnaire</Link>
             <Link className="primary-button" to="/app/analytics">View analytics</Link>
             <Link className="primary-button" to="/app/reports">Generate report</Link>
           </div>
         </div>
       </div>
       <div className="dashboard-summary-grid">
-        <div className="metric-card dashboard-stat-card stat-teal">
+        <div id="tour-esg-score" className="metric-card dashboard-stat-card stat-teal">
           <div className="dashboard-stat-icon"><Gauge size={20} /></div>
           {isLoading ? (
             <div style={{ flex: 1 }}>
@@ -145,7 +146,7 @@ export default function DashboardPage() {
             <div className="dashboard-stat-body">
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
                 ESG score
-                <InfoTooltip text="Your organization's overall ESG maturity score (0-100), calculated as the average of your Environmental, Social, and Governance pillar scores from your most recently completed assessment." />
+                <InfoTooltip data={CHART_TOOLTIPS.overallScore} title="Overall ESG Score" />
               </span>
               <strong>{esgScore}</strong>
             </div>
@@ -185,7 +186,7 @@ export default function DashboardPage() {
           <div className="page-header" style={{ marginBottom: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <h3 style={{ margin: 0 }}>ESG Score by Pillar</h3>
-              <InfoTooltip text="Your score in each pillar (0-100) reflects the average maturity of your answers to questions tagged with that pillar in your latest assessment." />
+              <InfoTooltip data={CHART_TOOLTIPS.radarChart} title="ESG Pillar Breakdown Rationale" />
             </div>
           </div>
           {isLoading ? (
@@ -209,7 +210,10 @@ export default function DashboardPage() {
 
         <div className="page-panel">
           <div className="page-header" style={{ marginBottom: 12 }}>
-            <div><h3 style={{ margin: 0 }}>KPI Status</h3></div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <h3 style={{ margin: 0 }}>KPI Status</h3>
+              <InfoTooltip data={CHART_TOOLTIPS.kpiProgress} title="KPI Tracking Rationale" />
+            </div>
           </div>
           {isLoading ? (
             <div className="skeleton skeleton-donut" />

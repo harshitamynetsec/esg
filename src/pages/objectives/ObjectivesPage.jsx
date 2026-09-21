@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Check, Plus } from 'lucide-react';
 import PageHeader from '../../components/platform/PageHeader';
+import InfoTooltip from '../../components/platform/InfoTooltip';
+import { getObjectiveTooltip, SDG_TOOLTIPS } from '../../data/tooltipData';
 import { getCachedResponse, getResourceCacheKey, resourceApi } from '../../services/api';
 import './ObjectivesPage.css';
 
@@ -91,52 +93,65 @@ export default function ObjectivesPage() {
             </div>
           ))}
         </div>
-      ) : groupedItems.map(([sdg, objectives]) => (
-        <section key={sdg} className="objectives-section">
-          <div className="objectives-section-header">
-            <div>
-              <span className="objectives-section-kicker">Sustainable Development Goal</span>
-              <h2>{sdg}</h2>
+      ) : groupedItems.map(([sdg, objectives]) => {
+        const sdgNum = Number(sdg.replace('SDG ', ''));
+        const sdgTooltip = SDG_TOOLTIPS[sdgNum];
+
+        return (
+          <section key={sdg} className="objectives-section">
+            <div className="objectives-section-header">
+              <div>
+                <span className="objectives-section-kicker">Sustainable Development Goal</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <h2 style={{ margin: 0 }}>{sdg}</h2>
+                  {sdgTooltip && <InfoTooltip data={sdgTooltip} title={`SDG ${sdgNum}: ${sdgTooltip.title}`} />}
+                </div>
+              </div>
+              <span className="objectives-count">{objectives.length} {objectives.length === 1 ? 'objective' : 'objectives'}</span>
             </div>
-            <span className="objectives-count">{objectives.length} {objectives.length === 1 ? 'objective' : 'objectives'}</span>
-          </div>
-          <div className="objectives-grid">
-            {objectives.map((item) => {
-              const itemId = item._id || item.id;
-              const isTemplate = !item.organization;
-              return (
-                <article key={itemId} className="objective-card">
-                  <div className="objective-card-heading">
-                    <span className="objective-sdg-chip">{sdg}</span>
-                    <span className={`objective-status objective-status-${item.status || 'active'}`}>{item.status || 'active'}</span>
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p className="objective-description">{item.description || 'Objective aligned to the current ESG program.'}</p>
-                  <div className="objective-card-footer">
-                    <span className="objective-scope">{isTemplate ? 'Master objective' : 'Organization objective'}</span>
-                    {isTemplate ? (
-                      <button type="button" className="objective-activate" onClick={() => handleActivate(item)} disabled={activatingId === itemId}>
-                        {activatingId === itemId ? <Check size={16} /> : <Plus size={16} />}
-                        {activatingId === itemId ? 'Activating...' : 'Activate'}
-                      </button>
-                    ) : null}
-                  </div>
-                  <details className="objective-details">
-                    <summary>View SMART details</summary>
-                    <div className="objective-smart-list">
-                      {Object.entries(item.smart || {}).map(([key, value]) => (
-                        <div key={key}><strong>{key}:</strong> {value}</div>
-                      ))}
-                      <div><strong>Start:</strong> {formatDate(item.startDate)}</div>
-                      <div><strong>Target:</strong> {formatDate(item.targetDate)}</div>
+            <div className="objectives-grid">
+              {objectives.map((item) => {
+                const itemId = item._id || item.id;
+                const isTemplate = !item.organization;
+                const tooltipData = getObjectiveTooltip(item.title);
+
+                return (
+                  <article key={itemId} className="objective-card">
+                    <div className="objective-card-heading">
+                      <span className="objective-sdg-chip">{sdg}</span>
+                      <span className={`objective-status objective-status-${item.status || 'active'}`}>{item.status || 'active'}</span>
                     </div>
-                  </details>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-      ))}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+                      <h3 style={{ margin: 0 }}>{item.title}</h3>
+                      {tooltipData && <InfoTooltip data={tooltipData} title={item.title} />}
+                    </div>
+                    <p className="objective-description">{item.description || 'Objective aligned to the current ESG program.'}</p>
+                    <div className="objective-card-footer">
+                      <span className="objective-scope">{isTemplate ? 'Master objective' : 'Organization objective'}</span>
+                      {isTemplate ? (
+                        <button type="button" className="objective-activate" onClick={() => handleActivate(item)} disabled={activatingId === itemId}>
+                          {activatingId === itemId ? <Check size={16} /> : <Plus size={16} />}
+                          {activatingId === itemId ? 'Activating...' : 'Activate'}
+                        </button>
+                      ) : null}
+                    </div>
+                    <details className="objective-details">
+                      <summary>View SMART details</summary>
+                      <div className="objective-smart-list">
+                        {Object.entries(item.smart || {}).map(([key, value]) => (
+                          <div key={key}><strong>{key}:</strong> {value}</div>
+                        ))}
+                        <div><strong>Start:</strong> {formatDate(item.startDate)}</div>
+                        <div><strong>Target:</strong> {formatDate(item.targetDate)}</div>
+                      </div>
+                    </details>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
       <div className="objectives-pagination">
         <button className="secondary-button" type="button" disabled={loading || page === 1} onClick={() => setPage((current) => current - 1)}>Previous</button>
         <span>Page {page} of {pagination.pages}</span>

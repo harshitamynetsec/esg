@@ -1,11 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { assessmentApi } from '../../services/assessmentApi';
 import PageHeader from '../platform/PageHeader';
+import InfoTooltip from '../platform/InfoTooltip';
+import { CHART_TOOLTIPS } from '../../data/tooltipData';
 
 const pillarLabels = {
   environmental: 'Environmental',
   social: 'Social',
   governance: 'Governance',
+};
+
+const pillarTooltips = {
+  environmental: CHART_TOOLTIPS.environmentalScore,
+  social: CHART_TOOLTIPS.socialScore,
+  governance: CHART_TOOLTIPS.governanceScore,
 };
 
 export default function AnalyticsDashboard() {
@@ -89,7 +97,10 @@ export default function AnalyticsDashboard() {
           <div className="metric-grid">
             {pillarScores.map((pillar) => (
               <div key={pillar.key} className="metric-card">
-                <span>{pillar.label}</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>{pillar.label}</span>
+                  {pillarTooltips[pillar.key] && <InfoTooltip data={pillarTooltips[pillar.key]} title={pillar.label} />}
+                </div>
                 <strong>{pillar.score}%</strong>
               </div>
             ))}
@@ -98,8 +109,9 @@ export default function AnalyticsDashboard() {
           <div className="analytics-section">
             <div className="page-panel analytics-panel">
               <div className="page-header" style={{ marginBottom: 12 }}>
-                <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <h3 style={{ margin: 0 }}>Compliance gaps</h3>
+                  <InfoTooltip data={CHART_TOOLTIPS.gapAnalysis} title="Compliance Gaps Rationale" />
                 </div>
               </div>
               {(analytics.complianceGaps || []).length ? (
@@ -118,8 +130,9 @@ export default function AnalyticsDashboard() {
 
             <div className="page-panel analytics-panel">
               <div className="page-header" style={{ marginBottom: 12 }}>
-                <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <h3 style={{ margin: 0 }}>Strengths</h3>
+                  <InfoTooltip data={CHART_TOOLTIPS.keyStrengths} title="ESG Strengths Rationale" />
                 </div>
               </div>
               {(analytics.strengths || []).length ? (
