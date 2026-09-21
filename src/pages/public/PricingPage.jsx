@@ -37,7 +37,7 @@ export default function PricingPage() {
             Early bird offer
           </div>
           <PageHeader
-            title="ESG KI Pricing"
+            title="Pricing"
             description="Simple, transparent pricing built for teams that want smarter ESG operations without hidden costs."
           />
         </div>
