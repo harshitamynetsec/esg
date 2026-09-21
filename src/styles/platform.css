@@ -24,12 +24,19 @@
 
 .platform-sidebar-footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.platform-user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
 }
 
 .platform-user {
@@ -37,6 +44,7 @@
   align-items: center;
   gap: 10px;
   min-width: 0;
+  flex: 1;
 }
 
 .platform-user-avatar {
@@ -951,14 +959,15 @@
 .tour-restart-sidebar-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   width: 100%;
   padding: 8px 12px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   border-radius: 8px;
-  background: rgba(15, 118, 110, 0.12);
-  border: 1px solid rgba(15, 118, 110, 0.3);
-  color: #0f766e;
+  background: rgba(15, 118, 110, 0.25);
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  color: #5eead4;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -966,7 +975,8 @@
 }
 
 .tour-restart-sidebar-btn:hover {
-  background: rgba(15, 118, 110, 0.22);
-  color: #0d6860;
+  background: rgba(15, 118, 110, 0.45);
+  color: #99f6e4;
+  border-color: rgba(45, 212, 191, 0.6);
   transform: translateY(-1px);
 }

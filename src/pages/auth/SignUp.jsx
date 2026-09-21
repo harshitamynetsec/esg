@@ -47,6 +47,7 @@ const INITIAL_STATE = {
 
 export default function SignUp() {
   const [form, setForm] = useState(INITIAL_STATE);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const { register, loading, error } = useAuth();
   const navigate = useNavigate();
 
@@ -54,6 +55,7 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!agreedToTerms) return;
     const [firstName, ...rest] = form.fullName.trim().split(/\s+/);
     await register({
       firstName,
@@ -69,6 +71,10 @@ export default function SignUp() {
         contactEmail: form.contactEmail,
         country: form.country,
         address: form.state,
+      },
+      consent: {
+        agreedToTerms: true,
+        agreedAt: new Date().toISOString(),
       },
     });
     navigate('/app/onboarding');
@@ -113,7 +119,29 @@ export default function SignUp() {
             <FormField icon={faLock} type="password" name="password" placeholder="Password" value={form.password} onChange={update('password')} autoComplete="new-password" required />
           </div>
 
-          <button type="submit" className={styles.submit} disabled={loading}>
+          {/* Mandatory Legal Consent Checkpoint */}
+          <div style={{ margin: '16px 0 8px', display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: '0.85rem', color: '#475569' }}>
+            <input
+              type="checkbox"
+              id="legalConsent"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              required
+              style={{ marginTop: 3, cursor: 'pointer' }}
+            />
+            <label htmlFor="legalConsent" style={{ cursor: 'pointer', lineHeight: 1.45 }}>
+              I have read and agree to the NSS Technologies{' '}
+              <a href="/legal/terms-and-conditions" target="_blank" rel="noopener noreferrer" style={{ color: '#0f766e', fontWeight: 600 }}>
+                Terms and Conditions
+              </a>{' '}
+              and{' '}
+              <a href="/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ color: '#0f766e', fontWeight: 600 }}>
+                Privacy Policy
+              </a>.
+            </label>
+          </div>
+
+          <button type="submit" className={styles.submit} disabled={loading || !agreedToTerms}>
             {loading ? 'Creating account' : 'Create Account'}
             <FontAwesomeIcon icon={faArrowRight} />
           </button>

@@ -26,12 +26,11 @@ const LINK_GROUPS = [
     ],
   },
   {
-    title: 'Legal',
+    title: 'Legal & Compliance',
     links: [
-      { label: 'Privacy Policy', href: '/legal/privacy' },
-      { label: 'Terms of Service', href: '/legal/terms' },
-      { label: 'Security', href: '/legal/security' },
-      { label: 'Data Processing Agreement', href: '/legal/dpa' },
+      { label: 'Privacy Policy (DPDPA)', href: '/legal/privacy-policy' },
+      { label: 'Terms and Conditions', href: '/legal/terms-and-conditions' },
+      { label: 'Framework Disclaimers', href: '/terms' },
     ],
   },
 ];

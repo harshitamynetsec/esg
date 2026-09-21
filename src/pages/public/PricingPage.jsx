@@ -7,6 +7,7 @@ import '../../styles/platform.css';
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [agreedToBilling, setAgreedToBilling] = useState(false);
 
   const plans = [
     {
@@ -42,7 +43,7 @@ export default function PricingPage() {
           />
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '42px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '32px', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '0.96rem', fontWeight: !isAnnual ? '700' : '500', color: !isAnnual ? '#0f172a' : '#64748b' }}>
             Monthly
           </span>
@@ -83,6 +84,24 @@ export default function PricingPage() {
               20% OFF
             </span>
           </span>
+        </div>
+
+        {/* Commercial Billing Consent Checkpoint */}
+        <div style={{ maxWidth: 640, margin: '0 auto 28px', padding: '12px 16px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '12px', display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: '0.875rem', color: '#334155' }}>
+          <input
+            type="checkbox"
+            id="billingConsent"
+            checked={agreedToBilling}
+            onChange={(e) => setAgreedToBilling(e.target.checked)}
+            style={{ marginTop: 3, cursor: 'pointer' }}
+          />
+          <label htmlFor="billingConsent" style={{ cursor: 'pointer', lineHeight: 1.45 }}>
+            I agree to the{' '}
+            <a href="/legal/terms-and-conditions" target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', fontWeight: 600 }}>
+              Terms and Conditions
+            </a>{' '}
+            governing subscription renewals, cancellations, and usage limits.
+          </label>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '26px', alignItems: 'stretch' }}>
@@ -146,17 +165,18 @@ export default function PricingPage() {
 
                 <button
                   type="button"
+                  disabled={!agreedToBilling}
                   style={{
                     width: '100%',
                     border: 'none',
                     borderRadius: '12px',
                     padding: '15px 18px',
-                    background: isActive ? 'linear-gradient(135deg, #3b82f6, #2563eb)' : '#eff6ff',
-                    color: isActive ? '#ffffff' : '#1d4ed8',
+                    background: !agreedToBilling ? '#94a3b8' : (isActive ? 'linear-gradient(135deg, #3b82f6, #2563eb)' : '#eff6ff'),
+                    color: !agreedToBilling ? '#ffffff' : (isActive ? '#ffffff' : '#1d4ed8'),
                     fontWeight: '800',
-                    cursor: 'pointer',
-                    boxShadow: isActive ? '0 16px 24px rgba(37, 99, 235, 0.25)' : 'none',
-                    transition: 'all 0.2s ease'
+                    cursor: !agreedToBilling ? 'not-allowed' : 'pointer',
+                    boxShadow: (isActive && agreedToBilling) ? '0 16px 24px rgba(37, 99, 235, 0.25)' : 'none',
+                    transition: 'all 0.25s ease'
                   }}
                 >
                   {isActive ? 'Choose yearly plan' : 'Choose monthly plan'}
