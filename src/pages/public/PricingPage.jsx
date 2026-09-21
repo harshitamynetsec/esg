@@ -6,235 +6,190 @@ import styles from './LandingPage.module.scss';
 import '../../styles/platform.css';
 
 export default function PricingPage() {
-  const [isAnnual, setIsAnnual] = useState(false);
+  const [isAnnual, setIsAnnual] = useState(true);
 
-  const monthlyPrice = 6999;
-  const annualMonthlyPrice = 5599; // ~20% discount on annual billing
+  const plans = [
+    {
+      name: 'Monthly',
+      price: 25,
+      suffix: '/month',
+      note: 'Best for individuals and lightweight teams',
+      badge: null,
+    },
+    {
+      name: 'Yearly',
+      price: 250,
+      suffix: '/year',
+      note: 'Save with the annual plan and lock in the best value',
+      badge: 'Best value',
+    },
+  ];
+
+  const activePlan = plans[isAnnual ? 1 : 0];
 
   return (
-    <div className={styles.page} style={{ backgroundColor: '#f8fafc', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className={styles.page} style={{ background: 'linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
 
       <main className="page-panel" style={{ margin: '40px auto 80px', maxWidth: '1180px', width: '100%', padding: '0 24px', flex: 1 }}>
-        <PageHeader 
-          title="One Powerful Plan for Complete ESG Governance" 
-          description="No hidden tiers, no paywalled features. Get full enterprise-grade ESG intelligence, AI automation, and unlimited team collaboration." 
-        />
+        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: '#ecfdf5', border: '1px solid #bbf7d0', borderRadius: '999px', color: '#166534', fontWeight: '700', fontSize: '0.8rem', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            Early bird offer
+          </div>
+          <PageHeader
+            title="ESG KI Pricing"
+            description="Simple, transparent pricing built for teams that want smarter ESG operations without hidden costs."
+          />
+        </div>
 
-        {/* Billing Cycle Toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginTop: '36px', marginBottom: '40px' }}>
-          <span style={{ fontSize: '0.95rem', fontWeight: !isAnnual ? '600' : '400', color: !isAnnual ? '#0f172a' : '#64748b' }}>
-            Monthly Billing
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '42px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.96rem', fontWeight: !isAnnual ? '700' : '500', color: !isAnnual ? '#0f172a' : '#64748b' }}>
+            Monthly
           </span>
-          
+
           <button
             type="button"
             onClick={() => setIsAnnual(!isAnnual)}
+            aria-label="Toggle billing cycle"
             style={{
               position: 'relative',
-              width: '52px',
-              height: '28px',
+              width: '62px',
+              height: '32px',
               borderRadius: '9999px',
-              backgroundColor: isAnnual ? '#2563eb' : '#cbd5e1',
+              background: isAnnual ? 'linear-gradient(135deg, #2563eb, #1d4ed8)' : '#dfe7f5',
               border: 'none',
               cursor: 'pointer',
-              transition: 'background-color 0.2s ease',
-              padding: '2px'
+              transition: 'all 0.25s ease',
+              boxShadow: isAnnual ? '0 8px 16px rgba(37, 99, 235, 0.28)' : 'inset 0 0 0 1px rgba(148, 163, 184, 0.3)',
+              padding: '3px'
             }}
           >
-            <div 
+            <div
               style={{
-                width: '24px',
-                height: '24px',
+                width: '26px',
+                height: '26px',
                 borderRadius: '50%',
                 backgroundColor: '#ffffff',
-                transform: isAnnual ? 'translateX(24px)' : 'translateX(0px)',
-                transition: 'transform 0.2s ease',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+                transform: isAnnual ? 'translateX(30px)' : 'translateX(0px)',
+                transition: 'transform 0.25s ease',
+                boxShadow: '0 2px 10px rgba(15, 23, 42, 0.2)'
               }}
             />
           </button>
 
-          <span style={{ fontSize: '0.95rem', fontWeight: isAnnual ? '600' : '400', color: isAnnual ? '#0f172a' : '#64748b', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            Annual Billing
-            <span style={{ backgroundColor: '#dcfce7', color: '#166534', fontSize: '0.75rem', fontWeight: '700', padding: '2px 8px', borderRadius: '12px' }}>
-              SAVE 20%
+          <span style={{ fontSize: '0.96rem', fontWeight: isAnnual ? '700' : '500', color: isAnnual ? '#0f172a' : '#64748b', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            Yearly
+            <span style={{ backgroundColor: '#dcfce7', color: '#166534', fontSize: '0.72rem', fontWeight: '800', padding: '4px 8px', borderRadius: '999px' }}>
+              20% OFF
             </span>
           </span>
         </div>
 
-        {/* Main Showcase Grid */}
-        <div 
-          style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-            gap: '32px',
-            backgroundColor: '#ffffff',
-            borderRadius: '20px',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 20px 40px -15px rgba(15, 23, 42, 0.07)',
-            padding: '40px',
-            overflow: 'hidden',
-            position: 'relative'
-          }}
-        >
-          {/* Left Side: Value Proposition & Core Highlights */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#eff6ff', color: '#2563eb', padding: '6px 14px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '600', marginBottom: '20px' }}>
-                ✦ All-Inclusive Enterprise Access
-              </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '26px', alignItems: 'stretch' }}>
+          {plans.map((plan) => {
+            const isActive = plan.name === activePlan.name;
 
-              <h2 style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', lineHeight: '1.25', marginBottom: '16px' }}>
-                Full-suite ESG oversight without enterprise lock-in.
-              </h2>
-              
-              <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '32px' }}>
-                Deploy compliant carbon accounting, BRSR frameworks, audit trails, and automated disclosures with zero user caps.
-              </p>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '28px' }}>
-                <div style={{ padding: '14px 18px', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #edf2f7' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a' }}>Unlimited</div>
-                  <div style={{ fontSize: '0.85rem', color: '#64748b' }}>Team & Auditor Seats</div>
-                </div>
-                <div style={{ padding: '14px 18px', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #edf2f7' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a' }}>BRSR & GRI</div>
-                  <div style={{ fontSize: '0.85rem', color: '#64748b' }}>Pre-configured Frameworks</div>
-                </div>
-                <div style={{ padding: '14px 18px', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #edf2f7' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a' }}>AI Extraction</div>
-                  <div style={{ fontSize: '0.85rem', color: '#64748b' }}>Automated Utility Parsing</div>
-                </div>
-                <div style={{ padding: '14px 18px', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #edf2f7' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a' }}>24/7 SLA</div>
-                  <div style={{ fontSize: '0.85rem', color: '#64748b' }}>Priority Engineering Support</div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '20px', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem', color: '#475569' }}>
-                <span style={{ color: '#16a34a', fontWeight: 'bold' }}>✓</span> No setup fees
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem', color: '#475569' }}>
-                <span style={{ color: '#16a34a', fontWeight: 'bold' }}>✓</span> Cancel anytime
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem', color: '#475569' }}>
-                <span style={{ color: '#16a34a', fontWeight: 'bold' }}>✓</span> GST invoice compliant
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side: High-Impact Pricing Card */}
-          <div 
-            style={{ 
-              backgroundColor: '#0f172a', 
-              color: '#ffffff',
-              borderRadius: '16px',
-              padding: '36px 32px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              boxShadow: '0 20px 30px -10px rgba(15, 23, 42, 0.3)',
-              position: 'relative'
-            }}
-          >
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <span style={{ fontSize: '1.1rem', fontWeight: '600', color: '#93c5fd' }}>Standard Plan</span>
-                <span style={{ backgroundColor: '#2563eb', color: '#ffffff', fontSize: '0.75rem', fontWeight: '700', padding: '4px 10px', borderRadius: '10px' }}>
-                  COMPLETE PLATFORM
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '3rem', fontWeight: '800', letterSpacing: '-1px' }}>
-                  ₹{(isAnnual ? annualMonthlyPrice : monthlyPrice).toLocaleString('en-IN')}
-                </span>
-                <span style={{ fontSize: '1rem', color: '#94a3b8' }}>/month</span>
-              </div>
-
-              <p style={{ fontSize: '0.875rem', color: '#94a3b8', marginBottom: '28px' }}>
-                {isAnnual ? 'Billed annually at ₹67,188/year (Excl. GST)' : 'Billed monthly, pause or cancel anytime'}
-              </p>
-
-              <div style={{ height: '1px', backgroundColor: '#334155', marginBottom: '28px' }} />
-
-              <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#e2e8f0', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Everything included:
-              </div>
-
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                {[
-                  'Full BRSR Core, GRI & GHG Protocol Workflows',
-                  'Unlimited Internal & External Collaborators',
-                  'Automated Scope 1, Scope 2 & Scope 3 Tracking',
-                  'AI Document Ingestion (Utility Bills & Invoices)',
-                  'One-Click Export to PDF, XLSX & Stakeholder Portals',
-                  'Custom Webhooks & REST API Integrations'
-                ].map((feature, idx) => (
-                  <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.925rem', color: '#cbd5e1', lineHeight: '1.4' }}>
-                    <span style={{ color: '#60a5fa', fontWeight: 'bold' }}>✓</span>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <button 
-                style={{ 
-                  width: '100%', 
-                  padding: '16px', 
-                  backgroundColor: '#2563eb', 
-                  color: '#ffffff', 
-                  border: 'none', 
-                  borderRadius: '10px', 
-                  cursor: 'pointer', 
-                  fontWeight: '700',
-                  fontSize: '1rem',
-                  transition: 'background-color 0.2s',
-                  boxShadow: '0 4px 14px 0 rgba(37, 99, 235, 0.39)'
+            return (
+              <div
+                key={plan.name}
+                style={{
+                  background: isActive ? 'linear-gradient(180deg, #0f172a 0%, #111827 100%)' : '#ffffff',
+                  color: isActive ? '#ffffff' : '#0f172a',
+                  borderRadius: '24px',
+                  padding: '28px 24px',
+                  border: isActive ? '1px solid rgba(96, 165, 250, 0.4)' : '1px solid #e2e8f0',
+                  boxShadow: isActive ? '0 26px 55px -25px rgba(15, 23, 42, 0.55)' : '0 14px 34px -24px rgba(15, 23, 42, 0.18)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transform: isActive ? 'translateY(-4px)' : 'translateY(0)',
+                  transition: 'all 0.25s ease'
                 }}
-                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#1d4ed8')}
-                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#2563eb')}
               >
-                Get Started with Free 14-Day Trial
-              </button>
+                {plan.badge && (
+                  <div style={{ position: 'absolute', top: '18px', right: '18px', background: '#dbeafe', color: '#1d4ed8', padding: '6px 10px', borderRadius: '999px', fontSize: '0.7rem', fontWeight: '800', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                    {plan.badge}
+                  </div>
+                )}
 
-              <div style={{ textAlign: 'center', fontSize: '0.8rem', color: '#64748b', marginTop: '12px' }}>
-                Instant activation • No credit card required upfront
+                <div style={{ marginBottom: '18px', fontSize: '0.82rem', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', color: isActive ? '#93c5fd' : '#64748b' }}>
+                  {plan.name}
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '3rem', fontWeight: '800', lineHeight: '1', letterSpacing: '-0.06em' }}>
+                    ${plan.price}
+                  </span>
+                  <span style={{ fontSize: '1rem', color: isActive ? '#cbd5e1' : '#64748b', fontWeight: '600' }}>
+                    {plan.suffix}
+                  </span>
+                </div>
+
+                <p style={{ margin: '0 0 22px', color: isActive ? '#cbd5e1' : '#64748b', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                  {plan.note}
+                </p>
+
+                <div style={{ marginBottom: '26px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {[
+                    'Unlimited ESG dashboards and team access',
+                    'AI-powered reporting and document analysis',
+                    'Framework tracking for BRSR, GRI, and CSRD',
+                    'Priority support and onboarding guidance',
+                  ].map((feature) => (
+                    <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem' }}>
+                      <span style={{ width: '20px', height: '20px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', background: isActive ? 'rgba(96, 165, 250, 0.18)' : '#ecfdf5', color: isActive ? '#7dd3fc' : '#15803d', fontWeight: '800' }}>
+                        ✓
+                      </span>
+                      <span style={{ color: isActive ? '#e2e8f0' : '#334155' }}>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  style={{
+                    width: '100%',
+                    border: 'none',
+                    borderRadius: '12px',
+                    padding: '15px 18px',
+                    background: isActive ? 'linear-gradient(135deg, #3b82f6, #2563eb)' : '#eff6ff',
+                    color: isActive ? '#ffffff' : '#1d4ed8',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    boxShadow: isActive ? '0 16px 24px rgba(37, 99, 235, 0.25)' : 'none',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  {isActive ? 'Choose yearly plan' : 'Choose monthly plan'}
+                </button>
               </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
 
-        {/* Feature Grid Below to Fill & Ground the Page */}
-        <div style={{ marginTop: '64px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
-          <div style={{ padding: '24px', backgroundColor: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-            <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>🛡️</div>
-            <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a', marginBottom: '6px' }}>Audit Ready</h4>
-            <p style={{ fontSize: '0.875rem', color: '#64748b', margin: 0, lineHeight: '1.5' }}>
-              Immutable audit logs and timestamped verification records for all regulatory filings.
-            </p>
+        <div style={{ marginTop: '34px', background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(14, 165, 233, 0.08))', border: '1px solid rgba(96, 165, 250, 0.28)', borderRadius: '20px', padding: '22px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
+          <div>
+            <div style={{ fontSize: '0.8rem', fontWeight: '800', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#2563eb' }}>
+              Special launch offer
+            </div>
+            <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a', marginTop: '6px' }}>
+              Nov tak early bird offer: 20% off
+            </div>
           </div>
 
-          <div style={{ padding: '24px', backgroundColor: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-            <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>⚡</div>
-            <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a', marginBottom: '6px' }}>Fast Onboarding</h4>
-            <p style={{ fontSize: '0.875rem', color: '#64748b', margin: 0, lineHeight: '1.5' }}>
-              Import existing spreadsheets or connect direct API feeds in under 15 minutes.
-            </p>
-          </div>
-
-          <div style={{ padding: '24px', backgroundColor: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-            <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>🔒</div>
-            <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a', marginBottom: '6px' }}>Bank-Grade Security</h4>
-            <p style={{ fontSize: '0.875rem', color: '#64748b', margin: 0, lineHeight: '1.5' }}>
-              SOC-2 compliant infrastructure, end-to-end encryption, and role-based permissions.
-            </p>
-          </div>
+          <button
+            type="button"
+            style={{
+              border: 'none',
+              background: '#0f172a',
+              color: '#ffffff',
+              borderRadius: '999px',
+              padding: '12px 18px',
+              fontWeight: '700',
+              cursor: 'pointer'
+            }}
+          >
+            Book a demo
+          </button>
         </div>
       </main>
 

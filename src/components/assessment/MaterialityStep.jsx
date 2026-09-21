@@ -392,18 +392,6 @@ export default function MaterialityStep() {
                       )}
                     </div>
 
-                    <div
-                      style={{
-                        color: '#64748b',
-                        fontSize: 13,
-                        marginTop: 12,
-                      }}
-                    >
-                      Impact {topic.impactScore || 0}
-                      {' • '}
-                      Stakeholder{' '}
-                      {topic.stakeholderPriority || 0}
-                    </div>
                   </button>
                 );
               })}

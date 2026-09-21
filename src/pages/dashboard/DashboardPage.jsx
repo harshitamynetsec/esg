@@ -254,16 +254,11 @@ export default function DashboardPage() {
               </div>
               <div style={{ display: 'grid', gap: 10 }}>
                 {isLoading ? <SkeletonRows /> : (dashboard.materialTopics || []).length ? dashboard.materialTopics.slice(0, 5).map((topic) => {
-                  const score = topic.impactScore ?? 0;
                   const color = PILLAR_COLORS[topic.pillar] || '#0f766e';
                   return (
-                    <div key={topic._id || topic.id} className="dashboard-topic-row">
+                    <div key={topic._id || topic.id} className="dashboard-topic-row" style={{ gridTemplateColumns: '14px 1fr' }}>
                       <span className="dashboard-legend-dot" style={{ background: color }} />
-                      <span className="dashboard-topic-name">{topic.title}</span>
-                      <div className="dashboard-topic-track">
-                        <div className="dashboard-topic-fill" style={{ width: `${(score / 5) * 100}%`, background: color }} />
-                      </div>
-                      <span className="dashboard-topic-score">{score}/5</span>
+                      <span className="dashboard-topic-name" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topic.title}</span>
                     </div>
                   );
                 }) : <p style={{ margin: 0, color: '#64748b' }}>No material topics recorded.</p>}
