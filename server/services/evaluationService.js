@@ -80,6 +80,15 @@ const getMaterialTopics = async (companyId) => {
     .lean();
 };
 
+const normalizePillar = (pillar) => {
+  if (!pillar) return 'governance';
+  const str = String(pillar).trim().toLowerCase();
+  if (str === 'g' || str === 'governance' || str.includes('gov')) return 'governance';
+  if (str === 'e' || str === 'environmental' || str.includes('env')) return 'environmental';
+  if (str === 's' || str === 'social' || str.includes('soc')) return 'social';
+  return str;
+};
+
 const createEmptyPillarAccumulator = () =>
   PILLARS.reduce((accumulator, pillar) => {
     accumulator[pillar] = { numerator: 0, denominator: 0 };
@@ -90,13 +99,13 @@ const calculatePillarScores = (evaluatedAnswers) => {
   const pillarTotals = createEmptyPillarAccumulator();
 
   evaluatedAnswers.forEach(({ question, selectedValue }) => {
-    const pillar = question.pillar;
+    const pillarKey = normalizePillar(question.pillar);
     const weight = Number(question.weight || 1);
 
-    if (!pillarTotals[pillar] || weight <= 0) return;
+    if (!pillarTotals[pillarKey] || weight <= 0) return;
 
-    pillarTotals[pillar].numerator += selectedValue * weight;
-    pillarTotals[pillar].denominator += MAX_SELECTED_VALUE * weight;
+    pillarTotals[pillarKey].numerator += selectedValue * weight;
+    pillarTotals[pillarKey].denominator += MAX_SELECTED_VALUE * weight;
   });
 
   return PILLARS.reduce((scores, pillar) => {

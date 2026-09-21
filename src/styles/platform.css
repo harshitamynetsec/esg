@@ -655,34 +655,42 @@
 }
 
 .info-tooltip-bubble {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
+  position: fixed;
   width: max-content;
   max-width: 320px;
-  padding: 10px 12px;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
   background: #0f172a;
   color: #f8fafc;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.5;
   text-align: left;
   white-space: normal;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 100;
-  box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  word-break: break-word;
+  overflow-wrap: break-word;
+  z-index: 99999;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  animation: tooltipFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .info-tooltip-bubble.rich-bubble {
   width: 340px;
   max-width: calc(100vw - 32px);
   padding: 14px 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #0f172a;
   color: #e2e8f0;
 }
@@ -690,19 +698,19 @@
 .info-tooltip-bubble::after {
   content: '';
   position: absolute;
-  top: 100%;
-  left: 50%;
+  left: var(--arrow-left, 50%);
   transform: translateX(-50%);
   border: 6px solid transparent;
+}
+
+.info-tooltip-bubble.position-top::after {
+  top: 100%;
   border-top-color: #0f172a;
 }
 
-.info-tooltip:hover .info-tooltip-bubble,
-.info-tooltip:focus-visible .info-tooltip-bubble,
-.info-tooltip.active .info-tooltip-bubble {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+.info-tooltip-bubble.position-bottom::after {
+  bottom: 100%;
+  border-bottom-color: #0f172a;
 }
 
 /* Rich Tooltip Internal Elements */
