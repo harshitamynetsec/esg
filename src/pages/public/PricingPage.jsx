@@ -192,7 +192,7 @@ export default function PricingPage() {
               Special launch offer
             </div>
             <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a', marginTop: '6px' }}>
-              Nov tak early bird offer: 20% off
+              Early bird offer until November: 20% off
             </div>
           </div>
 
