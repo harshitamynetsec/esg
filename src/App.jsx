@@ -56,6 +56,7 @@ import TermsPage from './pages/public/TermsPage';
 import PrivacyPage from './pages/public/PrivacyPage';
 import IndustriesPage from './pages/public/IndustriesPage';
 import ResourcesPage from './pages/public/ResourcesPage';
+import CookieConsentBanner from './components/common/CookieConsentBanner';
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <NotificationCenter />
+          <CookieConsentBanner />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -85,8 +87,14 @@ function App() {
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/set-password" element={<SetPasswordPage />} />
             <Route path="/try" element={<CompassIntroPage />} />
-            <Route path="/legal/terms" element={<TermsPage />} />
+
+            {/* Legal & Compliance Routes */}
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="/legal/privacy" element={<PrivacyPage />} />
+            <Route path="/legal/privacy-policy" element={<PrivacyPage />} />
+            <Route path="/legal/terms" element={<TermsPage />} />
+            <Route path="/legal/terms-and-conditions" element={<TermsPage />} />
             <Route path="/admin" element={<Navigate to="/app/admin/overview" replace />} />
 
             <Route element={<ProtectedRoute />}>

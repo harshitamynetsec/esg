@@ -59,6 +59,15 @@ const serializeGapOrStrength = ({ question, selectedValue }) => ({
   sdgs: unique((question.sdgs || []).map(normalizeSdg)),
 });
 
+const normalizePillar = (pillar) => {
+  if (!pillar) return 'governance';
+  const str = String(pillar).trim().toLowerCase();
+  if (str === 'g' || str === 'governance' || str.includes('gov')) return 'governance';
+  if (str === 'e' || str === 'environmental' || str.includes('env')) return 'environmental';
+  if (str === 's' || str === 'social' || str.includes('soc')) return 'social';
+  return str;
+};
+
 const calculatePillarScores = (evaluatedAnswers) => {
   const totals = PILLARS.reduce((accumulator, pillar) => {
     accumulator[pillar] = { numerator: 0, denominator: 0 };
@@ -66,12 +75,13 @@ const calculatePillarScores = (evaluatedAnswers) => {
   }, {});
 
   evaluatedAnswers.forEach(({ question, selectedValue }) => {
+    const pillarKey = normalizePillar(question.pillar);
     const weight = Number(question.weight || 1);
-    if (!totals[question.pillar] || weight <= 0) return;
+    if (!totals[pillarKey] || weight <= 0) return;
 
     // Each answer contributes selectedValue / 4, scaled by the configured question weight.
-    totals[question.pillar].numerator += selectedValue * weight;
-    totals[question.pillar].denominator += MAX_SCORE * weight;
+    totals[pillarKey].numerator += selectedValue * weight;
+    totals[pillarKey].denominator += MAX_SCORE * weight;
   });
 
   const scores = PILLARS.reduce((result, pillar) => {
@@ -80,7 +90,11 @@ const calculatePillarScores = (evaluatedAnswers) => {
     return result;
   }, {});
 
-  scores.overall = Math.round((scores.environmental + scores.social + scores.governance) / PILLARS.length);
+  const activePillars = PILLARS.filter((p) => totals[p].denominator > 0);
+  const divisor = activePillars.length || PILLARS.length;
+  scores.overall = Math.round(
+    (activePillars.length ? activePillars.reduce((sum, p) => sum + scores[p], 0) : (scores.environmental + scores.social + scores.governance)) / divisor
+  );
   return scores;
 };
 

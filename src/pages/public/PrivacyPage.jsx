@@ -8,54 +8,102 @@ export default function PrivacyPage() {
   return (
     <div className={styles.page}>
       <Navbar />
-      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 900, padding: '0 24px' }}>
-        <PageHeader 
-          title="Privacy Policy" 
-          description="Data Protection & Privacy Notice for the NSS-ESG Platform." 
+      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 960, padding: '0 24px' }}>
+        <PageHeader
+          title="Privacy Policy"
+          description="NSS-ESG Platform Data Protection & Privacy Notice (DPDPA 2023 & International Standards)"
         />
-        
-        <div style={{ marginTop: '48px', color: '#334155', lineHeight: '1.8', fontSize: '1rem', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-          
+
+        <div style={{ marginTop: '36px', color: '#334155', lineHeight: '1.8', fontSize: '1rem', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+
+          <div style={{ padding: '16px 20px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', color: '#166534', fontSize: '0.925rem' }}>
+            <strong>DPDPA 2023 Compliance Statement:</strong> NSS Technologies Private Limited acts as the Data Fiduciary under India's Digital Personal Data Protection Act, 2023 (DPDPA) and the 2026 Supreme Court order on data principal plain language requirements. For grievance redressal or privacy inquiries, contact our Data Privacy Officer at <a href="mailto:privacy@nss-esg.com" style={{ color: '#0f766e', fontWeight: 600 }}>privacy@nss-esg.com</a>.
+          </div>
+
           <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>1. Introduction</h2>
-            <p>This Privacy Policy explains how NSS Technologies Private Limited collects, uses, stores, and protects your personal data in compliance with India's Digital Personal Data Protection Act, 2023 (DPDPA)[cite: 5]. NSS acts as the Data Fiduciary under the DPDPA[cite: 5].</p>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>1. Introduction</h2>
+            <p>This Privacy Policy applies to all personal data collected and processed by NSS Technologies Private Limited ("NSS", "we", "us", or "our") through the NSS-ESG Platform and related services. NSS is the Data Fiduciary as defined under the Digital Personal Data Protection Act, 2023.</p>
+            <p style={{ marginTop: '8px' }}>We process your personal data only for specific, lawful purposes with your consent, or as permitted by applicable law. We are committed to data minimisation, purpose limitation, storage limitation, and security — principles that align with both the DPDPA and international best practices including GDPR.</p>
           </section>
 
           <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>2. Data We Collect</h2>
-            <p>When you register and utilise our platform, we collect specific data categories:</p>
-            <ul style={{ paddingLeft: '24px', marginTop: '12px' }}>
-              <li><strong>Identity and Contact Data:</strong> Full name, designation, business email address, company details, and business registration identifiers[cite: 5].</li>
-              <li><strong>Assessment and ESG Data:</strong> Responses to the ESG Maturity Assessment questionnaire encompassing over 70 questions, materiality topic selections, and KPI data[cite: 5].</li>
-              <li><strong>Technical Data:</strong> IP address, browser type, operating system, and access logs[cite: 5].</li>
-              <li><strong>Communications Data:</strong> The content of your communications, email correspondence, and support ticket data[cite: 5].</li>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>2. Data We Collect</h2>
+
+            <h3 style={{ fontSize: '1.15rem', color: '#1e293b', marginTop: '16px', marginBottom: '8px' }}>2.1 Identity and Contact Data</h3>
+            <p>When you register or use the Platform, we collect:</p>
+            <ul style={{ paddingLeft: '24px', marginTop: '8px' }}>
+              <li>Full name and designation</li>
+              <li>Business email address and phone number</li>
+              <li>Company name, type, size, industry sector, and registered address</li>
+              <li>GSTIN, CIN, or other business registration identifiers (where provided)</li>
+            </ul>
+
+            <h3 style={{ fontSize: '1.15rem', color: '#1e293b', marginTop: '16px', marginBottom: '8px' }}>2.2 Assessment and ESG Data</h3>
+            <p>When you use Platform tools, we collect:</p>
+            <ul style={{ paddingLeft: '24px', marginTop: '8px' }}>
+              <li>Responses to the ESG Maturity Assessment questionnaire (70+ questions across E, S, G dimensions)</li>
+              <li>Materiality topic selections and stakeholder mapping inputs</li>
+              <li>KPI data, targets, and performance metrics entered by the User</li>
+              <li>ESG scores, maturity levels, and framework alignment indicators generated by the Platform</li>
+            </ul>
+
+            <h3 style={{ fontSize: '1.15rem', color: '#1e293b', marginTop: '16px', marginBottom: '8px' }}>2.3 Technical and Usage Data</h3>
+            <p>We automatically collect certain technical data:</p>
+            <ul style={{ paddingLeft: '24px', marginTop: '8px' }}>
+              <li>IP address, browser type and version, operating system</li>
+              <li>Pages visited, features used, time, and duration of sessions</li>
+              <li>Device identifiers and access logs</li>
+              <li>Cookie data (see Cookie Policy section below)</li>
+            </ul>
+
+            <h3 style={{ fontSize: '1.15rem', color: '#1e293b', marginTop: '16px', marginBottom: '8px' }}>2.4 Payment Data</h3>
+            <p>Payment transactions are processed by PCI-DSS compliant third-party payment gateways (e.g., Razorpay, PayU, or equivalent). NSS does not store full card numbers, CVV, or UPI PINs. We retain only masked payment identifiers and transaction references.</p>
+
+            <h3 style={{ fontSize: '1.15rem', color: '#1e293b', marginTop: '16px', marginBottom: '8px' }}>2.5 Communications Data</h3>
+            <p>If you contact us, we collect the content of your communications, email correspondence, and support ticket data.</p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>3. How We Use Your Data</h2>
+            <p>NSS processes your personal data for lawful purposes including account registration, delivering ESG assessments, processing subscription payments, customer support, platform analytics (anonymised), and legal compliance.</p>
+            <p style={{ marginTop: '8px' }}>NSS will not use your personal data for automated individual decision-making with significant legal effect without human review and explicit notice.</p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>4. Data Sharing and Third Parties</h2>
+            <p><strong>4.1 We Do Not Sell Your Data:</strong> NSS does not sell, rent, or trade your personal data to third parties for commercial purposes. This is an absolute commitment.</p>
+            <p style={{ marginTop: '8px' }}><strong>4.2 Authorised Third-Party Processors:</strong> We share data only with trusted cloud infrastructure providers, payment gateways (PCI-DSS compliant), transactional email providers, and analytics platforms subject to strict contractual data protection obligations.</p>
+            <p style={{ marginTop: '8px' }}><strong>4.3 Legal Disclosures:</strong> We may disclose data where required by Indian law, including compliance with CERT-In directives or court orders.</p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>5. Data Retention Schedules</h2>
+            <p>NSS retains your personal data only for as long as necessary. Specific retention periods:</p>
+            <ul style={{ paddingLeft: '24px', marginTop: '8px' }}>
+              <li><strong>Account and identity data:</strong> Duration of active account + 3 years after account closure</li>
+              <li><strong>ESG assessment and report data:</strong> Duration of active account + 2 years after account closure</li>
+              <li><strong>Payment and transaction records:</strong> 7 years (as required by Indian tax and financial regulations)</li>
+              <li><strong>Support and communications data:</strong> 2 years from last interaction</li>
+              <li><strong>Technical and usage logs:</strong> 12 months</li>
             </ul>
           </section>
 
           <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>3. How We Use and Share Your Data</h2>
-            <p>We process your data for lawful purposes including account registration, delivering ESG assessments, and processing subscription payments[cite: 5]. NSS does not sell, rent, or trade your personal data to third parties for commercial purposes[cite: 5]. We may share your data with trusted third-party service providers, such as cloud infrastructure and payment gateway providers, subject to strict data protection obligations[cite: 5].</p>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>4. Data Retention</h2>
-            <p>We retain your personal data only as long as necessary. Specific retention periods include:</p>
-            <ul style={{ paddingLeft: '24px', marginTop: '12px' }}>
-              <li><strong>Account and identity data:</strong> Retained for the duration of the active account plus 3 years after account closure[cite: 5].</li>
-              <li><strong>ESG assessment and report data:</strong> Retained for the duration of the active account plus 2 years after account closure[cite: 5].</li>
-              <li><strong>Payment and transaction records:</strong> Retained for 7 years as required by Indian financial regulations[cite: 5].</li>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>6. Your Rights as a Data Principal (DPDPA 2023)</h2>
+            <p>Under the Digital Personal Data Protection Act, 2023, you hold the following statutory rights:</p>
+            <ul style={{ paddingLeft: '24px', marginTop: '8px' }}>
+              <li><strong>Right to Access:</strong> Request a summary of your personal data held by NSS and processing history.</li>
+              <li><strong>Right to Correction:</strong> Request correction of inaccurate or incomplete personal data.</li>
+              <li><strong>Right to Erasure:</strong> Request deletion of data where it is no longer required or consent is withdrawn.</li>
+              <li><strong>Right to Withdraw Consent:</strong> Withdraw consent at any time without affecting prior lawful processing.</li>
+              <li><strong>Right to Grievance Redressal:</strong> Submit grievances to our Data Privacy Officer (<a href="mailto:privacy@nss-esg.com" style={{ color: '#0f766e' }}>privacy@nss-esg.com</a>). NSS will acknowledge complaints within <strong>48 hours</strong> and resolve them within <strong>30 days</strong>.</li>
+              <li><strong>Right to Nominate:</strong> Nominate another individual to exercise data rights in the event of death or incapacity.</li>
             </ul>
           </section>
 
           <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>5. Your Rights and Security</h2>
-            <p>Under the Digital Personal Data Protection Act, 2023, you hold several rights regarding your data:</p>
-            <ul style={{ paddingLeft: '24px', marginTop: '12px' }}>
-              <li>The right to access, correct, or erase your personal data[cite: 5].</li>
-              <li>The right to withdraw consent and the right to grievance redressal[cite: 5].</li>
-              <li>The right to nominate an individual to exercise data rights in the event of your death or incapacity[cite: 5].</li>
-            </ul>
-            <p style={{ marginTop: '12px' }}>To protect your data, NSS implements industry-standard measures including end-to-end encryption (TLS/SSL) for data in transit and AES-256 encryption for data at rest[cite: 5]. Furthermore, ESG assessment data submitted to the platform is never shared with third parties without explicit written consent from the account administrator[cite: 5].</p>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>7. Security & Encryption</h2>
+            <p>NSS implements industry-standard technical measures including end-to-end encryption (TLS/SSL) for data in transit and AES-256 encryption for data at rest. ESG assessment data submitted to the platform is never shared with third parties without explicit written consent from the account administrator.</p>
           </section>
 
         </div>

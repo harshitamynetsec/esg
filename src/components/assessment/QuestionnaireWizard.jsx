@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageHeader from '../platform/PageHeader';
+import InfoTooltip from '../platform/InfoTooltip';
+import { getQuestionTooltip } from '../../data/tooltipData';
 import { assessmentApi } from '../../services/assessmentApi';
 
 const fallbackOptions = [
@@ -122,8 +124,17 @@ export default function QuestionnaireWizard() {
 
       <form onSubmit={handleSubmit} style={{ marginTop: 16 }}>
         <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
-          <legend style={{ fontWeight: 600, marginBottom: 12, fontSize: '1.05rem' }}>
-            {currentIndex + 1}. {currentQuestion.text || currentQuestion.prompt || currentQuestion.indicator || 'Assessment question'}
+          <legend style={{ fontWeight: 600, marginBottom: 12, fontSize: '1.05rem', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, width: '100%' }}>
+            <span style={{ flex: 1, minWidth: 0, wordBreak: 'break-word' }}>
+              {currentIndex + 1}. {currentQuestion.text || currentQuestion.prompt || currentQuestion.indicator || 'Assessment question'}
+            </span>
+            <span style={{ flexShrink: 0, marginTop: 2 }}>
+              {(() => {
+                const qText = currentQuestion.text || currentQuestion.prompt || currentQuestion.indicator || '';
+                const tooltipData = getQuestionTooltip(qText);
+                return tooltipData ? <InfoTooltip data={tooltipData} title="Question Context" /> : null;
+              })()}
+            </span>
           </legend>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {currentOptions.map((option) => {

@@ -8,58 +8,61 @@ export default function TermsPage() {
   return (
     <div className={styles.page}>
       <Navbar />
-      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 900, padding: '0 24px' }}>
-        <PageHeader 
-          title="Terms and Conditions" 
-          description="NSS-ESG Platform Technology Solution Agreement." 
+      <main className="page-panel" style={{ margin: '48px auto', maxWidth: 960, padding: '0 24px' }}>
+        <PageHeader
+          title="Terms and Conditions"
+          description="Legal Agreement and Governance Terms for the NSS-ESG Technology Platform"
         />
-        
-        <div style={{ marginTop: '48px', color: '#334155', lineHeight: '1.8', fontSize: '1rem', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-          
+
+        <div style={{ marginTop: '36px', color: '#334155', lineHeight: '1.8', fontSize: '1rem', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+
+          <div style={{ padding: '16px 20px', background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#1e293b', fontSize: '0.925rem' }}>
+            <strong>IMPORTANT — PLEASE READ CAREFULLY:</strong> By accessing or using the NSS-ESG Platform, you confirm that you have read, understood, and agree to be bound by these Terms and Conditions in their entirety. If you do not agree, please discontinue use immediately.
+          </div>
+
           <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>1. Introduction and Scope</h2>
-            <p>These Terms constitute a legally binding agreement between you and NSS Technologies Private Limited, a company with its registered office in Gurugram, Haryana, India[cite: 4]. The Platform is a self-service technology solution that enables organisations to assess, manage, track, and report their Environmental, Social, and Governance (ESG) performance[cite: 4]. The Platform does not constitute consulting, legal, financial, or advisory services of any kind[cite: 4].</p>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>1. Introduction & Self-Service Scope</h2>
+            <p>These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("User", "you") and NSS Technologies Private Limited ("NSS", "we"). These Terms govern your access to the NSS-ESG Platform available at www.nss-esg.com.</p>
+            <p style={{ marginTop: '8px' }}>The Platform is a <strong>self-service technology solution</strong> that enables organisations to assess, manage, track, and report their ESG performance. The Platform does not constitute consulting, legal, financial, tax, or regulatory advisory services of any kind.</p>
           </section>
 
           <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>2. Eligibility and Account Registration</h2>
-            <p>The Platform is available to organisations, businesses, and authorised representatives of legal entities[cite: 4]. By registering, you represent and warrant that:</p>
-            <ul style={{ paddingLeft: '24px', marginTop: '12px' }}>
-              <li>You are at least 18 years of age[cite: 4].</li>
-              <li>You have the authority to bind your organisation to these Terms[cite: 4].</li>
-              <li>Your use of the Platform complies with all applicable laws and regulations[cite: 4].</li>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>2. Regulatory Disclaimers (SEBI BRSR & Frameworks)</h2>
+            <p>While the Platform aligns assessments and reports with multiple ESG frameworks (BRSR, GRI, SASB, TCFD, ISSB, SDGs), <strong>NSS does not guarantee</strong> that Platform outputs will satisfy all requirements of any specific regulatory submission. Framework requirements may change; Users are solely responsible for verifying current regulatory obligations with qualified advisors. SEBI BRSR requirements, in particular, are subject to periodic revision by SEBI.</p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>3. Subscription Plans, Billing & Cancellation</h2>
+            <p>Access to the Platform is offered under four Subscription Plans:</p>
+            <ul style={{ paddingLeft: '24px', marginTop: '8px' }}>
+              <li><strong>Free Tier:</strong> Limited access to core assessment features subject to usage caps.</li>
+              <li><strong>Starter Plan:</strong> Full ESG Assessment, basic reporting, and Learning Hub access.</li>
+              <li><strong>Professional Plan:</strong> Complete assessment suite, automated multi-framework reports, and priority support.</li>
+              <li><strong>Enterprise Plan:</strong> Custom configurations, API access, and dedicated account management.</li>
+            </ul>
+            <p style={{ marginTop: '8px' }}>Subscriptions automatically renew at the end of each billing cycle (monthly or annual) unless cancelled prior to the renewal date via account settings. Taxes including GST are billed at prevailing statutory rates.</p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>4. Intellectual Property Protections</h2>
+            <p>The Platform, including software, algorithms, assessment frameworks, scoring models, report templates, and visual designs, is the exclusive intellectual property of NSS Technologies Private Limited and is protected under the Copyright Act, 1957, and Trade Marks Act, 1999.</p>
+            <p style={{ marginTop: '8px' }}>Users retain ownership of their submitted ESG Organisation Data. Users grant NSS a non-exclusive licence to process Organisation Data for providing services and producing anonymised, aggregated industry benchmarks.</p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>5. Prohibited Conduct</h2>
+            <p>Users must not:</p>
+            <ul style={{ paddingLeft: '24px', marginTop: '8px' }}>
+              <li>Submit false, misleading, or fabricated ESG data to obtain inflated maturity scores.</li>
+              <li>Attempt to gain unauthorised access to other accounts or platform infrastructure.</li>
+              <li>Scrape, reverse-engineer, decompile, or disassemble any part of the Platform.</li>
+              <li>Represent Platform-generated reports as independently assured without obtaining separate 3rd-party verification.</li>
             </ul>
           </section>
 
           <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>3. Platform Services and Limitations</h2>
-            <p>The NSS-ESG Platform provides the following self-service capabilities[cite: 4]:</p>
-            <ul style={{ paddingLeft: '24px', marginTop: '12px' }}>
-              <li>ESG Maturity Assessment across Environmental, Social, and Governance dimensions using a 5-Level Framework[cite: 4].</li>
-              <li>Materiality topic identification and stakeholder mapping across 50+ ESG topics[cite: 4].</li>
-              <li>Automated ESG Report generation aligned with BRSR, GRI, SASB, TCFD, ISSB, and SDGs[cite: 4].</li>
-            </ul>
-            <p style={{ marginTop: '12px' }}>NSS does not warrant that use of the Platform or its outputs will ensure compliance with any regulatory requirement, including SEBI BRSR or CSRD[cite: 4].</p>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>4. Intellectual Property and User Data</h2>
-            <p>The Platform, including all software, algorithms, content, and methodologies, is the exclusive intellectual property of NSS Technologies Private Limited[cite: 4]. Users are granted a limited, non-exclusive, non-transferable, revocable licence for internal organisational purposes[cite: 4]. You retain ownership of all Organisation Data and ESG information you submit to the Platform[cite: 4].</p>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>5. User Obligations and Prohibited Conduct</h2>
-            <p>Users must use the Platform only for lawful purposes and provide accurate, truthful data in all assessments[cite: 4]. You must not:</p>
-            <ul style={{ paddingLeft: '24px', marginTop: '12px' }}>
-              <li>Submit false, misleading, or fabricated ESG data to obtain inflated maturity scores[cite: 4].</li>
-              <li>Attempt to gain unauthorised access to other user accounts or infrastructure[cite: 4].</li>
-              <li>Use automated bots or scraping tools to extract Platform content or data[cite: 4].</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '16px' }}>6. Governing Law and Dispute Resolution</h2>
-            <p>These Terms shall be governed by and construed in accordance with the laws of the Republic of India[cite: 4]. Disputes shall be referred to arbitration under the Arbitration and Conciliation Act, 1996, with the seat of arbitration in Gurugram, India[cite: 4].</p>
+            <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '12px' }}>6. Governing Law & Dispute Resolution</h2>
+            <p>These Terms are governed by and construed in accordance with the laws of the Republic of India. Any dispute arising out of or in connection with these Terms shall be referred to and finally resolved by arbitration in New Delhi, India, in English, under the Arbitration and Conciliation Act, 1996.</p>
           </section>
 
         </div>
