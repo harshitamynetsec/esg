@@ -5,20 +5,26 @@ import PageHeader from '../../components/platform/PageHeader';
 import styles from './LandingPage.module.scss';
 import '../../styles/platform.css';
 
+const inrFormatter = new Intl.NumberFormat('en-IN', {
+  style: 'currency',
+  currency: 'INR',
+  maximumFractionDigits: 0,
+});
+
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
 
   const plans = [
     {
       name: 'Monthly',
-      price: 25,
+      price: 2400,
       suffix: '/month',
       note: 'Best for individuals and lightweight teams',
       badge: null,
     },
     {
       name: 'Yearly',
-      price: 250,
+      price: 23800,
       suffix: '/year',
       note: 'Save with the annual plan and lock in the best value',
       badge: 'Best value',
@@ -117,7 +123,7 @@ export default function PricingPage() {
 
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '10px' }}>
                   <span style={{ fontSize: '3rem', fontWeight: '800', lineHeight: '1', letterSpacing: '-0.06em' }}>
-                    ${plan.price}
+                    {inrFormatter.format(plan.price)}
                   </span>
                   <span style={{ fontSize: '1rem', color: isActive ? '#cbd5e1' : '#64748b', fontWeight: '600' }}>
                     {plan.suffix}

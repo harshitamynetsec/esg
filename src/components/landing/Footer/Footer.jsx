@@ -55,7 +55,7 @@ export default function Footer() {
               <span className={styles.brandMark}>
                 <FontAwesomeIcon icon={faLeaf} />
               </span>
-              <span className={styles.brandName}>ESG Compass</span>
+              <span className={styles.brandName}>Nfilade Security Solution</span>
             </Link>
             <p className={styles.brandTagline}>
               AI-powered ESG intelligence for enterprise sustainability, compliance,
@@ -111,7 +111,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.bottom}>
-          <span className={styles.copyright}>© {new Date().getFullYear()} ESG Compass, Inc. All rights reserved.</span>
+          <span className={styles.copyright}>© {new Date().getFullYear()} Nfilade Security Solution. All rights reserved.</span>
           <span className={styles.compliance}>SOC 2 Type II · ISO 27001 · GDPR Ready</span>
         </div>
       </div>
