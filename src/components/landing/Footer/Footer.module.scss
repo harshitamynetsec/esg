@@ -37,21 +37,8 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: $space-2;
   text-decoration: none;
   margin-bottom: $space-3;
-}
-
-.brandMark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: $gradient-forest;
-  color: $surface-0;
-  font-size: 14px;
 }
 
 .brandName {
@@ -207,4 +194,3 @@
   color: $text-on-dark-dim;
   letter-spacing: 0.02em;
 }
-

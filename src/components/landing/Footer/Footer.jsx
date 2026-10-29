@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLeaf, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedin, faXTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import styles from './Footer.module.scss';
 
@@ -51,10 +51,7 @@ export default function Footer() {
         <div className={styles.top}>
           <div className={styles.brandCol}>
             <Link to="/" className={styles.brand}>
-              <span className={styles.brandMark}>
-                <FontAwesomeIcon icon={faLeaf} />
-              </span>
-              <span className={styles.brandName}>Nfilade Security Solution</span>
+              <span className={styles.brandName}>Nfilade Security Solutions</span>
             </Link>
             <p className={styles.brandTagline}>
               AI-powered ESG intelligence for enterprise sustainability, compliance,
@@ -110,7 +107,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.bottom}>
-          <span className={styles.copyright}>© {new Date().getFullYear()} Nfilade Security Solution. All rights reserved.</span>
+          <span className={styles.copyright}>© {new Date().getFullYear()} Nfilade Security Solutions. All rights reserved.</span>
           <span className={styles.compliance}>SOC 2 Type II · ISO 27001 · GDPR Ready</span>
         </div>
       </div>
