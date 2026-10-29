@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 export const env = {
   nodeEnv: process.env.NODE_ENV || 'development',
   port: numberFromEnv('PORT', 5000),
-  clientUrl: process.env.CLIENT_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://esg-amber.vercel.app'),
+  clientUrl: process.env.CLIENT_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://esg.panopticonn.ai'),
   mongoUri: process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb+srv://mithleshsaini_db_user:mithleshsaini_db_user@cluster0.orts1zc.mongodb.net/?appName=Cluster0',
   jwtAccessSecret: process.env.JWT_ACCESS_SECRET || 'dev-access-secret-change-before-production',
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || 'dev-refresh-secret-change-before-production',
